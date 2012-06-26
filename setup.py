@@ -13,30 +13,28 @@ install_requires = [
     'django-extensions',
     'django-nose',
     'lizard-ui >= 4.0b5',
+    'lizard-map',
+    'lizard-geodin',
     ],
-
-tests_require = [
-    ]
 
 setup(name='lizard-levee',
       version=version,
-      description="TODO",
+      description="Lizard app for showing Geodin-based levee information",
+      # Note: levee is 'dijken' in Dutch.
       long_description=long_description,
       # Get strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=['Programming Language :: Python',
                    'Framework :: Django',
                    ],
       keywords=[],
-      author='TODO',
-      author_email='TODO@nelen-schuurmans.nl',
-      url='',
+      author='Reinout van Rees',
+      author_email='reinout.vanrees@nelen-schuurmans.nl',
+      url='https://github.com/lizardsystem/lizard-levee',
       license='GPL',
       packages=['lizard_levee'],
       include_package_data=True,
       zip_safe=False,
       install_requires=install_requires,
-      tests_require=tests_require,
-      extras_require = {'test': tests_require},
       entry_points={
           'console_scripts': [
           ]},
