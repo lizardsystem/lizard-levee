@@ -1,12 +1,13 @@
 # (c) Nelen & Schuurmans.  GPL licensed, see LICENSE.rst.
 from __future__ import unicode_literals
 
-# from django.core.urlresolvers import reverse
 # from lizard_ui.views import UiView
 #import lizard_geodin.models
+from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 from lizard_map.views import MapView
+from lizard_ui.layout import Action
 
 from lizard_levee import models
 
@@ -37,4 +38,32 @@ class BurgomasterView(MapView):
     @property
     def page_title(self):
         return _('Overview of {name}').format(
+            name=self.area.name)
+
+    @property
+    def link_to_other(self):
+        action = Action(
+            name=_("Expert page"),
+            url=reverse('lizard_levee_expert',
+                        kwargs={'slug': self.kwargs['slug']}),
+            #klass=...
+            )
+        return action
+
+    @property
+    def content_actions(self):
+        # import pdb;pdb.set_trace()
+        # TODO
+        actions = super(BurgomasterView, self).content_actions
+        actions.prepend(self.link_to_other)
+        return actions
+
+
+class ExpertView(BurgomasterView):
+    """The view for expert: more data, more graphs."""
+    template_name = 'lizard_levee/expert.html'
+
+    @property
+    def page_title(self):
+        return _('Expert view for {name}').format(
             name=self.area.name)

@@ -1,0 +1,62 @@
+{% extends "lizard_map/wms.html" %}
+{% load i18n %}
+
+{% block css %}
+  {{ block.super }}
+  <link rel="stylesheet"
+        href="{{ STATIC_URL }}lizard_levee/lizard_levee.css"
+        type="text/css"
+        media="screen, projection" />
+{% endblock css %}
+
+
+{% block sidebar %}
+  <h2>{{ view.page_title }}</h2>
+  <p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam
+    lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra
+    nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam
+    eget libero egestas mattis sit amet vitae augue.
+  </p>
+  <h2>{% trans "Relevant links" %}</h2>
+  <ul>
+    <li>
+      <a href="http://www.ijkdijk.nl/nl/">
+        Stichting IJkdijk
+      </a>
+    </li>
+    <li>
+      <a href="https://nl.wikipedia.org/wiki/IJkdijk">
+        Wikipedia over de IJkdijk
+      </a>
+    </li>
+    <li>
+      ... links naar relevante sensorleverancier ...
+    </li>
+    <li>
+      ... links naar live video ...
+    </li>
+  </ul>
+  <h2>BouwCam</h2>
+  <div id="bouwcam">
+    <img src="http://www.bouwcam.com/bellingwolde/current.jpg"
+         alt="Foto van de bouwplaats" />
+    <p>
+      Foto van
+      de <a href="http://www.bouwcam.com/cameras/bellingwolde/">BouwCam</a> te
+      Bellingwolde. Vernieuwd elk uur.
+    </p>
+  </div>
+
+{% endblock sidebar %}
+
+
+{% block content %}
+  {{ block.super }}  {# The map #}
+
+  <div id="expert-graph"
+       class="i-have-height">
+    <img src="{{ STATIC_URL }}lizard_levee/dummy-expert-graph.jpg" />
+  </div>
+
+{% endblock %}
