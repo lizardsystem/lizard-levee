@@ -12,13 +12,16 @@ admin.autodiscover()
 urlpatterns = patterns(
     '',
     url(r'^ui/', include('lizard_ui.urls')),
-    # url(r'^map/', include('lizard_map.urls')),
+    url(r'^map/', include('lizard_map.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^$',
+        views.Overview.as_view(),
+        name='lizard_geodin_overview'),
+    url(r'^(?P<slug>[^/]+)/$',
+        views.BurgomasterView.as_view(),
+        name='lizard_geodin_burgomaster'),
     # url(r'^something/',
     #     views.some_method,
     #     name="name_it"),
-    # url(r'^something_else/$',
-    #     views.SomeClassBasedView.as_view(),
-    #     name='name_it_too'),
     )
 urlpatterns += debugmode_urlpatterns()

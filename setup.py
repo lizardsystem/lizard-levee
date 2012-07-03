@@ -12,8 +12,8 @@ install_requires = [
     'Django',
     'django-extensions',
     'django-nose',
-    'lizard-ui >= 4.0b5',
-    'lizard-map',
+    'lizard-ui >= 4.0',
+    'lizard-map >= 4.0',
     'lizard-geodin',
     ],
 
