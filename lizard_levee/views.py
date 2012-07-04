@@ -33,7 +33,7 @@ class BurgomasterView(MapView):
 
     @property
     def edit_link(self):
-        return '/admin/lizard_levee/area/' + self.area.pk
+        return '/admin/lizard_levee/area/{0}'.format(self.area.pk)
 
     @property
     def page_title(self):
@@ -42,20 +42,19 @@ class BurgomasterView(MapView):
 
     @property
     def link_to_other(self):
+        """Return action that links to the other (=expert) page."""
         action = Action(
             name=_("Expert page"),
             url=reverse('lizard_levee_expert',
                         kwargs={'slug': self.kwargs['slug']}),
-            #klass=...
+            icon='icon-random',
             )
         return action
 
     @property
     def content_actions(self):
-        # import pdb;pdb.set_trace()
-        # TODO
-        actions = super(BurgomasterView, self).content_actions
-        actions.prepend(self.link_to_other)
+        actions = [self.link_to_other]
+        actions += super(BurgomasterView, self).content_actions
         return actions
 
 
@@ -67,3 +66,29 @@ class ExpertView(BurgomasterView):
     def page_title(self):
         return _('Expert view for {name}').format(
             name=self.area.name)
+
+    @property
+    def link_to_other(self):
+        """Return action that links to the other (=burgomaster) page."""
+        action = Action(
+            name=_("Overview page"),
+            url=reverse('lizard_levee_burgomaster',
+                        kwargs={'slug': self.kwargs['slug']}),
+            icon='icon-random',
+            )
+        return action
+
+    @property
+    def sensor_types(self):
+        # Probably I should switch this name to something else.
+        # This list filters the page contents (especially the graph).
+        return [
+            'temperatuur',
+            'debiet',
+            'waterpeil',
+            'waterspanning',
+            'verdraaiing',
+            'trilling',
+            'voltmeting',
+            'rek/deformatie',
+            ]
