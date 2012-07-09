@@ -1,5 +1,4 @@
 #burgomaster-graphs {
-  background-color: #d9d9d6;
   height: 140px;
   width: 100%;
 }
@@ -11,12 +10,15 @@
   display: block;
   margin: auto;
 }
-#burgomaster-logbook-inner {
-  padding: 10px;
-}
 #bouwcam img {
   width: 300px;
 }
 #expert-graph img {
   height: 400px;
+}
+#burgomaster-logbook {
+  overflow: auto;
+}
+#burgomaster-logbook #burgomaster-logbook-inner {
+  padding: 10px;
 }
