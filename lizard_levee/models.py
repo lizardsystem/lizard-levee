@@ -47,6 +47,9 @@ class InformationPointer(models.Model):
         Area,
         null=True,
         blank=True)
+    highlighted = models.BooleanField(
+        _('highlighted'),
+        default=False)
     description = models.TextField(
         _('description'),
         null=True,
