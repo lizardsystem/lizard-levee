@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'staticfiles',
     'compressor',
     'south',
+    'sorl.thumbnail',
     'django_nose',
     'lizard_security',
     'django_extensions',

@@ -1,5 +1,6 @@
 {% extends "lizard_map/wms.html" %}
 {% load i18n %}
+{% load thumbnail %}
 
 {% block css %}
   {{ block.super }}
@@ -56,7 +57,20 @@
 
   <div id="burgomaster-graphs"
        class="i-have-height">
-    TODO: the most relevant graphs (small) or failure mechanisms
+    <!-- TODO: popup with bigger image. -->
+    {% for information_pointer in view.information_pointers %}
+      <div class="information-pointer"
+           title="{{ information_pointer.description }}">
+        <a href="{{ information_pointer.more_url }}">
+          {% thumbnail information_pointer.image "100x100" crop="center" as im %}
+            <img src="{{ im.url }}"
+                 width="{{ im.width }}"
+                 height="{{ im.height }}" />
+            <div>{{ information_pointer.title }}</div>
+          {% endthumbnail %}
+        </a>
+      </div>
+    {% endfor %}
   </div>
 
   <div id="burgomaster-logbook"

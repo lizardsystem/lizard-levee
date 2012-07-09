@@ -8,13 +8,19 @@ from sorl.thumbnail.admin import AdminImageMixin
 from lizard_levee import models
 
 
+class InformationPointerInline(admin.TabularInline):
+    model = models.InformationPointer
+
+
 class AreaAdmin(admin.ModelAdmin):
     list_display = ('slug', 'name')
     prepopulated_fields = {"slug": ("name",)}
+    inlines = [InformationPointerInline]
 
 
 class InformationPointerAdmin(AdminImageMixin, admin.ModelAdmin):
-    list_display = ('slug', 'title', 'more_url')
+    list_display = ('slug', 'highlighted', 'area', 'title', 'more_url')
+    list_editable = ('highlighted', 'title', 'more_url')
     prepopulated_fields = {"slug": ("title",)}
 
 

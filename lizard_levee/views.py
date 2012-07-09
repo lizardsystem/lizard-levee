@@ -41,6 +41,10 @@ class BurgomasterView(MapView):
             name=self.area.name)
 
     @property
+    def information_pointers(self):
+        return self.area.information_pointers.filter(highlighted=True)
+
+    @property
     def link_to_other(self):
         """Return action that links to the other (=expert) page."""
         action = Action(
@@ -92,10 +96,3 @@ class ExpertView(BurgomasterView):
             'voltmeting',
             'rek/deformatie',
             ]
-
-
-class InformationPointerView(UiView):
-    template_name = 'lizard_levee/information_pointer.html'
-    # page_title = _('Overview of areas')
-    # edit_link = '/admin/lizard_levee/area/'
-

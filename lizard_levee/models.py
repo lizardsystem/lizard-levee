@@ -30,6 +30,9 @@ class Area(models.Model):
         return reverse('lizard_levee_burgomaster',
                        kwargs={'slug': self.slug})
 
+    def __unicode__(self):
+        return self.name
+
 
 class InformationPointer(models.Model):
     """Information pointer, like failure mechanisms."""
@@ -46,7 +49,8 @@ class InformationPointer(models.Model):
     area = models.ForeignKey(
         Area,
         null=True,
-        blank=True)
+        blank=True,
+        related_name='information_pointers')
     highlighted = models.BooleanField(
         _('highlighted'),
         default=False)
@@ -70,6 +74,5 @@ class InformationPointer(models.Model):
         verbose_name = _('information pointer')
         verbose_name_plural = _('information pointers')
 
-    def get_absolute_url(self):
-        return reverse('lizard_levee_information_pointer',
-                       kwargs={'slug': self.slug})
+    def __unicode__(self):
+        return self.title
