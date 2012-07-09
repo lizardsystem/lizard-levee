@@ -1,0 +1,106 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-07-09 08:57-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: models.py:15
+msgid "name"
+msgstr ""
+
+#: models.py:20 models.py:45
+msgid "slug"
+msgstr ""
+
+#: models.py:21 models.py:46
+msgid "Used in the URL."
+msgstr ""
+
+#: models.py:26
+msgid "area"
+msgstr ""
+
+#: models.py:27
+msgid "areas"
+msgstr ""
+
+#: models.py:40
+msgid "title"
+msgstr ""
+
+#: models.py:55
+msgid "highlighted"
+msgstr ""
+
+#: models.py:58
+msgid "description"
+msgstr ""
+
+#: models.py:62
+msgid "more url"
+msgstr ""
+
+#: models.py:63
+msgid "URL with more explanation."
+msgstr ""
+
+#: models.py:67
+msgid "image"
+msgstr ""
+
+#: models.py:69
+msgid "Scaled automatically."
+msgstr ""
+
+#: models.py:74
+msgid "information pointer"
+msgstr ""
+
+#: models.py:75
+msgid "information pointers"
+msgstr ""
+
+#: views.py:18
+msgid "Overview of areas"
+msgstr ""
+
+#: views.py:40
+msgid "Overview of {name}"
+msgstr ""
+
+#: views.py:51
+msgid "Expert page"
+msgstr ""
+
+#: views.py:71
+msgid "Expert view for {name}"
+msgstr ""
+
+#: views.py:78
+msgid "Overview page"
+msgstr ""
+
+#: templates/lizard_levee/burgomaster.html:22
+msgid "Relevant links"
+msgstr ""
+
+#: templates/lizard_levee/burgomaster.html:82
+msgid "Logbook"
+msgstr ""
+
+#: templates/lizard_levee/overview.html:5
+msgid "Areas"
+msgstr ""

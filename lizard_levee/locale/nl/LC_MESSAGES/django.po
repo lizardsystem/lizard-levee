@@ -1,0 +1,106 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-07-09 08:57-0500\n"
+"PO-Revision-Date: 2012-07-09 15:57+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: models.py:15
+msgid "name"
+msgstr "naam"
+
+#: models.py:20 models.py:45
+msgid "slug"
+msgstr "ID in url"
+
+#: models.py:21 models.py:46
+msgid "Used in the URL."
+msgstr "Gebruikt in de URL."
+
+#: models.py:26
+msgid "area"
+msgstr "gebied"
+
+#: models.py:27
+msgid "areas"
+msgstr "gebieden"
+
+#: models.py:40
+msgid "title"
+msgstr "titel"
+
+#: models.py:55
+msgid "highlighted"
+msgstr "getoond"
+
+#: models.py:58
+msgid "description"
+msgstr "omschrijving"
+
+#: models.py:62
+msgid "more url"
+msgstr "'meer...' URL"
+
+#: models.py:63
+msgid "URL with more explanation."
+msgstr "URL waar verdere uitleg staat"
+
+#: models.py:67
+msgid "image"
+msgstr "afbeelding"
+
+#: models.py:69
+msgid "Scaled automatically."
+msgstr "Wordt automatisch geschaald"
+
+#: models.py:74
+msgid "information pointer"
+msgstr "verwijzing naar meer informatie"
+
+#: models.py:75
+msgid "information pointers"
+msgstr "verwijzingen naar meer informatie"
+
+#: views.py:18
+msgid "Overview of areas"
+msgstr "Overzicht van de gebieden"
+
+#: views.py:40
+msgid "Overview of {name}"
+msgstr "Overzicht van {name}"
+
+#: views.py:51
+msgid "Expert page"
+msgstr "Expertpagina"
+
+#: views.py:71
+msgid "Expert view for {name}"
+msgstr "Expertpagina voor {name}"
+
+#: views.py:78
+msgid "Overview page"
+msgstr "Overzichtspagina"
+
+#: templates/lizard_levee/burgomaster.html:22
+msgid "Relevant links"
+msgstr "Relevante verwijzingen"
+
+#: templates/lizard_levee/burgomaster.html:82
+msgid "Logbook"
+msgstr "Logboek"
+
+#: templates/lizard_levee/overview.html:5
+msgid "Areas"
+msgstr "Gebieden"
