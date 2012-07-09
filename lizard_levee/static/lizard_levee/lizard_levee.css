@@ -1,9 +1,10 @@
 #burgomaster-graphs {
   background-color: #d9d9d6;
-  height: 120px;
+  height: 140px;
   width: 100%;
 }
 #burgomaster-graphs .information-pointer {
+  margin: 10px;
   float: left;
 }
 #burgomaster-graphs .information-pointer img {
