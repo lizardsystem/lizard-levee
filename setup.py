@@ -12,11 +12,13 @@ install_requires = [
     'Django',
     'django-extensions',
     'django-nose',
-    'sorl-thumbnail',
-    'lizard-ui >= 4.0',
-    'lizard-map >= 4.0',
     'lizard-geodin',
-    ],
+    'lizard-map > 4.1',
+    'lizard-maptree',
+    'lizard-ui >= 4.0',
+    'lizard-wms',
+    'sorl-thumbnail',
+    ]
 
 setup(name='lizard-levee',
       version=version,

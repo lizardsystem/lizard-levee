@@ -4,7 +4,9 @@ from __future__ import unicode_literals
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from lizard_wms.models import WMSSource
 from sorl.thumbnail import ImageField
+
 
 class Area(models.Model):
     """An area is a collection of levees.
@@ -21,11 +23,17 @@ class Area(models.Model):
         help_text=_("Used in the URL."),
         null=True,
         blank=True)
+    wms_layer = models.ForeignKey(
+        WMSSource,
+        verbose_name=_('WMS layer'),
+        help_text=_("Pointer at WMS source that visualizes us on the map."),
+        null=True,
+        blank=True,
+        )
 
     class Meta:
         verbose_name = _('area')
         verbose_name_plural = _('areas')
-
     def get_absolute_url(self):
         return reverse('lizard_levee_burgomaster',
                        kwargs={'slug': self.slug})

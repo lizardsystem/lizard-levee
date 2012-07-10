@@ -61,6 +61,17 @@ class BurgomasterView(MapView):
         actions += super(BurgomasterView, self).content_actions
         return actions
 
+    def extra_wms_layers(self):
+        if not self.area.wms_layer:
+            return
+        wms_source = self.area.wms_layer
+        return [{'wms_id': wms_source.id,
+                'name': wms_source.name,
+                'url': wms_source.url,
+                'params': wms_source.params,
+                'options': wms_source.options,
+               }]
+
 
 class ExpertView(BurgomasterView):
     """The view for expert: more data, more graphs."""
