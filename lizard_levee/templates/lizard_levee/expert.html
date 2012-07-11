@@ -14,9 +14,7 @@
 {% block sidebar %}
   <h2>{{ view.page_title }}</h2>
   <p class="muted">
-    {% blocktrans %}
-      Filter on sensor types.
-    {% endblocktrans %}
+    {% blocktrans %}Filter on sensor types.{% endblocktrans %}
   </p>
   <form>
     {% for sensor_type in view.sensor_types %}
@@ -50,9 +48,7 @@
 
   <h2>{% trans "Generic information" %}</h2>
   <p class="muted">
-    {% blocktrans %}
-      Information shown on the overview page.
-    {% endblocktrans %}
+    {% blocktrans %}Information shown on the overview page.{% endblocktrans %}
   </p>
   <h3>{% trans "Relevant links" %}</h3>
   <ul>
@@ -74,7 +70,7 @@
         <li class="has_popover"
             title="{{ information_pointer.title }}"
             data-content="{{ information_pointer.description }}<br/><img src='{{ im.url }}' />">
-          <a href="{{ information_pointer.more_url }}">
+          <a href="{{ information_pointer.href }}">
             {{ information_pointer.title }}
           </a>
         </li>

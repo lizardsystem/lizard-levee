@@ -61,7 +61,7 @@
     {% for information_pointer in view.information_pointers %}
       <div class="information-pointer"
            title="{{ information_pointer.description }}">
-        <a href="{{ information_pointer.more_url }}">
+        <a href="{{ information_pointer.href }}">
           {% thumbnail information_pointer.image "100x100" crop="center" as im %}
             <img src="{{ im.url }}"
                  width="{{ im.width }}"

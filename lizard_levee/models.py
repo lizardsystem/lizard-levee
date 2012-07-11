@@ -26,7 +26,8 @@ class InformationPointer(models.Model):
         blank=True)
     more_url = models.URLField(
         _('more url'),
-        help_text=_("URL with more explanation."),
+        help_text=_("URL with more explanation. If not available, the "
+                    "link points at the full-size image (as fallback)."),
         null=True,
         blank=True)
     image = ImageField(
@@ -42,6 +43,12 @@ class InformationPointer(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    def href(self):
+        """Return more_url; fallback is the full image url."""
+        if self.more_url:
+            return self.more_url
+        return self.image.url
 
 
 class Link(models.Model):
