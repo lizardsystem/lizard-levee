@@ -23,10 +23,10 @@ class Area(models.Model):
         help_text=_("Used in the URL."),
         null=True,
         blank=True)
-    wms_layer = models.ForeignKey(
+    wms_layers = models.ManyToManyField(
         WMSSource,
-        verbose_name=_('WMS layer'),
-        help_text=_("Pointer at WMS source that visualizes us on the map."),
+        verbose_name=_('WMS layers'),
+        help_text=_("Pointer at WMS sources that visualize us on the map."),
         null=True,
         blank=True,
         )
@@ -34,6 +34,7 @@ class Area(models.Model):
     class Meta:
         verbose_name = _('area')
         verbose_name_plural = _('areas')
+
     def get_absolute_url(self):
         return reverse('lizard_levee_burgomaster',
                        kwargs={'slug': self.slug})

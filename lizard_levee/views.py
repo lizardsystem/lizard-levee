@@ -62,15 +62,18 @@ class BurgomasterView(MapView):
         return actions
 
     def extra_wms_layers(self):
-        if not self.area.wms_layer:
+        wms_sources = self.area.wms_layers.all()
+        if not wms_sources:
             return
-        wms_source = self.area.wms_layer
-        return [{'wms_id': wms_source.id,
-                'name': wms_source.name,
-                'url': wms_source.url,
-                'params': wms_source.params,
-                'options': wms_source.options,
-               }]
+        result = []
+        for wms_source in wms_sources:
+            result.append({'wms_id': wms_source.id,
+                           'name': wms_source.name,
+                           'url': wms_source.url,
+                           'params': wms_source.params,
+                           'options': wms_source.options,
+                           })
+        return result
 
 
 class ExpertView(BurgomasterView):
