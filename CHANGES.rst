@@ -5,7 +5,10 @@ Changelog of lizard-levee
 0.1 (unreleased)
 ----------------
 
-- Added link to WMS source to area. This needs the lizard-map 4.2.
+- Added separate 'link' and 'information pointer' models that can be linked
+  (m2m) to an area.
+
+- Added links to WMS sources to area (m2m). This requires lizard-map 4.2.
 
 - Added burgomaster and expert views and build them up somewhat.
 
