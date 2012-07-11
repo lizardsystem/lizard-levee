@@ -8,41 +8,6 @@ from lizard_wms.models import WMSSource
 from sorl.thumbnail import ImageField
 
 
-class Area(models.Model):
-    """An area is a collection of levees.
-
-    Basically it is a wrapper around a lizard-geodin project.
-    """
-    name = models.CharField(
-        _('name'),
-        max_length=255,
-        null=True,
-        blank=True)
-    slug = models.SlugField(
-        _('slug'),
-        help_text=_("Used in the URL."),
-        null=True,
-        blank=True)
-    wms_layers = models.ManyToManyField(
-        WMSSource,
-        verbose_name=_('WMS layers'),
-        help_text=_("Pointer at WMS sources that visualize us on the map."),
-        null=True,
-        blank=True,
-        )
-
-    class Meta:
-        verbose_name = _('area')
-        verbose_name_plural = _('areas')
-
-    def get_absolute_url(self):
-        return reverse('lizard_levee_burgomaster',
-                       kwargs={'slug': self.slug})
-
-    def __unicode__(self):
-        return self.name
-
-
 class InformationPointer(models.Model):
     """Information pointer, like failure mechanisms."""
     title = models.CharField(
@@ -55,14 +20,6 @@ class InformationPointer(models.Model):
         help_text=_("Used in the URL."),
         null=True,
         blank=True)
-    area = models.ForeignKey(
-        Area,
-        null=True,
-        blank=True,
-        related_name='information_pointers')
-    highlighted = models.BooleanField(
-        _('highlighted'),
-        default=False)
     description = models.TextField(
         _('description'),
         null=True,
@@ -85,3 +42,45 @@ class InformationPointer(models.Model):
 
     def __unicode__(self):
         return self.title
+
+
+class Area(models.Model):
+    """An area is a collection of levees.
+
+    Basically it is a wrapper around a lizard-geodin project.
+    """
+    name = models.CharField(
+        _('name'),
+        max_length=255,
+        null=True,
+        blank=True)
+    slug = models.SlugField(
+        _('slug'),
+        help_text=_("Used in the URL."),
+        null=True,
+        blank=True)
+    wms_layers = models.ManyToManyField(
+        WMSSource,
+        verbose_name=_('WMS layers'),
+        help_text=_("Pointer at WMS sources that visualize us on the map."),
+        null=True,
+        blank=True,
+        )
+    information_pointers = models.ManyToManyField(
+        InformationPointer,
+        verbose_name=_('information pointers'),
+        help_text=_("Shown on the overview page as background information."),
+        null=True,
+        blank=True,
+        )
+
+    class Meta:
+        verbose_name = _('area')
+        verbose_name_plural = _('areas')
+
+    def get_absolute_url(self):
+        return reverse('lizard_levee_burgomaster',
+                       kwargs={'slug': self.slug})
+
+    def __unicode__(self):
+        return self.name

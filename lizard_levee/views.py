@@ -42,7 +42,8 @@ class BurgomasterView(MapView):
 
     @property
     def information_pointers(self):
-        return self.area.information_pointers.filter(highlighted=True)
+        # TODO: should we limit the number of items?
+        return self.area.information_pointers.all()
 
     @property
     def link_to_other(self):
