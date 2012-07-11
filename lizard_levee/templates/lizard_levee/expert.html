@@ -1,5 +1,6 @@
 {% extends "lizard_map/wms.html" %}
 {% load i18n %}
+{% load thumbnail %}
 
 {% block css %}
   {{ block.super }}
@@ -20,15 +21,44 @@
     {% endfor %}
   </form>
 
+  <h2>{% trans "Cross sections" %}</h2>
+  <ul>
+    {% for cross_section in view.cross_sections %}
+      <li>
+        <a href="#">
+          {{ cross_section }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <h2>{% trans "Longitudinal cross sections" %}</h2>
+  <ul>
+    {% for longitudinal_section in view.longitudinal_sections %}
+      <li>
+        <a href="#">
+          {{ longitudinal_section }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+
 {% endblock sidebar %}
 
 
 {% block content %}
   {{ block.super }}  {# The map #}
-
   <div id="expert-graph"
-       class="i-have-height">
+       class="give-me-height">
     <img src="{{ STATIC_URL }}lizard_levee/dummy-expert-graph.jpg" />
   </div>
+  <div class="give-me-height">
+    {% thumbnail view.area.longitudinal_cross_section_image "800x100" crop="center" as im %}
+      <img src="{{ im.url }}"
+           width="{{ im.width }}"
+           height="{{ im.height }}" />
+    {% endthumbnail %}
+  </div>
+
 
 {% endblock %}

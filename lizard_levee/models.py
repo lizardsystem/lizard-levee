@@ -104,6 +104,18 @@ class Area(models.Model):
         null=True,
         blank=True,
         )
+    cross_section_image = ImageField(
+        _('cross section image'),
+        upload_to='levee_cross_section',
+        help_text=_("Scaled automatically."),
+        null=True,
+        blank=True)
+    longitudinal_cross_section_image = ImageField(
+        _('longitudinal cross section image'),
+        upload_to='levee_longitudinal_section',
+        help_text=_("Scaled automatically."),
+        null=True,
+        blank=True)
 
     class Meta:
         verbose_name = _('area')

@@ -116,3 +116,15 @@ class ExpertView(BurgomasterView):
             'voltmeting',
             'rek/deformatie',
             ]
+
+    @property
+    def cross_sections(self):
+        """Return cross sections (in addition to selecting them in the map).
+        """
+        return ['A-A', 'B-B', 'C-C']
+
+    @property
+    def longitudinal_sections(self):
+        """Return longitudinal cross sections.
+        """
+        return ['Lengtedoorsnede']
