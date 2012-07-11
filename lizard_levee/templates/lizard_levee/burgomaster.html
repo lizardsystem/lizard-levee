@@ -19,25 +19,22 @@
     nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam
     eget libero egestas mattis sit amet vitae augue.
   </p>
-  <h2>{% trans "Relevant links" %}</h2>
-  <ul>
-    <li>
-      <a href="http://www.ijkdijk.nl/nl/">
-        Stichting IJkdijk
-      </a>
-    </li>
-    <li>
-      <a href="https://nl.wikipedia.org/wiki/IJkdijk">
-        Wikipedia over de IJkdijk
-      </a>
-    </li>
-    <li>
-      ... links naar relevante sensorleverancier ...
-    </li>
-    <li>
-      ... links naar live video ...
-    </li>
-  </ul>
+
+  {% if view.links %}
+    <h2>{% trans "Relevant links" %}</h2>
+    <ul>
+      {% for link in view.links %}
+        <li>
+          <a href="{{ link.url }}"
+             {% if link.description %}
+             title="{{ link.description }}"
+             {% endif %}
+             >{{ link.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
   <h2>BouwCam</h2>
   <div id="bouwcam">
     <div>

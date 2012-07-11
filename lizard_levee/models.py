@@ -44,6 +44,30 @@ class InformationPointer(models.Model):
         return self.title
 
 
+class Link(models.Model):
+    """URL pointing at another website."""
+    title = models.CharField(
+        _('title'),
+        max_length=255,
+        null=True,
+        blank=True)
+    description = models.TextField(
+        _('description'),
+        null=True,
+        blank=True)
+    url = models.URLField(
+        _('URL'),
+        null=True,
+        blank=True)
+
+    class Meta:
+        verbose_name = _('link')
+        verbose_name_plural = _('links')
+
+    def __unicode__(self):
+        return '%s (%s)' % (self.title, self.url)
+
+
 class Area(models.Model):
     """An area is a collection of levees.
 
@@ -70,6 +94,13 @@ class Area(models.Model):
         InformationPointer,
         verbose_name=_('information pointers'),
         help_text=_("Shown on the overview page as background information."),
+        null=True,
+        blank=True,
+        )
+    links = models.ManyToManyField(
+        Link,
+        verbose_name=_('links'),
+        help_text=_("Links to relevant other websites."),
         null=True,
         blank=True,
         )

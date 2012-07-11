@@ -19,5 +19,11 @@ class InformationPointerAdmin(AdminImageMixin, admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
 
 
+class LinkAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', 'url')
+    list_editable = ('title', 'url')
+
+
 admin.site.register(models.Area, AreaAdmin)
 admin.site.register(models.InformationPointer, InformationPointerAdmin)
+admin.site.register(models.Link, LinkAdmin)

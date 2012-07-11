@@ -46,6 +46,11 @@ class BurgomasterView(MapView):
         return self.area.information_pointers.all()
 
     @property
+    def links(self):
+        # TODO: should we limit the number of items?
+        return self.area.links.all()
+
+    @property
     def link_to_other(self):
         """Return action that links to the other (=expert) page."""
         action = Action(
