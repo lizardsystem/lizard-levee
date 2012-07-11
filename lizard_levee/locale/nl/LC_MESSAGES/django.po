@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-09 08:57-0500\n"
+"POT-Creation-Date: 2012-07-11 04:33-0500\n"
 "PO-Revision-Date: 2012-07-09 15:57+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,61 +17,85 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: models.py:15
-msgid "name"
-msgstr "naam"
-
-#: models.py:20 models.py:45
-msgid "slug"
-msgstr "ID in url"
-
-#: models.py:21 models.py:46
-msgid "Used in the URL."
-msgstr "Gebruikt in de URL."
-
-#: models.py:26
-msgid "area"
-msgstr "gebied"
-
-#: models.py:27
-msgid "areas"
-msgstr "gebieden"
-
-#: models.py:40
+#: models.py:14 models.py:50
 msgid "title"
 msgstr "titel"
 
-#: models.py:55
-msgid "highlighted"
-msgstr "getoond"
+#: models.py:19 models.py:82
+msgid "slug"
+msgstr "ID in url"
 
-#: models.py:58
+#: models.py:20 models.py:83
+msgid "Used in the URL."
+msgstr "Gebruikt in de URL."
+
+#: models.py:24 models.py:55
 msgid "description"
 msgstr "omschrijving"
 
-#: models.py:62
+#: models.py:28
 msgid "more url"
 msgstr "'meer...' URL"
 
-#: models.py:63
+#: models.py:29
 msgid "URL with more explanation."
 msgstr "URL waar verdere uitleg staat"
 
-#: models.py:67
+#: models.py:33
 msgid "image"
 msgstr "afbeelding"
 
-#: models.py:69
+#: models.py:35
 msgid "Scaled automatically."
 msgstr "Wordt automatisch geschaald"
 
-#: models.py:74
+#: models.py:40
 msgid "information pointer"
 msgstr "verwijzing naar meer informatie"
 
-#: models.py:75
+#: models.py:41 models.py:95
 msgid "information pointers"
 msgstr "verwijzingen naar meer informatie"
+
+#: models.py:59
+msgid "URL"
+msgstr "URL"
+
+#: models.py:64
+msgid "link"
+msgstr "verwijzing"
+
+#: models.py:65 models.py:102
+msgid "links"
+msgstr "verwijzingen"
+
+#: models.py:77
+msgid "name"
+msgstr "naam"
+
+#: models.py:88
+msgid "WMS layers"
+msgstr "WMS kaartlagen"
+
+#: models.py:89
+msgid "Pointer at WMS sources that visualize us on the map."
+msgstr "Verwijzing naar WMS kaartlagen die ons op de kaart visualiseren"
+
+#: models.py:96
+msgid "Shown on the overview page as background information."
+msgstr "Wordt op de overzichtspagina getoond als achtergrondinformatie"
+
+#: models.py:103
+msgid "Links to relevant other websites."
+msgstr "Verwijzingen naar relevante andere websites"
+
+#: models.py:109
+msgid "area"
+msgstr "gebied"
+
+#: models.py:110
+msgid "areas"
+msgstr "gebieden"
 
 #: views.py:18
 msgid "Overview of areas"
@@ -81,23 +105,23 @@ msgstr "Overzicht van de gebieden"
 msgid "Overview of {name}"
 msgstr "Overzicht van {name}"
 
-#: views.py:51
+#: views.py:57
 msgid "Expert page"
 msgstr "Expertpagina"
 
-#: views.py:71
+#: views.py:91
 msgid "Expert view for {name}"
 msgstr "Expertpagina voor {name}"
 
-#: views.py:78
+#: views.py:98
 msgid "Overview page"
 msgstr "Overzichtspagina"
 
-#: templates/lizard_levee/burgomaster.html:22
+#: templates/lizard_levee/burgomaster.html:24
 msgid "Relevant links"
 msgstr "Relevante verwijzingen"
 
-#: templates/lizard_levee/burgomaster.html:82
+#: templates/lizard_levee/burgomaster.html:79
 msgid "Logbook"
 msgstr "Logboek"
 
