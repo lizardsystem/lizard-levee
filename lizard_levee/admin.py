@@ -11,6 +11,7 @@ from lizard_levee import models
 class AreaAdmin(admin.ModelAdmin):
     list_display = ('slug', 'name')
     prepopulated_fields = {"slug": ("name",)}
+    filter_horizontal = ('wms_layers', 'information_pointers', 'links')
 
 
 class InformationPointerAdmin(AdminImageMixin, admin.ModelAdmin):
