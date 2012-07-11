@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-11 08:23-0500\n"
+"POT-Creation-Date: 2012-07-11 09:22-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -126,6 +126,7 @@ msgid "Overview page"
 msgstr ""
 
 #: templates/lizard_levee/burgomaster.html:24
+#: templates/lizard_levee/expert.html:57
 msgid "Relevant links"
 msgstr ""
 
@@ -133,12 +134,34 @@ msgstr ""
 msgid "Logbook"
 msgstr ""
 
-#: templates/lizard_levee/expert.html:24
+#: templates/lizard_levee/expert.html:17
+msgid ""
+"\n"
+"      Filter on sensor types.\n"
+"    "
+msgstr ""
+
+#: templates/lizard_levee/expert.html:29
 msgid "Cross sections"
 msgstr ""
 
-#: templates/lizard_levee/expert.html:35
+#: templates/lizard_levee/expert.html:40
 msgid "Longitudinal cross sections"
+msgstr ""
+
+#: templates/lizard_levee/expert.html:51
+msgid "Generic information"
+msgstr ""
+
+#: templates/lizard_levee/expert.html:53
+msgid ""
+"\n"
+"      Information shown on the overview page.\n"
+"    "
+msgstr ""
+
+#: templates/lizard_levee/expert.html:70
+msgid "Extra pointers (with explanatory image)"
 msgstr ""
 
 #: templates/lizard_levee/overview.html:5

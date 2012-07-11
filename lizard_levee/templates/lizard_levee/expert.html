@@ -13,6 +13,11 @@
 
 {% block sidebar %}
   <h2>{{ view.page_title }}</h2>
+  <p class="muted">
+    {% blocktrans %}
+      Filter on sensor types.
+    {% endblocktrans %}
+  </p>
   <form>
     {% for sensor_type in view.sensor_types %}
       <label class="checkbox">
@@ -43,6 +48,39 @@
     {% endfor %}
   </ul>
 
+  <h2>{% trans "Generic information" %}</h2>
+  <p class="muted">
+    {% blocktrans %}
+      Information shown on the overview page.
+    {% endblocktrans %}
+  </p>
+  <h3>{% trans "Relevant links" %}</h3>
+  <ul>
+    {% for link in view.links %}
+      <li>
+        <a href="{{ link.url }}"
+           {% if link.description %}
+           title="{{ link.description }}"
+           {% endif %}
+           >{{ link.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <h3>{% trans "Extra pointers (with explanatory image)" %}</h3>
+  <ul>
+    {% for information_pointer in view.information_pointers %}
+      {% thumbnail information_pointer.image "100x100" crop="center" as im %}
+        <li class="has_popover"
+            title="{{ information_pointer.title }}"
+            data-content="{{ information_pointer.description }}<br/><img src='{{ im.url }}' />">
+          <a href="{{ information_pointer.more_url }}">
+            {{ information_pointer.title }}
+          </a>
+        </li>
+      {% endthumbnail %}
+    {% endfor %}
+  </ul>
 {% endblock sidebar %}
 
 
