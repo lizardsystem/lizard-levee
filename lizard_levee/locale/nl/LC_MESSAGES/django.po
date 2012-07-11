@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-11 07:45-0500\n"
-"PO-Revision-Date: 2012-07-11 14:45+0200\n"
+"POT-Creation-Date: 2012-07-11 08:23-0500\n"
+"PO-Revision-Date: 2012-07-11 15:23+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -45,7 +45,7 @@ msgstr "URL waar verdere uitleg staat"
 msgid "image"
 msgstr "afbeelding"
 
-#: models.py:35
+#: models.py:35 models.py:110 models.py:116
 msgid "Scaled automatically."
 msgstr "Wordt automatisch geschaald"
 
@@ -89,11 +89,20 @@ msgstr "Wordt op de overzichtspagina getoond als achtergrondinformatie"
 msgid "Links to relevant other websites."
 msgstr "Links naar relevante andere websites"
 
-#: models.py:109
+# dwarsdoorsnede
+#: models.py:108
+msgid "cross section image"
+msgstr "dwarsdoorsnede"
+
+#: models.py:114
+msgid "longitudinal cross section image"
+msgstr "Lengteprofiel"
+
+#: models.py:121
 msgid "area"
 msgstr "gebied"
 
-#: models.py:110
+#: models.py:122
 msgid "areas"
 msgstr "gebieden"
 
@@ -125,11 +134,11 @@ msgstr "Relevante verwijzingen"
 msgid "Logbook"
 msgstr "Logboek"
 
-#: templates/lizard_levee/expert.html:23
+#: templates/lizard_levee/expert.html:24
 msgid "Cross sections"
 msgstr "Dwarsdoorsnedes"
 
-#: templates/lizard_levee/expert.html:34
+#: templates/lizard_levee/expert.html:35
 msgid "Longitudinal cross sections"
 msgstr "Lengteprofielen"
 
