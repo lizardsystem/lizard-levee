@@ -24,23 +24,14 @@
     {% endfor %}
   </form>
 
-  <h2>{% trans "Cross sections" %}</h2>
+  <h2>{% trans "Display options" %}</h2>
   <ul>
-    {% for cross_section in view.cross_sections %}
+    {% for display_option in view.display_options %}
       <li>
-        <a href="#">
-          {{ cross_section }}
-        </a>
-      </li>
-    {% endfor %}
-  </ul>
-
-  <h2>{% trans "Longitudinal cross sections" %}</h2>
-  <ul>
-    {% for longitudinal_section in view.longitudinal_sections %}
-      <li>
-        <a href="#">
-          {{ longitudinal_section }}
+        <a href="#"
+           class="display-option-link"
+           data-kind="{{ display_option.kind }}">
+          {{ display_option.title }}
         </a>
       </li>
     {% endfor %}
@@ -81,25 +72,39 @@
 
 
 {% block content %}
+  {{ block.super }}  {# The map, which is 300px big. #}
+  <div id="below-map">
 
-{# kaart met tweedeling eronder #}
+    <div id="expert-graph">
+      <img src="{{ STATIC_URL }}lizard_levee/dummy-expert-graph.jpg" />
+    </div>
 
-{# kaart #}
-{# grote grafiek #}
+    <div id="cross-section">
+      {% thumbnail view.area.cross_section_image "800x100" crop="center" as im %}
+        <div class="cross-section-image">
+          <img src="{{ im.url }}"
+               width="{{ im.width }}"
+               height="{{ im.height }}" />
+        </div>
+      {% endthumbnail %}
+      <div class="graphs">
+        TODO: graphs go here.
+      </div>
+    </div>
 
+    <div id="longitudinal-cross-section">
+      {% thumbnail view.area.longitudinal_cross_section_image "800x100" crop="center" as im %}
+        <div class="cross-section-image">
+          <img src="{{ im.url }}"
+               width="{{ im.width }}"
+               height="{{ im.height }}" />
+        </div>
+      {% endthumbnail %}
+      <div class="graphs">
+        TODO: graphs go here.
+      </div>
+    </div>
 
-  {{ block.super }}  {# The map #}
-  <div id="expert-graph"
-       class="give-me-height">
-    <img src="{{ STATIC_URL }}lizard_levee/dummy-expert-graph.jpg" />
   </div>
-  <div class="give-me-height">
-    {% thumbnail view.area.longitudinal_cross_section_image "800x100" crop="center" as im %}
-      <img src="{{ im.url }}"
-           width="{{ im.width }}"
-           height="{{ im.height }}" />
-    {% endthumbnail %}
-  </div>
-
 
 {% endblock %}

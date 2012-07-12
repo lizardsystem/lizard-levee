@@ -3,6 +3,9 @@
 @middle: #7fa9ae;
 @light: #d9d9d6;
 
+@mapheight: 300px;
+
+
 #burgomaster-graphs {
   .information-pointer {
     img {
@@ -22,12 +25,6 @@
   }
 }
 
-#expert-graph {
-  img {
-    height: 400px;
-  }
-}
-
 #burgomaster-logbook {
   overflow: auto;
   #burgomaster-logbook-inner {
@@ -41,5 +38,23 @@
 }
 
 .map-at-top {
-  height: 300px;
+  height: @mapheight;
+}
+
+#below-map {
+  position: absolute;
+  top: @mapheight;
+  bottom: 0;
+  width: 100%;
+}
+
+#expert-graph {
+  height: 100%;
+}
+
+#cross-section, #longitudinal-cross-section {
+  display: hidden;
+  .cross-section-image, .graphs {
+    height: 100%;
+  }
 }

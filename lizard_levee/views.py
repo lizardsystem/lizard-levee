@@ -67,7 +67,21 @@ class BurgomasterView(MapView):
 
 
 class ExpertView(BurgomasterView):
-    """The view for expert: more data, more graphs."""
+    """The view for expert: more data, more graphs.
+
+    The basic setup is that you always have a map on top where you can select
+    levee segments. There are three different subviews:
+
+    - The default: a big graph with the values for the selected levee
+      segment. Perhaps also more info if a failure measure is attached to the
+      chosen segment.
+
+    - A cross section where you can, when we have 'em, select sensors. Their
+      data is shown underneath.
+
+    - Similarly for the longitudinal cross section.
+
+    """
     template_name = 'lizard_levee/expert.html'
 
     @property
@@ -98,13 +112,21 @@ class ExpertView(BurgomasterView):
             ]
 
     @property
-    def cross_sections(self):
-        """Return cross sections (in addition to selecting them in the map).
-        """
-        return ['A-A', 'B-B', 'C-C']
+    def display_options(self):
+        """Return information for changing the display of the page.
 
-    @property
-    def longitudinal_sections(self):
-        """Return longitudinal cross sections.
+        Kind, subitem, title
         """
-        return ['Lengtedoorsnede']
+        result = []
+        result.append({'kind': 'expert-graph',
+                       'subitem': None,
+                       'title': _("Big graph")})
+        for cross_section in ['A-A', 'B-B', 'C-C']:
+            title = _("Cross section {title}").format(title=cross_section)
+            result.append({'kind': 'cross-section',
+                           'subitem': cross_section,
+                           'title': title})
+        result.append({'kind': 'longitudinal-cross-section',
+                       'subitem': None,
+                       'title': _('Longitudinal cross section')})
+        return result

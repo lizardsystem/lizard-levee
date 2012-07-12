@@ -13,9 +13,6 @@
 #bouwcam img {
   width: 300px;
 }
-#expert-graph img {
-  height: 400px;
-}
 #burgomaster-logbook {
   overflow: auto;
 }
@@ -27,4 +24,23 @@
 }
 .map-at-top {
   height: 300px;
+}
+#below-map {
+  position: absolute;
+  top: 300px;
+  bottom: 0;
+  width: 100%;
+}
+#expert-graph {
+  height: 100%;
+}
+#cross-section,
+#longitudinal-cross-section {
+  display: hidden;
+}
+#cross-section .cross-section-image,
+#longitudinal-cross-section .cross-section-image,
+#cross-section .graphs,
+#longitudinal-cross-section .graphs {
+  height: 100%;
 }
