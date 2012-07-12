@@ -36,11 +36,12 @@
 }
 #cross-section,
 #longitudinal-cross-section {
+  height: 100%;
   display: hidden;
 }
 #cross-section .cross-section-image,
 #longitudinal-cross-section .cross-section-image,
 #cross-section .graphs,
 #longitudinal-cross-section .graphs {
-  height: 100%;
+  height: 50%;
 }
