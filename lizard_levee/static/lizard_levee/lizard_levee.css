@@ -22,3 +22,9 @@
 #burgomaster-logbook #burgomaster-logbook-inner {
   padding: 10px;
 }
+#content {
+  overflow: hidden;
+}
+.map-at-top {
+  height: 300px;
+}

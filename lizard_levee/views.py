@@ -26,6 +26,7 @@ class Overview(MapView):
 class BurgomasterView(MapView):
     """The main non-technical view on a Geodin levee project."""
     template_name = 'lizard_levee/burgomaster.html'
+    map_div_class = 'map-at-top i-have-height'
 
     @property
     def area(self):
@@ -101,6 +102,13 @@ class ExpertView(BurgomasterView):
             icon='icon-random',
             )
         return action
+
+    @property
+    def breadcrumbs(self):
+        """Return homepage + ourselves as breadcrumbs."""
+        result = super(ExpertView, self).breadcrumbs
+        result.append(self.our_own_breadcrumb_element)
+        return result
 
     @property
     def sensor_types(self):
