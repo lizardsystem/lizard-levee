@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lizard-levee\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-12 08:46-0500\n"
-"PO-Revision-Date: 2012-07-12 15:46+0200\n"
+"POT-Creation-Date: 2012-07-12 08:47-0500\n"
+"PO-Revision-Date: 2012-07-12 15:47+0200\n"
 "Last-Translator: Reinout van Rees <reinout.vanrees@nelen-schuurmans.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -131,7 +131,7 @@ msgstr "Expertpagina voor {name}"
 
 #: views.py:123
 msgid "Big graph"
-msgstr ""
+msgstr "Grote grafiek"
 
 # dwarsdoorsnede
 #: views.py:125
