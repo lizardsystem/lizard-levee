@@ -51,23 +51,6 @@ class BurgomasterView(MapView):
         # TODO: should we limit the number of items?
         return self.area.links.all()
 
-    @property
-    def link_to_other(self):
-        """Return action that links to the other (=expert) page."""
-        action = Action(
-            name=_("Expert page"),
-            url=reverse('lizard_levee_expert',
-                        kwargs={'slug': self.kwargs['slug']}),
-            icon='icon-random',
-            )
-        return action
-
-    @property
-    def content_actions(self):
-        actions = [self.link_to_other]
-        actions += super(BurgomasterView, self).content_actions
-        return actions
-
     def extra_wms_layers(self):
         wms_sources = self.area.wms_layers.all()
         if not wms_sources:
@@ -91,17 +74,6 @@ class ExpertView(BurgomasterView):
     def page_title(self):
         return _('Expert view for {name}').format(
             name=self.area.name)
-
-    @property
-    def link_to_other(self):
-        """Return action that links to the other (=burgomaster) page."""
-        action = Action(
-            name=_("Overview page"),
-            url=reverse('lizard_levee_burgomaster',
-                        kwargs={'slug': self.kwargs['slug']}),
-            icon='icon-random',
-            )
-        return action
 
     @property
     def breadcrumbs(self):

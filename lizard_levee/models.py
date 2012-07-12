@@ -90,6 +90,12 @@ class Area(models.Model):
         help_text=_("Used in the URL."),
         null=True,
         blank=True)
+    description = models.TextField(
+        _('description'),
+        help_text=_(
+            "Just plain text. Shown as a short description in the sidebar."),
+        null=True,
+        blank=True)
     wms_layers = models.ManyToManyField(
         WMSSource,
         verbose_name=_('WMS layers'),
