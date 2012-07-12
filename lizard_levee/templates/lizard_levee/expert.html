@@ -88,26 +88,18 @@
     </div>
 
     <div id="cross-section">
-      {% thumbnail view.area.cross_section_image "800x100" crop="center" as im %}
-        <div class="cross-section-image">
-          <img src="{{ im.url }}"
-               width="{{ im.width }}"
-               height="{{ im.height }}" />
-        </div>
-      {% endthumbnail %}
+      <div class="cross-section-image">
+        <img src="{{ view.area.cross_section_image.url }}" />
+      </div>
       <div class="graphs">
         TODO: graphs go here.
       </div>
     </div>
 
     <div id="longitudinal-cross-section">
-      {% thumbnail view.area.longitudinal_cross_section_image "800x100" crop="center" as im %}
-        <div class="cross-section-image">
-          <img src="{{ im.url }}"
-               width="{{ im.width }}"
-               height="{{ im.height }}" />
-        </div>
-      {% endthumbnail %}
+      <div class="cross-section-image">
+        <img src="{{ view.area.longitudinal_cross_section_image.url }}" />
+      </div>
       <div class="graphs">
         TODO: graphs go here.
       </div>
