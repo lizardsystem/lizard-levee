@@ -10,6 +10,12 @@
         media="screen, projection" />
 {% endblock css %}
 
+{% block javascript %}
+  {{ block.super }}
+  <script type="text/javascript"
+          src="{{ STATIC_URL }}lizard_levee/lizard_levee.js"></script>
+{% endblock javascript %}
+
 
 {% block sidebar %}
   <h2>{{ view.page_title }}</h2>
@@ -30,7 +36,9 @@
       <li>
         <a href="#"
            class="display-option-link"
-           data-kind="{{ display_option.kind }}">
+           data-show="{{ display_option.show }}"
+           data-hide1="{{ display_option.hide1 }}"
+           data-hide2="{{ display_option.hide2 }}">
           {{ display_option.title }}
         </a>
       </li>

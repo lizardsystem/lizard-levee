@@ -10,6 +10,12 @@
         media="screen, projection" />
 {% endblock css %}
 
+{% block javascript %}
+  {{ block.super }}
+  <script type="text/javascript"
+          src="{{ STATIC_URL }}lizard_levee/lizard_levee.js"></script>
+{% endblock javascript %}
+
 
 {% block sidebar %}
   <h2>{{ view.page_title }}</h2>

@@ -118,15 +118,21 @@ class ExpertView(BurgomasterView):
         Kind, subitem, title
         """
         result = []
-        result.append({'kind': 'expert-graph',
-                       'subitem': None,
+        result.append({'subitem': None,
+                       'show': '#expert-graph',
+                       'hide1': '#cross-section',
+                       'hide2': '#longitudinal-cross-section',
                        'title': _("Big graph")})
         for cross_section in ['A-A', 'B-B', 'C-C']:
             title = _("Cross section {title}").format(title=cross_section)
-            result.append({'kind': 'cross-section',
-                           'subitem': cross_section,
+            result.append({'subitem': cross_section,
+                           'hide1': '#expert-graph',
+                           'show': '#cross-section',
+                           'hide2': '#longitudinal-cross-section',
                            'title': title})
-        result.append({'kind': 'longitudinal-cross-section',
-                       'subitem': None,
+        result.append({'subitem': None,
+                       'hide2': '#expert-graph',
+                       'hide1': '#cross-section',
+                       'show': '#longitudinal-cross-section',
                        'title': _('Longitudinal cross section')})
         return result
