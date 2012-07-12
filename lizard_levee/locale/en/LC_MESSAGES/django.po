@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-12 06:50-0500\n"
+"POT-Creation-Date: 2012-07-12 08:46-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -119,8 +119,20 @@ msgstr ""
 msgid "Overview of {name}"
 msgstr ""
 
-#: views.py:75
+#: views.py:89
 msgid "Expert view for {name}"
+msgstr ""
+
+#: views.py:123
+msgid "Big graph"
+msgstr ""
+
+#: views.py:125
+msgid "Cross section {title}"
+msgstr ""
+
+#: views.py:131
+msgid "Longitudinal cross section"
 msgstr ""
 
 #: templates/lizard_levee/burgomaster.html:20
@@ -134,7 +146,7 @@ msgid "expert page"
 msgstr ""
 
 #: templates/lizard_levee/burgomaster.html:28
-#: templates/lizard_levee/expert.html:53
+#: templates/lizard_levee/expert.html:44
 msgid "Relevant links"
 msgstr ""
 
@@ -147,22 +159,18 @@ msgid "Filter on sensor types."
 msgstr ""
 
 #: templates/lizard_levee/expert.html:27
-msgid "Cross sections"
+msgid "Display options"
 msgstr ""
 
-#: templates/lizard_levee/expert.html:38
-msgid "Longitudinal cross sections"
-msgstr ""
-
-#: templates/lizard_levee/expert.html:49
+#: templates/lizard_levee/expert.html:40
 msgid "Generic information"
 msgstr ""
 
-#: templates/lizard_levee/expert.html:51
+#: templates/lizard_levee/expert.html:42
 msgid "Information shown on the overview page."
 msgstr ""
 
-#: templates/lizard_levee/expert.html:66
+#: templates/lizard_levee/expert.html:57
 msgid "Extra pointers (with explanatory image)"
 msgstr ""
 
