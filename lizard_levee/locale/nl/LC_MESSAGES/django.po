@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lizard-levee\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-11 09:39-0500\n"
+"POT-Creation-Date: 2012-07-12 06:50-0500\n"
 "PO-Revision-Date: 2012-07-11 16:39+0200\n"
 "Last-Translator: Reinout van Rees <reinout.vanrees@nelen-schuurmans.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,7 +29,7 @@ msgstr "ID in url"
 msgid "Used in the URL."
 msgstr "Gebruikt in de URL."
 
-#: models.py:24 models.py:62
+#: models.py:24 models.py:62 models.py:94
 msgid "description"
 msgstr "omschrijving"
 
@@ -49,7 +49,7 @@ msgstr ""
 msgid "image"
 msgstr "afbeelding"
 
-#: models.py:36 models.py:117 models.py:123
+#: models.py:36 models.py:123 models.py:129
 msgid "Scaled automatically."
 msgstr "Wordt automatisch geschaald"
 
@@ -57,7 +57,7 @@ msgstr "Wordt automatisch geschaald"
 msgid "information pointer"
 msgstr "verwijzing naar meer informatie"
 
-#: models.py:42 models.py:102
+#: models.py:42 models.py:108
 msgid "information pointers"
 msgstr "verwijzingen naar meer informatie"
 
@@ -69,7 +69,7 @@ msgstr "URL"
 msgid "link"
 msgstr "link"
 
-#: models.py:72 models.py:109
+#: models.py:72 models.py:115
 msgid "links"
 msgstr "links"
 
@@ -77,36 +77,43 @@ msgstr "links"
 msgid "name"
 msgstr "naam"
 
-#: models.py:95
+#: models.py:96
+msgid "Just plain text. Shown as a short description in the sidebar."
+msgstr ""
+"Gewoon kale tekst, dus geen links. Wordt getoond als korte omschrijving in "
+"de\n"
+"zijbalk."
+
+#: models.py:101
 msgid "WMS layers"
 msgstr "WMS kaartlagen"
 
-#: models.py:96
+#: models.py:102
 msgid "Pointer at WMS sources that visualize us on the map."
 msgstr "Verwijzing naar WMS kaartlagen die ons op de kaart visualiseren"
 
-#: models.py:103
+#: models.py:109
 msgid "Shown on the overview page as background information."
 msgstr "Wordt op de overzichtspagina getoond als achtergrondinformatie"
 
-#: models.py:110
+#: models.py:116
 msgid "Links to relevant other websites."
 msgstr "Links naar relevante andere websites"
 
 # dwarsdoorsnede
-#: models.py:115
+#: models.py:121
 msgid "cross section image"
 msgstr "dwarsdoorsnede"
 
-#: models.py:121
+#: models.py:127
 msgid "longitudinal cross section image"
 msgstr "Lengteprofiel"
 
-#: models.py:128
+#: models.py:134
 msgid "area"
 msgstr "gebied"
 
-#: models.py:129
+#: models.py:135
 msgid "areas"
 msgstr "gebieden"
 
@@ -114,28 +121,30 @@ msgstr "gebieden"
 msgid "Overview of areas"
 msgstr "Overzicht van de gebieden"
 
-#: views.py:40
+#: views.py:41
 msgid "Overview of {name}"
 msgstr "Overzicht van {name}"
 
-#: views.py:57
-msgid "Expert page"
-msgstr "Expertpagina"
-
-#: views.py:91
+#: views.py:75
 msgid "Expert view for {name}"
 msgstr "Expertpagina voor {name}"
 
-#: views.py:98
-msgid "Overview page"
-msgstr "Overzichtspagina"
+#: templates/lizard_levee/burgomaster.html:20
+msgid ""
+"For more detailed information, go to the\n"
+"    "
+msgstr "Ga voor detailinformatie naar de"
 
-#: templates/lizard_levee/burgomaster.html:24
+#: templates/lizard_levee/burgomaster.html:23
+msgid "expert page"
+msgstr "expertpagina"
+
+#: templates/lizard_levee/burgomaster.html:28
 #: templates/lizard_levee/expert.html:53
 msgid "Relevant links"
 msgstr "Relevante verwijzingen"
 
-#: templates/lizard_levee/burgomaster.html:79
+#: templates/lizard_levee/burgomaster.html:83
 msgid "Logbook"
 msgstr "Logboek"
 
