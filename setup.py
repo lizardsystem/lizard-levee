@@ -11,7 +11,9 @@ long_description = '\n\n'.join([
 install_requires = [
     'Django',
     'django-extensions',
+    'django-jsonfield >= 0.8.10',
     'django-nose',
+    'geojson',
     'lizard-geodin',
     'lizard-map > 4.1',
     'lizard-maptree',

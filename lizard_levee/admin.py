@@ -1,8 +1,8 @@
 # (c) Nelen & Schuurmans.  GPL licensed, see LICENSE.rst.
 from __future__ import unicode_literals
 
-from django.contrib import admin
-from django.utils.translation import ugettext as _
+# from django.utils.translation import ugettext as _
+from django.contrib.gis import admin
 from sorl.thumbnail.admin import AdminImageMixin
 
 from lizard_levee import models
@@ -25,6 +25,12 @@ class LinkAdmin(admin.ModelAdmin):
     list_editable = ('title', 'url')
 
 
+class SegmentAdmin(admin.GeoModelAdmin):
+    list_display = ('id', 'area', 'segment_id', 'risk')
+    list_editable = ('risk',)
+
+
 admin.site.register(models.Area, AreaAdmin)
 admin.site.register(models.InformationPointer, InformationPointerAdmin)
 admin.site.register(models.Link, LinkAdmin)
+admin.site.register(models.Segment, SegmentAdmin)

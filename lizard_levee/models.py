@@ -1,9 +1,11 @@
 # (c) Nelen & Schuurmans.  GPL licensed, see LICENSE.rst.
 from __future__ import unicode_literals
 
+from django.contrib.gis.geos import Polygon
+from django.contrib.gis.db import models
 from django.core.urlresolvers import reverse
-from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from jsonfield import JSONField
 from lizard_wms.models import WMSSource
 from sorl.thumbnail import ImageField
 
@@ -129,6 +131,11 @@ class Area(models.Model):
         help_text=_("Scaled automatically."),
         null=True,
         blank=True)
+    segments_json = JSONField(
+        _('levee segments'),
+        help_text=_("Geojson with levee segments"),
+        null=True,
+        blank=True)
 
     class Meta:
         verbose_name = _('area')
@@ -140,3 +147,46 @@ class Area(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def reload_segments(self):
+        """Reload the segments from our json field."""
+        pass
+
+    def save(self, *args, **kwargs):
+        super(Area, self).save(*args, **kwargs)
+        if not self.segments_json:
+            return
+        features = self.segments_json.get('features')
+        if features is None:
+            return
+        for feature in features:
+            id = feature['id']
+            poly_coordinates = feature['geometry']['coordinates'][0]
+            segment, created = Segment.objects.get_or_create(area=self,
+                                                             segment_id=id)
+            segment.poly = Polygon(poly_coordinates, srid=28992)
+            segment.save()
+
+
+class Segment(models.Model):
+    """Segment of the levee."""
+    poly = models.PolygonField(
+        null=True,
+        blank=True)
+    area = models.ForeignKey(
+        'Area',
+        null=True,
+        blank=True,
+        related_name='segments')
+    segment_id = models.IntegerField()  # Not the same as self.id!
+    risk = models.FloatField(
+        _('risk'),
+        default=0)
+
+    class Meta:
+        verbose_name = _('levee segment')
+        verbose_name_plural = _('levee segments')
+
+    def __unicode__(self):
+        return unicode(self.segment_id)
+
