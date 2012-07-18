@@ -1,5 +1,6 @@
 # (c) Nelen & Schuurmans.  GPL licensed, see LICENSE.rst.
 from __future__ import unicode_literals
+import logging
 
 # from django.core.urlresolvers import reverse
 # from django.http import HttpResponse
@@ -9,8 +10,12 @@ from __future__ import unicode_literals
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 from lizard_map.views import MapView
+from lizard_map.models import WorkspaceEditItem
 
 from lizard_levee import models
+
+
+logger = logging.getLogger(__name__)
 
 
 class Overview(MapView):
@@ -54,6 +59,7 @@ class BurgomasterView(MapView):
         return self.area.links.all()
 
     def extra_wms_layers(self):
+        self.insert_risk_layer()
         wms_sources = self.area.wms_layers.all()
         if not wms_sources:
             return
@@ -66,6 +72,21 @@ class BurgomasterView(MapView):
                            'options': wms_source.options,
                            })
         return result
+
+    def insert_risk_layer(self):
+        special_name = self.area.slug + ' risk layer'
+        workspace = self.workspace()
+        if workspace.workspace_items.filter(name=special_name).exists():
+            return
+        adapter_json = '{"slug": "%s"}' % self.area.slug
+        workspace_item = WorkspaceEditItem(
+            workspace=workspace,
+            name=special_name,
+            adapter_class='lizard_levee_risk_adapter',
+            adapter_layer_json=adapter_json,
+            index=200)
+        workspace_item.save()
+        logger.debug("Added special workspace item")
 
 
 class ExpertView(BurgomasterView):
