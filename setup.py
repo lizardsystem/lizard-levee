@@ -41,6 +41,9 @@ setup(name='lizard-levee',
       zip_safe=False,
       install_requires=install_requires,
       entry_points={
-          'console_scripts': [
-          ]},
+        'lizard_map.adapter_class': [
+            'lizard_levee_risk_adapter = lizard_levee.layers:LeveeRisk',
+            ],
+        'console_scripts': [
+            ]},
       )
