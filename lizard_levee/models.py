@@ -1,11 +1,12 @@
 # (c) Nelen & Schuurmans.  GPL licensed, see LICENSE.rst.
 from __future__ import unicode_literals
+import json
 
+# from jsonfield import JSONField
 from django.contrib.gis.geos import Polygon
 from django.contrib.gis.db import models
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
-from jsonfield import JSONField
 from lizard_wms.models import WMSSource
 from sorl.thumbnail import ImageField
 
@@ -131,9 +132,9 @@ class Area(models.Model):
         help_text=_("Scaled automatically."),
         null=True,
         blank=True)
-    segments_json = JSONField(
-        _('levee segments'),
-        help_text=_("Geojson with levee segments"),
+    segments_jsonfile = models.FileField(
+        _('levee segments json file'),
+        upload_to='levee_segments',
         null=True,
         blank=True)
 
@@ -148,15 +149,12 @@ class Area(models.Model):
     def __unicode__(self):
         return self.name
 
-    def reload_segments(self):
-        """Reload the segments from our json field."""
-        pass
-
     def save(self, *args, **kwargs):
         super(Area, self).save(*args, **kwargs)
-        if not self.segments_json:
+        if not self.segments_jsonfile:
             return
-        features = self.segments_json.get('features')
+        the_json = json.loads(self.segments_jsonfile.read())
+        features = the_json.get('features')
         if features is None:
             return
         for feature in features:
@@ -182,6 +180,7 @@ class Segment(models.Model):
     risk = models.FloatField(
         _('risk'),
         default=0)
+    objects = models.GeoManager()
 
     class Meta:
         verbose_name = _('levee segment')
