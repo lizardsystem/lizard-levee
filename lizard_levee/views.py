@@ -28,6 +28,7 @@ class BurgomasterView(MapView):
     """The main non-technical view on a Geodin levee project."""
     template_name = 'lizard_levee/burgomaster.html'
     map_div_class = 'map-at-top i-have-height'
+    workspace_on_top = True
 
     @property
     def area(self):
