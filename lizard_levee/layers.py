@@ -1,11 +1,11 @@
 # Lots of copy/paste from lizard-riool, btw.  [reinout]
+# from __future__ import unicode_literals  # DISABLED, mapnik dislikes it.
 import os
 import re
 
 from django.conf import settings
 from django.contrib.gis import geos
 from django.db import connection
-from lizard_map.coordinates import RD
 from lizard_map.workspace import WorkspaceItemAdapter
 from lizard_map.models import WorkspaceItemError
 from lizard_map.models import ICON_ORIGINALS
@@ -82,7 +82,7 @@ class LeveeRisk(WorkspaceItemAdapter):
         for _, _, min_perc, max_perc, color in CLASSES:
             # r, g, b, a = html_to_mapnik(color)
             layout_rule = mapnik.Rule()
-            symbol = mapnik.PolygonSymbolizer(mapnik.Color('#' + color))
+            symbol = mapnik.PolygonSymbolizer(mapnik.Color(str('#' + color)))
             layout_rule.symbols.append(symbol)
             layout_rule.filter = mapnik.Filter(
                 str("[value] >= %s and [value] < %s" % (min_perc, max_perc)))
@@ -103,7 +103,6 @@ class LeveeRisk(WorkspaceItemAdapter):
         params['table'] = query
         # params['geometry_field'] = 'poly'
         datasource = mapnik.PostGIS(**params)
-        print query
 
         layer = mapnik.Layer('Levee risk')
         layer.datasource = datasource
