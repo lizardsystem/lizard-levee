@@ -44,6 +44,7 @@ class SiteActionView(MapView):
             Action(
                 name='kaart',
                 description='kaart',
+                url='/map/',
                 icon='icon-map-marker'))
         return actions + super(SiteActionView, self).site_actions
 
