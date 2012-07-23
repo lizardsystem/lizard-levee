@@ -1,0 +1,71 @@
+{% extends "lizard_ui/realbase.html" %}
+
+{% block content-actions %}
+{% endblock content-actions %}
+
+{% block css %}
+{{ block.super }}
+<style type="text/css">
+#main-selector {
+    list-style-type: none;
+ }
+#main-selector li {
+    border: 0;
+}
+.text-center {
+    text-align: center;
+}
+.text-light {
+    color: #bbbbbb;
+}
+.row {
+    padding: 10px 0px 20px 0px;
+}
+</style>
+{% endblock css %}
+
+{% block main-area %}
+<div class="container">
+  <div class="row">
+    <div class="span12 text-center">
+      <strong>Kies een van de ingangen:</strong>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span12">
+      <ul id="main-selector">
+        <div class="span3 offset1">
+          <li>
+            <a href="{% url lizard_levee_burgomaster slug='piping-proef' %}">
+              <div class="icon-folder-close"></div>
+              <h1>burgemeester</h1>
+            Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proeftekst in deze bedrijfstak sinds de 16e eeuw.
+            </a>
+          </li>
+        </div>
+        <div class="span3">
+          <li>
+            <a href="{% url lizard_levee_expert slug='piping-proef' %}">
+              <div class="icon-folder-open"></div>
+              <h1>expert</h1>Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proeftekst in deze bedrijfstak sinds de 16e eeuw.
+            </a>
+          </li>
+        </div>
+        <div class="span3">
+          <li>
+            <a href="">
+              <div class="icon-map-marker"></div>
+              <h1>kaart</h1>Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proeftekst in deze bedrijfstak sinds de 16e eeuw.
+            </a>
+          </li>
+        </div>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span12 text-center text-light">
+      De ingangen zijn altijd ook rechtsboven te kiezen.
+    </div>
+  </div>
+</div>
+{% endblock main-area %}

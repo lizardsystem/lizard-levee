@@ -10,7 +10,10 @@ import logging
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 from lizard_map.views import MapView
+from lizard_map.views import HomepageView
 from lizard_map.models import WorkspaceEditItem
+from lizard_ui.layout import Action
+from lizard_ui.views import UiView
 
 from lizard_levee import models
 
@@ -18,7 +21,43 @@ from lizard_levee import models
 logger = logging.getLogger(__name__)
 
 
-class Overview(MapView):
+class SiteActionView(MapView):
+    """Inherit from this view to enable 'tabs'"""
+    @property
+    def site_actions(self):
+        actions = []
+        actions.append(
+            Action(
+                name='burgemeester',
+                description='burgemeester',
+                url='/levee/piping-proef/',
+                icon='icon-folder-close'))
+
+        actions.append(
+            Action(
+                name='expert',
+                description='expert',
+                url='/levee/piping-proef/expert/',
+                icon='icon-folder-open'))
+
+        actions.append(
+            Action(
+                name='kaart',
+                description='kaart',
+                icon='icon-map-marker'))
+        return actions + super(SiteActionView, self).site_actions
+
+
+# class HomepageView(SiteActionView, HomepageView):
+#     pass
+class HomepageView(SiteActionView, UiView):
+    """
+    Selector for burgermeester, expert, kaart.
+    """
+    template_name = 'lizard_levee/homepage.html'
+
+
+class Overview(SiteActionView, MapView):
     """Overview of our areas for which we have further views."""
     template_name = 'lizard_levee/overview.html'
     page_title = _('Overview of areas')
@@ -29,7 +68,7 @@ class Overview(MapView):
         return models.Area.objects.all()
 
 
-class BurgomasterView(MapView):
+class BurgomasterView(SiteActionView, MapView):
     """The main non-technical view on a Geodin levee project."""
     template_name = 'lizard_levee/burgomaster.html'
     map_div_class = 'map-at-top i-have-height'
