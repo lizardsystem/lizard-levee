@@ -128,6 +128,16 @@ class BurgomasterView(SiteActionView, MapView):
         workspace_item.save()
         logger.debug("Added special workspace item")
 
+    @property
+    def sidebar_actions(self):
+        return []
+
+    @property
+    def rightbar_actions(self):
+        return []
+
+    # map_div_class = 'give-me-height'
+
 
 class ExpertView(BurgomasterView):
     """The view for expert: more data, more graphs.

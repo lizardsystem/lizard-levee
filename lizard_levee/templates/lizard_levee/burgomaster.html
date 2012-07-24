@@ -8,6 +8,8 @@
         href="{{ STATIC_URL }}lizard_levee/lizard_levee.css"
         type="text/css"
         media="screen, projection" />
+<style type="text/css">
+</style>
 {% endblock css %}
 
 {% block javascript %}
@@ -17,7 +19,8 @@
 {% endblock javascript %}
 
 
-{% block sidebar %}
+Dit gedeelte doet even niet mee.
+
   <h2>{{ view.page_title }}</h2>
   <p>
     {{ view.area.description }}
@@ -59,30 +62,44 @@
     </p>
   </div>
 
+{% block sidebar %}
 {% endblock sidebar %}
 
 
-{% block content %}
-  {{ block.super }}  {# The map #}
-
-  <div id="burgomaster-graphs"
-       class="i-have-height">
-    <!-- TODO: popup with bigger image. -->
-    {% for information_pointer in view.information_pointers %}
-      <div class="information-pointer"
-           title="{{ information_pointer.description }}">
-        <a href="{{ information_pointer.href }}">
-          {% thumbnail information_pointer.image "100x100" crop="center" as im %}
-            <img src="{{ im.url }}"
-                 width="{{ im.width }}"
-                 height="{{ im.height }}" />
-            <div>{{ information_pointer.title }}</div>
-          {% endthumbnail %}
-        </a>
+{% block main-area %}
+<div id="evenly-spaced-vertical">
+  <div class="row-fluid vertical-item">
+    <div class="span6">
+      iets met kaart
+      {# id="content" makes correct lizardui sizing #}
+      {% block content %}
+      {{ block.super }}  {# The map #}
+      {% endblock content %}
+    </div>
+    <div class="span6">
+      grafieken
+      <div id="burgomaster-graphs">
+           <!--class="i-have-height" -->
+        <!-- TODO: popup with bigger image. -->
+        {% for information_pointer in view.information_pointers %}
+          <div class="information-pointer"
+               title="{{ information_pointer.description }}">
+            <a href="{{ information_pointer.href }}">
+              {% thumbnail information_pointer.image "100x100" crop="center" as im %}
+                <img src="{{ im.url }}"
+                     width="{{ im.width }}"
+                     height="{{ im.height }}" />
+                <div>{{ information_pointer.title }}</div>
+              {% endthumbnail %}
+            </a>
+          </div>
+        {% endfor %}
       </div>
-    {% endfor %}
+    </div>
   </div>
 
+  <div class="row-fluid vertical-item">
+    <div class="span6">
   <div id="burgomaster-logbook"
        class="give-me-height">
     <div id="burgomaster-logbook-inner">
@@ -121,5 +138,21 @@
       </p>
     </div>
   </div>
+    </div>
+    <div class="span6">
+      <h3>Adviezen</h3>
+      <ul>
+        <li>Advies 1</li>
+        <li>Advies 2</li>
+      </ul>
+    </div>
+  </div>
 
+</div>
+
+  <div id="footer" class="row-fluid">
+    {# required by lizard-ui #}
+    <div class="span12">
+    </div>
+  </div>
 {% endblock %}
