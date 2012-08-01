@@ -14,9 +14,13 @@ from lizard_map.views import HomepageView
 from lizard_map.models import WorkspaceEditItem
 from lizard_ui.layout import Action
 from lizard_ui.views import UiView
+from lizard_ui.views import ViewContextMixin
+from django.views.generic.base import TemplateView
+from django.views.generic.base import View
 
 from lizard_levee import models
-
+from PIL import Image, ImageDraw
+from django.http import HttpResponse
 
 logger = logging.getLogger(__name__)
 
@@ -209,3 +213,59 @@ class ExpertView(BurgomasterView):
                        'show': '#longitudinal-cross-section',
                        'title': _('Longitudinal cross section')})
         return result
+
+
+class ImageMapView(ViewContextMixin, TemplateView):
+    template_name = 'lizard_levee/image_map.html'
+
+    @property
+    def image_map(self):
+        return get_object_or_404(models.ImageMap, slug=self.kwargs['slug'])
+
+
+class ImageMapMapView(View):
+    """
+    A png with the map as image
+    """
+    def get(self, request, **kwargs):
+
+        image_map = get_object_or_404(models.ImageMap, slug=self.kwargs['slug'])
+
+        size = (image_map.image_width, image_map.image_height)             # size of the image to create
+        im = Image.new('RGBA', size) # create the image
+        draw = ImageDraw.Draw(im)   # create a drawing object that is
+                                    # used to draw on the new image
+        red = (255,0,0)    # color of our text
+        for image_map_link in image_map.imagemaplink_set.all():
+            coords = image_map_link.coords.split(',')
+
+            text_pos = (int(coords[0]), int(coords[1])) # top-left position of our text
+            text = "Hello World!" # text to draw
+            # Now, we'll do the drawing:
+            draw.text(text_pos, text, fill=red)
+
+        del draw # I'm done drawing so I don't need this anymore
+
+        # We need an HttpResponse object with the correct mimetype
+        response = HttpResponse(mimetype="image/png")
+        # now, we tell the image to save as a PNG to the
+        # provided file-like object
+        im.save(response, 'PNG')
+
+        return response # and we're done!
+        # image = Image.new("RGB", (800, 600), "white")
+        # draw = Draw(image)
+
+        # # ... draw graphics here ...
+        # for i in range(20):
+        #     x0 = random.randint(0, image.size[0])
+        #     y0 = random.randint(0, image.size[1])
+        #     x1 = random.randint(0, image.size[0])
+        #     y1 = random.randint(0, image.size[1])
+        #     draw.rectangle((x0, y0, x1, y1), Pen(random.choice(INK), 5))
+
+        # draw.flush()
+
+        # response = HttpResponse(mimetype="image/png")
+        # image.save(response, "PNG")
+        # return response

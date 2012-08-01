@@ -11,6 +11,61 @@ from lizard_wms.models import WMSSource
 from sorl.thumbnail import ImageField
 
 
+class ImageMap(models.Model):
+    """Define an image map with links: dwarsprofielen.
+
+    Note that the image itself is not contained in this object. It can
+    be a matplotlib graphic or anything that sits on the image_url.
+    """
+
+    title = models.CharField(
+        _('title'),
+        max_length=255,
+        null=True,
+        blank=True)
+    slug = models.SlugField(
+        _('slug'),
+        help_text=_("Used in the URL."),
+        null=True,
+        blank=True)
+    image_url = models.CharField(max_length=200)
+    image_width = models.IntegerField(default=300)
+    image_height = models.IntegerField(default=300)
+
+    def __unicode__(self):
+        return self.title
+
+
+class ImageMapLink(models.Model):
+    """
+    Each link, used in an image map
+    """
+    SHAPE_CHOICES = (
+        ("polygon", "polygon"),
+        ("rect", "rect"),
+        ("circle", "circle"),)
+
+    image_map = models.ForeignKey(ImageMap)
+    # For hovers?
+    title = models.CharField(
+        _('title'),
+        max_length=255,
+        null=True,
+        blank=True)
+    # use for updating mechanisms to find objects back, objects
+    # *should* be unique
+    identifier = models.CharField(max_length=80)
+    destination_url = models.CharField(max_length=200)
+
+    #"polygon", "rect" or "circle"
+    shape = models.CharField(choices=SHAPE_CHOICES, max_length=40)
+    #dependent on shape,
+    # circle: x, y, radius
+    # polygon: x1, y1, x2, y2, x3, y3, ...
+    # rect: x1, y1, x2, y2
+    coords = models.CharField(max_length=200)
+
+
 class InformationPointer(models.Model):
     """Information pointer, like failure mechanisms."""
     title = models.CharField(

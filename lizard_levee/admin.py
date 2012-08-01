@@ -8,6 +8,10 @@ from sorl.thumbnail.admin import AdminImageMixin
 from lizard_levee import models
 
 
+class ImageMapLinkInline(admin.TabularInline):
+    model = models.ImageMapLink
+
+
 class AreaAdmin(AdminImageMixin, admin.ModelAdmin):
     list_display = ('slug', 'name')
     prepopulated_fields = {"slug": ("name",)}
@@ -29,6 +33,13 @@ class SegmentAdmin(admin.GeoModelAdmin):
     list_display = ('id', 'area', 'segment_id', 'risk')
     list_editable = ('risk',)
 
+
+class ImageMapAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("title", )}
+    inlines = [ImageMapLinkInline, ]
+
+
+admin.site.register(models.ImageMap, ImageMapAdmin)
 
 admin.site.register(models.Area, AreaAdmin)
 admin.site.register(models.InformationPointer, InformationPointerAdmin)
