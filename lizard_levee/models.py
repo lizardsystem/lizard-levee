@@ -55,7 +55,7 @@ class ImageMapLink(models.Model):
     # use for updating mechanisms to find objects back, objects
     # *should* be unique
     identifier = models.CharField(max_length=80)
-    destination_url = models.CharField(max_length=200)
+    destination_url = models.TextField()
 
     #"polygon", "rect" or "circle"
     shape = models.CharField(choices=SHAPE_CHOICES, max_length=40)

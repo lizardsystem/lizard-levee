@@ -17,12 +17,12 @@
   </div>
   <map name="image-map">
     {% for image_map_link in view.image_map.imagemaplink_set.all %}
-    <area class="box-action" data-temp-id="image-map-{{ image_map_link.pk }}" shape="{{ image_map_link.shape }}" coords="{{ image_map_link.coords }}" href="{{ image_map_link.destination_url }}" />
+    <area class="box-action" data-temp-id="image-map-{{ image_map_link.pk }}" shape="{{ image_map_link.shape }}" coords="{{ image_map_link.coords }}" href="{{ image_map_link.destination_url }}" alt="{{ image_map_link.title }}" />
     {% endfor %}
   </map>
 </div>
 {% for image_map_link in view.image_map.imagemaplink_set.all %}
-<div class="box-dialog" data-temp-id="image-map-{{ image_map_link.pk }}" data-title="image-map-title">
-   Popup voor {{ image_map_link.title }}
+<div class="box-dialog" data-temp-id="image-map-{{ image_map_link.pk }}" data-title="{{ image_map_link.title }}">
+  <iframe src="{{ image_map_link.destination_url }}" frameborder="0">IFrame contents</iframe>
 </div>
 {% endfor %}
