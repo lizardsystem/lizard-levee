@@ -237,12 +237,16 @@ class ImageMapMapView(View):
                                     # used to draw on the new image
         red = (255,0,0)    # color of our text
         for image_map_link in image_map.imagemaplink_set.all():
-            coords = image_map_link.coords.split(',')
+            coords = [int(c) for c in image_map_link.coords.split(',')]
 
-            text_pos = (int(coords[0]), int(coords[1])) # top-left position of our text
-            text = "Hello World!" # text to draw
-            # Now, we'll do the drawing:
-            draw.text(text_pos, text, fill=red)
+
+            # text_pos = (int(coords[0]), int(coords[1])) # top-left position of our text
+            # text = "Hello World!" # text to draw
+            # # Now, we'll do the drawing:
+            # draw.text(text_pos, text, fill=red)
+            draw.ellipse((
+                    coords[0]-coords[2], coords[1]-coords[2],
+                    coords[0]+coords[2], coords[1]+coords[2]))
 
         del draw # I'm done drawing so I don't need this anymore
 
