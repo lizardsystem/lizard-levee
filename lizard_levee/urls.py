@@ -31,6 +31,13 @@ urlpatterns = patterns(
         views.ImageMapMapView.as_view(),
         name='lizard_levee_image_map_map'),
 
+    url(r'^message-box/$',
+        views.MessageBoxListView.as_view(),
+        name='lizard_levee_message_box_list'),
+    url(r'^message-box/(?P<slug>[^/]+)/$',
+        views.MessageBoxView.as_view(),
+        name='lizard_levee_message_box'),
+
     url(r'^(?P<slug>[^/]+)/$',
         views.BurgomasterView.as_view(),
         name='lizard_levee_burgomaster'),

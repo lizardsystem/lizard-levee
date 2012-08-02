@@ -11,6 +11,53 @@ from lizard_wms.models import WMSSource
 from sorl.thumbnail import ImageField
 
 
+# Message Box
+
+class MessageTag(models.Model):
+    """The message tag discriminates between different categories.
+    """
+    name = models.CharField(max_length=40)
+    tag = models.SlugField()
+
+    def __unicode__(self):
+        return self.name
+
+
+class Message(models.Model):
+    message = models.TextField()
+    timestamp = models.DateTimeField(auto_now=True)
+    tags = models.ManyToManyField(MessageTag, null=True, blank=True)
+
+    class Meta:
+        ordering = ('timestamp', )
+
+
+class MessageBox(models.Model):
+    """ A message box can be displayed in the gui, the linked tags are
+    displayed as checkboxes. The client requests the messages through
+    an API and the state of the checkboxes.
+    """
+    title = models.CharField(
+        _('title'),
+        max_length=255,
+        null=True,
+        blank=True)
+    tags = models.ManyToManyField(MessageTag, null=True, blank=True)
+    slug = models.SlugField(
+        _('slug'),
+        help_text=_("Used in the URL."),
+        null=True,
+        blank=True)
+
+    def __unicode__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('lizard_levee_message_box', kwargs={'slug': self.slug})
+
+
+# Image Map
+
 class ImageMapGroup(models.Model):
     """
     Grouped image maps
@@ -48,6 +95,9 @@ class ImageMap(models.Model):
 
     group = models.ForeignKey(
         ImageMapGroup, null=True, blank=True)
+
+    class Meta:
+        ordering = ('title', )
 
     def __unicode__(self):
         return self.title

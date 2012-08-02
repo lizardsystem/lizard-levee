@@ -1,0 +1,9 @@
+<div>
+<ul>
+{% for message_box in view.message_box_list %}
+<li><a href="{{ message_box.get_absolute_url }}">{{ message_box }}</a></li>
+{% empty %}
+<li>Geen message boxen</li>
+{% endfor %}
+</ul>
+</div>

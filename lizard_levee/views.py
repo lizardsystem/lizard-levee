@@ -247,7 +247,6 @@ class ImageMapMapView(View):
         im = Image.new('RGBA', size) # create the image
         draw = ImageDraw.Draw(im)   # create a drawing object that is
                                     # used to draw on the new image
-        red = (255,0,0)    # color of our text
         for image_map_link in image_map.imagemaplink_set.all():
             coords = [int(c) for c in image_map_link.coords.split(',')]
 
@@ -258,7 +257,9 @@ class ImageMapMapView(View):
             # draw.text(text_pos, text, fill=red)
             draw.ellipse((
                     coords[0]-coords[2], coords[1]-coords[2],
-                    coords[0]+coords[2], coords[1]+coords[2]))
+                    coords[0]+coords[2], coords[1]+coords[2]),
+                         outline=(0, 0, 0, 255),
+                         fill=(00, 255, 0, 255))
 
         del draw # I'm done drawing so I don't need this anymore
 
@@ -269,19 +270,19 @@ class ImageMapMapView(View):
         im.save(response, 'PNG')
 
         return response # and we're done!
-        # image = Image.new("RGB", (800, 600), "white")
-        # draw = Draw(image)
 
-        # # ... draw graphics here ...
-        # for i in range(20):
-        #     x0 = random.randint(0, image.size[0])
-        #     y0 = random.randint(0, image.size[1])
-        #     x1 = random.randint(0, image.size[0])
-        #     y1 = random.randint(0, image.size[1])
-        #     draw.rectangle((x0, y0, x1, y1), Pen(random.choice(INK), 5))
 
-        # draw.flush()
+class MessageBoxListView(UiView):
+    template_name = 'lizard_levee/message_box_list.html'
 
-        # response = HttpResponse(mimetype="image/png")
-        # image.save(response, "PNG")
-        # return response
+    @property
+    def message_box_list(self):
+        return models.MessageBox.objects.all()
+
+
+class MessageBoxView(UiView):
+    template_name = 'lizard_levee/message_box.html'
+
+    @property
+    def message_box(self):
+        return get_object_or_404(models.MessageBox, slug=self.kwargs['slug'])

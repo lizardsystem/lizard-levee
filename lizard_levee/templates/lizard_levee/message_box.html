@@ -1,0 +1,14 @@
+<div>
+Message box
+
+{{ view.message_box }}
+
+Tags
+<ul>
+{% for tag in view.message_box.tags.all %}
+<li>{{ tag }}</li>
+{% endfor %}
+</ul>
+
+TODO: get contents, show checkboxes for tags
+</div>

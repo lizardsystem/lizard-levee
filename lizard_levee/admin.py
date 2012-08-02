@@ -39,6 +39,18 @@ class ImageMapAdmin(admin.ModelAdmin):
     inlines = [ImageMapLinkInline, ]
 
 
+class MessageTagAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"tag": ("name",)}
+
+
+class MessageBoxAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("title",)}
+
+
+admin.site.register(models.MessageTag, MessageTagAdmin)
+admin.site.register(models.Message)
+admin.site.register(models.MessageBox, MessageBoxAdmin)
+
 admin.site.register(models.ImageMapGroup)
 admin.site.register(models.ImageMap, ImageMapAdmin)
 
