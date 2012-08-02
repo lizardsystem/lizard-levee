@@ -43,6 +43,5 @@ divideVerticalSpaceEqually = () ->
     $('#evenly-spaced-vertical > .double-vertical-item').height(2 * verticalItemHeight);
 
 $ ->
-    console.log('hallo');
     $("#evenly-spaced-vertical").height($(window).height() - $("header").height() - $("#footer").height())
     divideVerticalSpaceEqually()

@@ -1,4 +1,5 @@
-<div>
+{# Use as a box in lizard-box, type "js load" #}
+<div class="message-box">
 Message box
 
 {{ view.message_box }}
@@ -9,6 +10,14 @@ Tags
 <li>{{ tag }}</li>
 {% endfor %}
 </ul>
+
+<div id="message-box-messages">
+<ul>
+{% for message in view.messages %}
+<li>message {{ message }}</li>
+{% endfor %}
+</ul>
+</div>
 
 TODO: get contents, show checkboxes for tags
 </div>
