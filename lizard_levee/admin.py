@@ -39,6 +39,7 @@ class ImageMapAdmin(admin.ModelAdmin):
     inlines = [ImageMapLinkInline, ]
 
 
+admin.site.register(models.ImageMapGroup)
 admin.site.register(models.ImageMap, ImageMapAdmin)
 
 admin.site.register(models.Area, AreaAdmin)

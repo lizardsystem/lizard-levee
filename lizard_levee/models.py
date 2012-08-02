@@ -11,6 +11,20 @@ from lizard_wms.models import WMSSource
 from sorl.thumbnail import ImageField
 
 
+class ImageMapGroup(models.Model):
+    """
+    Grouped image maps
+    """
+    title = models.CharField(
+        _('title'),
+        max_length=255,
+        null=True,
+        blank=True)
+
+    def __unicode__(self):
+        return self.title
+
+
 class ImageMap(models.Model):
     """Define an image map with links: dwarsprofielen.
 
@@ -32,8 +46,15 @@ class ImageMap(models.Model):
     image_width = models.IntegerField(default=300)
     image_height = models.IntegerField(default=300)
 
+    group = models.ForeignKey(
+        ImageMapGroup, null=True, blank=True)
+
     def __unicode__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('lizard_levee_image_map',
+                       kwargs={'slug': self.slug})
 
 
 class ImageMapLink(models.Model):

@@ -1,0 +1,14 @@
+<div class="accordion">
+  {% for image_map_group in view.image_map_groups %}
+  <h3><a href="#">{{ image_map_group }}</a></h3>
+  <div>
+    <ul>
+      {% for image_map in image_map_group.imagemap_set.all %}
+      <li>
+        <a class="target-link" data-group="profile" href="{{ image_map.get_absolute_url }}">{{ image_map }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endfor %}
+</div>

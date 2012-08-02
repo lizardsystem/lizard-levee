@@ -215,6 +215,18 @@ class ExpertView(BurgomasterView):
         return result
 
 
+class ImageMapListView(UiView):
+    template_name = 'lizard_levee/image_map_list.html'
+
+    @property
+    def image_maps(self):
+        return models.ImageMap.objects.all()
+
+    @property
+    def image_map_groups(self):
+        return models.ImageMapGroup.objects.all()
+
+
 class ImageMapView(ViewContextMixin, TemplateView):
     template_name = 'lizard_levee/image_map.html'
 
