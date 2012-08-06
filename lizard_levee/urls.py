@@ -44,6 +44,9 @@ urlpatterns = patterns(
     url(r'^information_pointer/(?P<slug>[^/]+)/$',
         views.InformationPointerView.as_view(),
         name='lizard_levee_information_pointer'),
+    url(r'^filters/$',
+        views.FilterView.as_view(),
+        name='lizard_levee_filters'),
 
     url(r'^(?P<slug>[^/]+)/$',
         views.BurgomasterView.as_view(),

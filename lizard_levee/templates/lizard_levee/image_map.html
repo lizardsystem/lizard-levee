@@ -24,7 +24,7 @@
 </div>
 {% for image_map_link in view.image_map.imagemaplink_set.all %}
 <div class="box-dialog" data-temp-id="image-map-{{ image_map_link.pk }}" data-title="{{ image_map_link.title }}">
-  <iframe src="{{ image_map_link.linked_object.get_absolute_url }}" frameborder="0">IFrame contents</iframe>
+  <iframe src-dummy="{{ image_map_link.linked_object.get_absolute_url }}" frameborder="0">IFrame contents</iframe>
 </div>
 {% endfor %}
 </div>

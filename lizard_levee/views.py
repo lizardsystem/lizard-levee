@@ -21,6 +21,7 @@ from django.views.generic.base import View
 from lizard_levee import models
 from PIL import Image, ImageDraw
 from django.http import HttpResponse
+import lizard_geodin.models
 
 logger = logging.getLogger(__name__)
 
@@ -248,6 +249,15 @@ class ImageMapMapView(View):
         draw = ImageDraw.Draw(im)   # create a drawing object that is
                                     # used to draw on the new image
         for image_map_link in image_map.imagemaplink_set.all():
+            # See if the image_map_link passes the filter criteria in the session
+            filters = request.session['filter-measurements']
+            if image_map_link.measurement:
+                filter_key = 'Project::%d' % image_map_link.measurement.project.id
+                if filters[filter_key] == 'false':
+                    # This object is unwanted.
+                    continue
+
+            # If it passes, the code below will run
             coords = [int(c) for c in image_map_link.coords.split(',')]
 
             if image_map_link.shape == 'circle':
@@ -306,3 +316,32 @@ class InformationPointerView(ViewContextMixin, TemplateView):
     @property
     def information_pointer(self):
         return get_object_or_404(models.InformationPointer, slug=self.kwargs['slug'])
+
+
+class FilterView(ViewContextMixin, TemplateView):
+    """
+    Filters measurement points on some criteria, store it in the session.
+
+    You get <name>::<data-id> as key, u'true' or u'false' as value
+    """
+
+    template_name = 'lizard_levee/filter.html'
+
+    @property
+    def filter_groups(self):
+        result = [{'name': 'Project',
+                   'data': lizard_geodin.models.Project.objects.all()},
+                  {'name': 'DataType',
+                   'data': lizard_geodin.models.DataType.objects.all()}
+            ]
+        return result
+
+    def post(self, request, *args, **kwargs):
+        print 'post filters ------------------------------------------>'
+        # You get <name>::<data-id> as key, u'true' or u'false' as value
+        print request.POST
+
+        filters = dict([(v, k) for v, k in request.POST.items()])
+        request.session['filter-measurements'] = filters
+
+        return super(FilterView, self).get(request, *args, **kwargs)

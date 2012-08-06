@@ -1,0 +1,19 @@
+<form action="/levee/filters/" type="POST" id="filter-measurements">
+<div class="accordion">
+  {% for filter_group in view.filter_groups %}
+  <h3><a href="#">{{ filter_group.name }}</a></h3>
+  <div>
+    <ul>
+      {% for filter_item in filter_group.data %}
+      <li>
+        <input type="checkbox" name="{{ filter_group.name }}::{{ filter_item.id }}" checked/>{{ filter_item }}
+      </li>
+      {% endfor %}
+      <li>
+        <a href="#" class="select-all">Alles</a> of <a href="#" class="select-none">niks</a> selecteren
+      </li>
+    </ul>
+  </div>
+  {% endfor %}
+</div>
+</form>
