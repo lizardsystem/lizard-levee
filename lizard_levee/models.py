@@ -10,6 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from lizard_wms.models import WMSSource
 from sorl.thumbnail import ImageField
 
+from lizard_geodin.models import Measurement
 
 # Message Box
 
@@ -125,8 +126,9 @@ class ImageMapLink(models.Model):
         blank=True)
     # use for updating mechanisms to find objects back, objects
     # *should* be unique
-    identifier = models.CharField(max_length=80)
-    destination_url = models.TextField()
+    #identifier = models.CharField(max_length=80)
+    measurement = models.ForeignKey(Measurement)
+    #destination_url = models.TextField()  # take get_absolute_url from measurement
 
     #"polygon", "rect" or "circle"
     shape = models.CharField(choices=SHAPE_CHOICES, max_length=40)
