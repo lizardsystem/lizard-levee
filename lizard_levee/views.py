@@ -250,16 +250,20 @@ class ImageMapMapView(View):
         for image_map_link in image_map.imagemaplink_set.all():
             coords = [int(c) for c in image_map_link.coords.split(',')]
 
-
-            # text_pos = (int(coords[0]), int(coords[1])) # top-left position of our text
-            # text = "Hello World!" # text to draw
-            # # Now, we'll do the drawing:
-            # draw.text(text_pos, text, fill=red)
-            draw.ellipse((
-                    coords[0]-coords[2], coords[1]-coords[2],
-                    coords[0]+coords[2], coords[1]+coords[2]),
-                         outline=(0, 0, 0, 255),
-                         fill=(00, 255, 0, 255))
+            if image_map_link.shape == 'circle':
+                draw.ellipse((
+                        coords[0]-coords[2], coords[1]-coords[2],
+                        coords[0]+coords[2], coords[1]+coords[2]),
+                             outline=(0, 0, 0, 255),
+                             fill=(0, 255, 0, 255))
+            elif image_map_link.shape == 'rect':
+                draw.rectangle(coords,
+                             outline=(0, 0, 0, 255),
+                             fill=(0, 255, 0, 255))
+            elif image_map_link.shape == 'polygon':
+                draw.polygon(coords,
+                             outline=(0, 0, 0, 255),
+                             fill=(0, 255, 0, 255))
 
         del draw # I'm done drawing so I don't need this anymore
 
