@@ -127,7 +127,10 @@ class ImageMapLink(models.Model):
     # use for updating mechanisms to find objects back, objects
     # *should* be unique
     #identifier = models.CharField(max_length=80)
-    measurement = models.ForeignKey(Measurement)
+
+    # The linked object: take one of the two
+    measurement = models.ForeignKey(Measurement, null=True, blank=True)
+    segment = models.ForeignKey("Segment", null=True, blank=True)
     #destination_url = models.TextField()  # take get_absolute_url from measurement
 
     #"polygon", "rect" or "circle"
@@ -137,6 +140,12 @@ class ImageMapLink(models.Model):
     # polygon: x1, y1, x2, y2, x3, y3, ...
     # rect: x1, y1, x2, y2
     coords = models.CharField(max_length=200)
+
+    def linked_object(self):
+        if self.measurement:
+            return self.measurement
+        else:
+            return self.segment
 
 
 class InformationPointer(models.Model):
