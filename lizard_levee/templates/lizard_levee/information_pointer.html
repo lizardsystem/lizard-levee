@@ -1,0 +1,12 @@
+{% load thumbnail %}
+<div class="information-pointer"
+     title="{{ view.information_pointer.description }}">
+  <a href="{{ view.information_pointer.href }}">
+    {% thumbnail view.information_pointer.image "100x100" crop="center" as im %}
+      <img src="{{ im.url }}"
+           width="{{ im.width }}"
+           height="{{ im.height }}" />
+      <div>{{ view.information_pointer.title }}</div>
+    {% endthumbnail %}
+  </a>
+</div>

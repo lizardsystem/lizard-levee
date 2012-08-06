@@ -1,0 +1,13 @@
+{% load i18n %}
+    <h2>{% trans "Relevant links" %}</h2>
+    <ul>
+      {% for link in view.link_set.links.all %}
+        <li>
+          <a href="{{ link.url }}"
+             {% if link.description %}
+             title="{{ link.description }}"
+             {% endif %}
+             >{{ link.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>

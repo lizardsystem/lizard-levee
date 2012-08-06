@@ -290,3 +290,19 @@ class MessageBoxView(UiView):
     @property
     def message_box(self):
         return get_object_or_404(models.MessageBox, slug=self.kwargs['slug'])
+
+
+class LinkSetView(ViewContextMixin, TemplateView):
+    template_name = 'lizard_levee/link_set.html'
+
+    @property
+    def link_set(self):
+        return get_object_or_404(models.LinkSet, slug=self.kwargs['slug'])
+
+
+class InformationPointerView(ViewContextMixin, TemplateView):
+    template_name = 'lizard_levee/information_pointer.html'
+
+    @property
+    def information_pointer(self):
+        return get_object_or_404(models.InformationPointer, slug=self.kwargs['slug'])

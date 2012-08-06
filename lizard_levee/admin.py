@@ -24,6 +24,10 @@ class InformationPointerAdmin(AdminImageMixin, admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
 
 
+class LinkSetAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("name", )}
+
+
 class LinkAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'url')
     list_editable = ('title', 'url')
@@ -54,7 +58,9 @@ admin.site.register(models.MessageBox, MessageBoxAdmin)
 admin.site.register(models.ImageMapGroup)
 admin.site.register(models.ImageMap, ImageMapAdmin)
 
+admin.site.register(models.Link, LinkAdmin)
+admin.site.register(models.LinkSet, LinkSetAdmin)
+
 admin.site.register(models.Area, AreaAdmin)
 admin.site.register(models.InformationPointer, InformationPointerAdmin)
-admin.site.register(models.Link, LinkAdmin)
 admin.site.register(models.Segment, SegmentAdmin)

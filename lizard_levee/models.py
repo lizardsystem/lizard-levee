@@ -68,6 +68,10 @@ class ImageMapGroup(models.Model):
         max_length=255,
         null=True,
         blank=True)
+    index = models.IntegerField(default=100)
+
+    class Meta:
+        ordering = ('index', )
 
     def __unicode__(self):
         return self.title
@@ -118,6 +122,8 @@ class ImageMapLink(models.Model):
         ("circle", "circle"),)
 
     image_map = models.ForeignKey(ImageMap)
+    image_map_index = models.IntegerField(default=100)
+
     # For hovers?
     title = models.CharField(
         _('title'),
@@ -140,6 +146,9 @@ class ImageMapLink(models.Model):
     # polygon: x1, y1, x2, y2, x3, y3, ...
     # rect: x1, y1, x2, y2
     coords = models.CharField(max_length=200)
+
+    class Meta:
+        ordering = ('image_map_index', )
 
     def linked_object(self):
         if self.measurement:
@@ -210,9 +219,28 @@ class Link(models.Model):
     class Meta:
         verbose_name = _('link')
         verbose_name_plural = _('links')
+        ordering = ('title', )
 
     def __unicode__(self):
         return '%s (%s)' % (self.title, self.url)
+
+
+class LinkSet(models.Model):
+    """A bunch of links"""
+    name = models.CharField(
+        _('name'),
+        max_length=255,
+        null=True,
+        blank=True)
+    slug = models.SlugField(
+        _('slug'),
+        help_text=_("Used in the URL."),
+        null=True,
+        blank=True)
+    links = models.ManyToManyField(Link, blank=True, null=True)
+
+    def __unicode__(self):
+        return self.name
 
 
 class Area(models.Model):
