@@ -16,7 +16,7 @@ class Command(BaseCommand):
         tag = MessageTag.objects.get(tag='twitter')
         Message.objects.filter(tags__tag='twitter').delete()
         twitter_search = twitter.Twitter(domain="search.twitter.com")
-        tw_result = twitter_search.search(q="#twitter")
+        tw_result = twitter_search.search(q="#ijkdijk")
         for result in tw_result['results']:
             message_txt = '%s: %s' % (result['from_user_name'], result['text'])
             message = Message(message=message_txt)
