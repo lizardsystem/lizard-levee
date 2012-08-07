@@ -257,7 +257,7 @@ class ImageMapMapView(View):
             filters = request.session['filter-measurements']
             if image_map_link.measurement:
                 filter_key = 'Project::%d' % image_map_link.measurement.project.id
-                if filters[filter_key] == 'false':
+                if filter_key in filters and filters[filter_key] == 'false':
                     # This object is unwanted.
                     continue
 
@@ -379,15 +379,15 @@ class FilterView(ViewContextMixin, TemplateView):
         def project_checked(o):
             key = 'Project::%d' % o.id
             if key not in filters or filters[key] == 'true':
-                return False
-            else:
                 return True
+            else:
+                return False
         def datatype_checked(o):
             key = 'DataType::%d' % o.id
             if key not in filters or filters[key] == 'true':
-                return False
-            else:
                 return True
+            else:
+                return False
         result = [{'name': 'Project',
                    'data': [(o, project_checked(o)) for o in lizard_geodin.models.Project.objects.all()]},
                   {'name': 'DataType',

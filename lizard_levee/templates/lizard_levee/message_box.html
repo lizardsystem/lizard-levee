@@ -7,6 +7,9 @@ ul.horizontal-list-tags li {
     padding: 3px;
     margin: 0 10px 0 0;
 }
+#message-box-messages li {
+    list-style-type: none;
+}
 </style>
 <div class="message-box">
   <form id="filter-tags" action="{% url lizard_levee_message_box slug=view.message_box.slug %}" type="POST">
