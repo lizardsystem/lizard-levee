@@ -20,6 +20,7 @@ install_requires = [
     'lizard-ui >= 4.0',
     'lizard-wms',
     'sorl-thumbnail',
+    'twitter',
     ]
 
 setup(name='lizard-levee',
