@@ -168,6 +168,13 @@ class ImageMapLink(models.Model):
         else:
             return self.segment
 
+    @property
+    def display_title(self):
+        if self.title:
+            return self.title
+        else:
+            return str(self.linked_object())
+
 
 class InformationPointer(models.Model):
     """Information pointer, like failure mechanisms."""
