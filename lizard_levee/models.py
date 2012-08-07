@@ -42,7 +42,7 @@ class Message(models.Model):
         except:
             color = 'red'  # alert color
         return '<font color="%s">%s: %s</font>' % (
-            color, self.timestamp.strftime('%Y-%M-%d %H:%m:%S'), self.message)
+            color, self.timestamp.strftime('%Y-%m-%d %H:%M:%S'), self.message)
 
 
 class MessageBox(models.Model):
