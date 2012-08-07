@@ -39,6 +39,7 @@ class SegmentAdmin(admin.GeoModelAdmin):
 
 
 class ImageMapAdmin(admin.ModelAdmin):
+    list_display = ('__unicode__', 'group')
     prepopulated_fields = {"slug": ("title", )}
     inlines = [ImageMapLinkInline, ]
 

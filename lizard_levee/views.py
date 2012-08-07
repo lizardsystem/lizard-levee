@@ -305,6 +305,39 @@ class MessageBoxView(UiView):
     def message_box(self):
         return get_object_or_404(models.MessageBox, slug=self.kwargs['slug'])
 
+    def filters(self):
+        filters = {}
+        try:
+            filters = self.request.session['filter-tags']
+        except:
+            pass
+        return filters
+
+    def tags_checked(self):
+        """Return list with 2-tuples: (tag, checked) """
+        filters = self.filters()
+        def tag_checked(o):
+            if o.tag not in filters or filters[o.tag] == 'true':
+                return True
+            else:
+                return False
+        return [(o, tag_checked(o)) for o in models.MessageTag.objects.all()]
+
+    def messages(self):
+        filters = self.filters()
+        tags = []
+        for tag, checked in self.tags_checked():
+            if checked:
+                tags.append(tag)
+        return models.Message.objects.filter(tags__in=tags)
+
+    def post(self, request, *args, **kwargs):
+
+        filters = dict([(v, k) for v, k in request.POST.items()])
+        request.session['filter-tags'] = filters
+
+        return super(MessageBoxView, self).get(request, *args, **kwargs)
+
 
 class LinkSetView(ViewContextMixin, TemplateView):
     template_name = 'lizard_levee/link_set.html'
@@ -333,10 +366,32 @@ class FilterView(ViewContextMixin, TemplateView):
 
     @property
     def filter_groups(self):
+        """return a list of dicts with keys name and data.
+
+        Data is a 2-tuple list with objects and wether the object has
+        to be checked.
+        """
+        filters = {}
+        try:
+            filters = self.request.session['filter-measurements']
+        except:
+            pass
+        def project_checked(o):
+            key = 'Project::%d' % o.id
+            if key not in filters or filters[key] == 'true':
+                return False
+            else:
+                return True
+        def datatype_checked(o):
+            key = 'DataType::%d' % o.id
+            if key not in filters or filters[key] == 'true':
+                return False
+            else:
+                return True
         result = [{'name': 'Project',
-                   'data': lizard_geodin.models.Project.objects.all()},
+                   'data': [(o, project_checked(o)) for o in lizard_geodin.models.Project.objects.all()]},
                   {'name': 'DataType',
-                   'data': lizard_geodin.models.DataType.objects.all()}
+                   'data': [(o, datatype_checked(o)) for o in lizard_geodin.models.DataType.objects.all()]}
             ]
         return result
 

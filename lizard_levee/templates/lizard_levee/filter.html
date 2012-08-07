@@ -1,12 +1,12 @@
-<form action="/levee/filters/" type="POST" id="filter-measurements" data-reload-box-slug="profiel">
+<form action="/levee/filters/" type="POST" id="filter-measurements">
 <div class="accordion">
   {% for filter_group in view.filter_groups %}
   <h3><a href="#">{{ filter_group.name }}</a></h3>
   <div>
     <ul>
-      {% for filter_item in filter_group.data %}
+      {% for filter_item, filter_item_checked in filter_group.data %}
       <li>
-        <input type="checkbox" name="{{ filter_group.name }}::{{ filter_item.id }}" checked/>{{ filter_item }}
+        <input type="checkbox" name="{{ filter_group.name }}::{{ filter_item.id }}"{% if filter_item_checked %}checked{% endif %}/>{{ filter_item }}
       </li>
       {% endfor %}
       <li>

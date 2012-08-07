@@ -19,6 +19,7 @@ class MessageTag(models.Model):
     """
     name = models.CharField(max_length=40)
     tag = models.SlugField()
+    html_color = models.CharField(max_length=10, default='black')
 
     def __unicode__(self):
         return self.name
@@ -31,6 +32,17 @@ class Message(models.Model):
 
     class Meta:
         ordering = ('timestamp', )
+
+    def __unicode__(self):
+        return self.message
+
+    def as_html(self):
+        try:
+            color = self.tags.all()[0].html_color
+        except:
+            color = 'red'  # alert color
+        return '<font color="%s">%s: %s</font>' % (
+            color, self.timestamp.strftime('%Y-%M-%d %H:%m:%S'), self.message)
 
 
 class MessageBox(models.Model):
@@ -71,7 +83,7 @@ class ImageMapGroup(models.Model):
     index = models.IntegerField(default=100)
 
     class Meta:
-        ordering = ('index', )
+        ordering = ('index', 'title', )
 
     def __unicode__(self):
         return self.title

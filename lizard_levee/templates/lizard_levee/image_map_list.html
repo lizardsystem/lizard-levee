@@ -19,6 +19,9 @@
 ul.horizontal-list li {
     display: inline;
     list-style-type: none;
+    background-color: #ddf5f5;
+    padding: 3px;
+    margin: 0 10px 0 0;
 }
 </style>
 <div>
@@ -31,6 +34,7 @@ ul.horizontal-list li {
   </ul>
 </div>
 
+{# below is initial only, check image_map.html #}
 <div class="target-destination" data-group="profile" data-src="{{ view.image_map.get_absolute_url }}">
   <div class="box">
     <style type="text/css">
@@ -51,13 +55,13 @@ ul.horizontal-list li {
     </div>
     <map name="image-map">
       {% for image_map_link in view.image_map.imagemaplink_set.all %}
-      <area class="box-action" data-temp-id="image-map-{{ image_map_link.pk }}" shape="{{ image_map_link.shape }}" coords="{{ image_map_link.coords }}" href="{{ image_map_link.linked_object.get_absolute_url }}" alt="{{ image_map_link.title }}" />
+      <area class="box-action" data-temp-id="image-map-{{ image_map_link.pk }}" shape="{{ image_map_link.shape }}" coords="{{ image_map_link.coords }}" href="{{ image_map_link.linked_object.get_popup_url }}" alt="{{ image_map_link.title }}" />
       {% endfor %}
     </map>
   </div>
   {% for image_map_link in view.image_map.imagemaplink_set.all %}
   <div class="box-dialog" data-temp-id="image-map-{{ image_map_link.pk }}" data-title="{{ image_map_link.title }}">
-    <iframe src-dummy="{{ image_map_link.linked_object.get_absolute_url }}" frameborder="0">IFrame contents</iframe>
+    <iframe src="{{ image_map_link.linked_object.get_popup_url }}" frameborder="0">IFrame contents</iframe>
   </div>
   {% endfor %}
 </div>

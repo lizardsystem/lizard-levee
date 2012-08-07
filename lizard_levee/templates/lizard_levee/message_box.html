@@ -1,23 +1,30 @@
 {# Use as a box in lizard-box, type "js load" #}
+<style type="text/css">
+ul.horizontal-list-tags li {
+    display: inline;
+    list-style-type: none;
+    background-color: #ddf5f5;
+    padding: 3px;
+    margin: 0 10px 0 0;
+}
+</style>
 <div class="message-box">
-Message box
+  <form id="filter-tags" action="{% url lizard_levee_message_box slug=view.message_box.slug %}" type="POST">
+    <ul class="horizontal-list-tags">
+      {% for tag, tag_checked in view.tags_checked %}
+      <li><input type="checkbox" name="{{ tag.tag }}"{% if tag_checked %} checked{% endif %}/><font color="{{ tag.html_color }}">{{ tag }}</font></li>
+      {% endfor %}
+    </ul>
+  </form>
 
-{{ view.message_box }}
+  <div id="message-box-messages">
+    <ul>
+      {% autoescape off %}
+      {% for message in view.messages %}
+      <li>{{ message.as_html }}</li>
+      {% endfor %}
+      {% endautoescape %}
+    </ul>
+  </div>
 
-Tags
-<ul>
-{% for tag in view.message_box.tags.all %}
-<li>{{ tag }}</li>
-{% endfor %}
-</ul>
-
-<div id="message-box-messages">
-<ul>
-{% for message in view.messages %}
-<li>message {{ message }}</li>
-{% endfor %}
-</ul>
-</div>
-
-TODO: get contents, show checkboxes for tags
 </div>
