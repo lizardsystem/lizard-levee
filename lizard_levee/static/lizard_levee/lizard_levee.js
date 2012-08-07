@@ -39,7 +39,6 @@
     numberOfItems = $('#evenly-spaced-vertical > .vertical-item').length;
     numberOfDoubleItems = $('#evenly-spaced-vertical > .double-vertical-item').length;
     verticalItemHeight = Math.floor(mainContentHeight / (numberOfItems + 2 * numberOfDoubleItems)) - 1;
-    console.log(verticalItemHeight);
     $('#evenly-spaced-vertical > .vertical-item').height(verticalItemHeight);
     return $('#evenly-spaced-vertical > .double-vertical-item').height(2 * verticalItemHeight);
   };
