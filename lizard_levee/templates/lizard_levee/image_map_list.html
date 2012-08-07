@@ -1,3 +1,4 @@
+{% comment %}
 <div class="accordion">
   {% for image_map_group in view.image_map_groups %}
   <h3><a href="#">{{ image_map_group }}</a></h3>
@@ -9,6 +10,54 @@
       </li>
       {% endfor %}
     </ul>
+  </div>
+  {% endfor %}
+</div>
+{% endcomment %}
+
+<style type="text/css">
+ul.horizontal-list li {
+    display: inline;
+    list-style-type: none;
+}
+</style>
+<div>
+  <ul class="horizontal-list">
+  {% for image_map in view.image_maps %}
+  <li>
+    <a class="target-link" data-group="profile" href="{{ image_map.get_absolute_url }}">{{ image_map }}</a>
+  </li>
+  {% endfor %}
+  </ul>
+</div>
+
+<div class="target-destination" data-group="profile" data-src="{{ view.image_map.get_absolute_url }}">
+  <div class="box">
+    <style type="text/css">
+
+    #container {
+        position:relative;
+    }
+
+    #img2 {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+    }
+    </style>
+    <div id="container">
+        <img src="{{ view.image_map.image_url }}" id="img1" />
+        <img src="{% url lizard_levee_image_map_map slug=view.image_map.slug %}" id="img2" usemap="#image-map"/>
+    </div>
+    <map name="image-map">
+      {% for image_map_link in view.image_map.imagemaplink_set.all %}
+      <area class="box-action" data-temp-id="image-map-{{ image_map_link.pk }}" shape="{{ image_map_link.shape }}" coords="{{ image_map_link.coords }}" href="{{ image_map_link.linked_object.get_absolute_url }}" alt="{{ image_map_link.title }}" />
+      {% endfor %}
+    </map>
+  </div>
+  {% for image_map_link in view.image_map.imagemaplink_set.all %}
+  <div class="box-dialog" data-temp-id="image-map-{{ image_map_link.pk }}" data-title="{{ image_map_link.title }}">
+    <iframe src-dummy="{{ image_map_link.linked_object.get_absolute_url }}" frameborder="0">IFrame contents</iframe>
   </div>
   {% endfor %}
 </div>

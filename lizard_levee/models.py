@@ -102,7 +102,7 @@ class ImageMap(models.Model):
         ImageMapGroup, null=True, blank=True)
 
     class Meta:
-        ordering = ('title', )
+        ordering = ('group', 'title', )
 
     def __unicode__(self):
         return self.title

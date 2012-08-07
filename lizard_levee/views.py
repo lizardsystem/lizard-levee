@@ -221,11 +221,15 @@ class ImageMapListView(UiView):
 
     @property
     def image_maps(self):
-        return models.ImageMap.objects.all()
+        return models.ImageMap.objects.exclude(group=None)
 
     @property
     def image_map_groups(self):
         return models.ImageMapGroup.objects.all()
+
+    @property
+    def image_map(self):
+        return self.image_maps[0]
 
 
 class ImageMapView(ViewContextMixin, TemplateView):
