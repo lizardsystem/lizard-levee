@@ -12,6 +12,7 @@ from lizard_wms.models import WMSSource
 from sorl.thumbnail import ImageField
 
 from lizard_geodin.models import Measurement
+from lizard_geodin.models import Point
 
 # Message Box
 
@@ -115,10 +116,12 @@ class ImageMap(models.Model):
         ImageMapGroup, null=True, blank=True)
 
     # Settings for automatially mapping points on an image
+    auto_geo = models.ForeignKey(
+        "ImageMapGeoPolygon", null=True, blank=True, help_text="Use this, or auto_geo_polygon")
     auto_geo_polygon = models.CharField(
         max_length=200,
         help_text="auto mapping: pairs of x,y coordinates: x0,y0,x1,y1,x2,y2,x3,y3,.... center is average coords",
-        default="270000,570000,270000,580000,280000,580000,280000,570000")
+        default="270000,570000,270000,580000,280000,580000,280000,570000", null=True, blank=True)
     auto_from_above = models.BooleanField(
         default=False, help_text="Either from above, or from the side")
     auto_geo_direction = models.FloatField(
@@ -150,6 +153,15 @@ class ImageMap(models.Model):
         return poly
 
     @property
+    def auto_poly(self):
+        if self.auto_geo:
+            return self.auto_geo.auto_poly
+        else:
+            coords = [float(i) for i in self.auto_geo_polygon.split(',')]  # alternated x, y, x, y..
+            poly = [(coords[i*2], coords[i*2+1]) for i in range(len(coords)/2)]
+            return poly
+
+    @property
     def auto_center(self):
         """Return fixed rotation point
         """
@@ -162,6 +174,31 @@ class ImageMap(models.Model):
     @property
     def auto_direction_radian(self):
         return self.auto_geo_direction / 360 * 2 * math.pi
+
+
+class ImageMapGeoPolygon(models.Model):
+    """
+    Define an area for ImageMap auto mapping
+    """
+    name = models.CharField(
+        _('name'),
+        max_length=255,
+        null=True,
+        blank=True)
+    geo_polygon = models.CharField(
+        max_length=200,
+        help_text="auto mapping: pairs of x,y coordinates: x0,y0,x1,y1,x2,y2,x3,y3,.... center is average coords",
+        default="270000,570000,270000,580000,280000,580000,280000,570000")
+
+    @property
+    def auto_poly(self):
+        """Read out auto_geo_polygon as a list of 2-tuples"""
+        coords = [float(i) for i in self.geo_polygon.split(',')]  # alternated x, y, x, y..
+        poly = [(coords[i*2], coords[i*2+1]) for i in range(len(coords)/2)]
+        return poly
+
+    def __unicode__(self):
+        return self.name
 
 
 class ImageMapLink(models.Model):
@@ -189,6 +226,7 @@ class ImageMapLink(models.Model):
     # The linked object: take one of the two
     measurement = models.ForeignKey(Measurement, null=True, blank=True)
     segment = models.ForeignKey("Segment", null=True, blank=True)
+    point = models.ForeignKey(Point, null=True, blank=True)
     #destination_url = models.TextField()  # take get_absolute_url from measurement
 
     #"polygon", "rect" or "circle"
@@ -205,6 +243,8 @@ class ImageMapLink(models.Model):
     def linked_object(self):
         if self.measurement:
             return self.measurement
+        elif self.point:
+            return self.point
         else:
             return self.segment
 

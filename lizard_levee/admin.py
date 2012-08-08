@@ -1,6 +1,7 @@
 # (c) Nelen & Schuurmans.  GPL licensed, see LICENSE.rst.
 from __future__ import unicode_literals
 import math
+import logging
 
 # from django.utils.translation import ugettext as _
 from django.contrib.gis import admin
@@ -8,6 +9,8 @@ from sorl.thumbnail.admin import AdminImageMixin
 
 from lizard_levee import models
 from lizard_geodin.models import Point
+
+logger = logging.getLogger(__name__)
 
 
 class ImageMapLinkInline(admin.TabularInline):
@@ -100,6 +103,9 @@ class ImageMapAdmin(admin.ModelAdmin):
             # Filter points that are inside the polygon.
             points_in_poly = filter(point_in_poly(image_map.auto_poly), points)
 
+            for point in points_in_poly:
+                logger.info('Point in poly: %r %r %s' % (point.x, point.y, point))
+
             # Rotate and map on image
             center_x, center_y = image_map.auto_center
             moved_points = [(p.x-center_x, p.y-center_y, p.z, p) for p in points_in_poly ]
@@ -169,6 +175,7 @@ admin.site.register(models.MessageBox, MessageBoxAdmin)
 
 admin.site.register(models.ImageMapGroup)
 admin.site.register(models.ImageMap, ImageMapAdmin)
+admin.site.register(models.ImageMapGeoPolygon)
 
 admin.site.register(models.Link, LinkAdmin)
 admin.site.register(models.LinkSet, LinkSetAdmin)
