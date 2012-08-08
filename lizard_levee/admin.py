@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 import math
 import logging
+import twitter
 
 # from django.utils.translation import ugettext as _
 from django.contrib.gis import admin
@@ -198,6 +199,27 @@ class MessageTagAdmin(admin.ModelAdmin):
 
 class MessageBoxAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
+
+    actions = ['repopulate_twitter_feed']
+
+    def repopulate_twitter_feed(self, request, queryset):
+        logger.info('Harvesting...')
+        tag = models.MessageTag.objects.get(tag='twitter')
+        models.Message.objects.filter(tags__tag='twitter').delete()
+        twitter_search = twitter.Twitter(domain="search.twitter.com")
+        tw_result = twitter_search.search(q="#ijkdijk")
+        message_count = 0
+        for result in tw_result['results']:
+            message_txt = '%s: %s' % (result['from_user_name'], result['text'])
+            message = models.Message(message=message_txt)
+            message.save()
+            message.tags.add(tag)
+            logger.info(message_txt)
+            message_count += 1
+        logger.info('Done')
+        return self.message_user(
+            request,
+            'Added %d twitter messages' % message_count)
 
 
 admin.site.register(models.MessageTag, MessageTagAdmin)
