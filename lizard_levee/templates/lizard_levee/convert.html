@@ -1,0 +1,30 @@
+{% extends 'lizard_ui/lizardbase.html' %}
+
+{% block main-area %}
+
+<div>
+{% autoescape off %}
+{{ view.message }}
+{% endautoescape %}
+</div>
+
+<br/>
+
+<form action="./" method="POST">
+{% csrf_token %}
+Google
+<input type="text" name="google_x">google x</input>
+<input type="text" name="google_y">google y</input><br/>
+
+RD
+<input type="text" name="rd_x">rd x</input>
+<input type="text" name="rd_y">rd y</input><br/>
+
+WGS84
+<input type="text" name="wgs84_x">wgs84 x</input>
+<input type="text" name="wgs84_y">wgs84 y</input><br/>
+
+<input type="submit">verstuur</input>
+</form>
+
+{% endblock %}

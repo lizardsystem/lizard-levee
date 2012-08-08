@@ -1,6 +1,7 @@
 # (c) Nelen & Schuurmans.  GPL licensed, see LICENSE.rst.
 from __future__ import unicode_literals
 import json
+import math
 
 # from jsonfield import JSONField
 from django.contrib.gis.geos import Polygon
@@ -113,6 +114,24 @@ class ImageMap(models.Model):
     group = models.ForeignKey(
         ImageMapGroup, null=True, blank=True)
 
+    # Settings for automatially mapping points on an image
+    auto_geo_polygon = models.CharField(
+        max_length=200,
+        help_text="auto mapping: pairs of x,y coordinates: x0,y0,x1,y1,x2,y2,x3,y3,.... center is average coords",
+        default="270000,570000,270000,580000,280000,580000,280000,570000")
+    auto_from_above = models.BooleanField(
+        default=False, help_text="Either from above, or from the side")
+    auto_geo_direction = models.FloatField(
+        default=0.0,
+        help_text=("Watch from which direction? In degrees. From east is 0, from north is 90, etc. "
+                   "From side AND above (what is north)"))
+    auto_scale_x = models.FloatField(default=1.0, help_text="topview: screen_x scale after rotate")
+    auto_scale_y = models.FloatField(default=1.0, help_text="sideview: screen_x. topview: screen_y. scale after rotate")
+    auto_scale_z = models.FloatField(default=100.0, help_text="sideview: screen_y. scale after rotate")
+
+    auto_offset_x = models.FloatField(default=0.0, help_text="screen_x offset after scale")
+    auto_offset_y = models.FloatField(default=0.0, help_text="screen_y offset after scale")
+
     class Meta:
         ordering = ('group', 'title', )
 
@@ -122,6 +141,27 @@ class ImageMap(models.Model):
     def get_absolute_url(self):
         return reverse('lizard_levee_image_map',
                        kwargs={'slug': self.slug})
+
+    @property
+    def auto_poly(self):
+        """Read out auto_geo_polygon as a list of 2-tuples"""
+        coords = [float(i) for i in self.auto_geo_polygon.split(',')]  # alternated x, y, x, y..
+        poly = [(coords[i*2], coords[i*2+1]) for i in range(len(coords)/2)]
+        return poly
+
+    @property
+    def auto_center(self):
+        """Return fixed rotation point
+        """
+        # poly = self.auto_poly
+        # big_sum = reduce(lambda (x0, y0), (x1, y1): (x0+x1, y0+y1), poly)
+        # return big_sum[0]/len(poly), big_sum[1]/len(poly)
+
+        return 275000,575000
+
+    @property
+    def auto_direction_radian(self):
+        return self.auto_geo_direction / 360 * 2 * math.pi
 
 
 class ImageMapLink(models.Model):

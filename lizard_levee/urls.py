@@ -48,6 +48,10 @@ urlpatterns = patterns(
         views.FilterView.as_view(),
         name='lizard_levee_filters'),
 
+    url(r'^tools/convert/$',
+        views.ConvertView.as_view(),
+        name='lizard_levee_tools_convert'),
+
     url(r'^(?P<slug>[^/]+)/$',
         views.BurgomasterView.as_view(),
         name='lizard_levee_burgomaster'),

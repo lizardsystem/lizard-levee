@@ -23,6 +23,8 @@ from PIL import Image, ImageDraw
 from django.http import HttpResponse
 import lizard_geodin.models
 
+from lizard_map import coordinates
+
 logger = logging.getLogger(__name__)
 
 
@@ -404,3 +406,52 @@ class FilterView(ViewContextMixin, TemplateView):
         request.session['filter-measurements'] = filters
 
         return super(FilterView, self).get(request, *args, **kwargs)
+
+
+class ConvertView(UiView):
+    """
+    A tool to convert coordinates
+    """
+    template_name = 'lizard_levee/convert.html'
+
+    def post(self, request, *args, **kwargs):
+        post = request.POST
+        message_list = ["result: ", ]
+        try:
+            google_x = float(post['google_x'])
+            google_y = float(post['google_y'])
+            c_rd = coordinates.google_to_rd(google_x, google_y)
+            message_list.append('Google (%s, %s) = RD (%s, %s)' % (
+                    google_x, google_y, c_rd[0], c_rd[1]))
+            c_wgs84 = coordinates.google_to_wgs84(google_x, google_y)
+            message_list.append('Google (%s, %s) = WGS84 (%s, %s)' % (
+                    google_x, google_y, c_wgs84[0], c_wgs84[1]))
+        except:
+            pass
+
+        try:
+            rd_x = float(post['rd_x'])
+            rd_y = float(post['rd_y'])
+            c_google = coordinates.rd_to_google(rd_x, rd_y)
+            message_list.append('RD (%s, %s) = Google (%s, %s)' % (
+                    rd_x, rd_y, c_google[0], c_google[1]))
+            c_wgs84 = coordinates.rd_to_wgs84(rd_x, rd_y)
+            message_list.append('RD (%s, %s) = WGS84 (%s, %s)' % (
+                    rd_x, rd_y, c_wgs84[0], c_wgs84[1]))
+        except:
+            pass
+
+        try:
+            wgs84_x = float(post['wgs84_x'])
+            wgs84_y = float(post['wgs84_y'])
+            c_google = coordinates.wgs84_to_google(wgs84_x, wgs84_y)
+            message_list.append('WGS84 (%s, %s) = Google (%s, %s)' % (
+                    wgs84_x, wgs84_y, c_google[0], c_google[1]))
+            c_rd = coordinates.wgs84_to_rd(wgs84_x, wgs84_y)
+            message_list.append('WGS84 (%s, %s) = RD (%s, %s)' % (
+                    wgs84_x, wgs84_y, c_rd[0], c_rd[1]))
+        except:
+            pass
+
+        self.message = '<br/>'.join(message_list)
+        return super(ConvertView, self).get(request, *args, **kwargs)

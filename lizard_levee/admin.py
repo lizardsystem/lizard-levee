@@ -1,11 +1,13 @@
 # (c) Nelen & Schuurmans.  GPL licensed, see LICENSE.rst.
 from __future__ import unicode_literals
+import math
 
 # from django.utils.translation import ugettext as _
 from django.contrib.gis import admin
 from sorl.thumbnail.admin import AdminImageMixin
 
 from lizard_levee import models
+from lizard_geodin.models import Point
 
 
 class ImageMapLinkInline(admin.TabularInline):
@@ -38,10 +40,119 @@ class SegmentAdmin(admin.GeoModelAdmin):
     list_editable = ('risk',)
 
 
+# Got from internet, it uses the crossing number algorithm.
+# determine if a point is inside a given polygon or not
+# Polygon is a list of (x,y) pairs.
+
+def point_inside_polygon(x,y,poly):
+
+    n = len(poly)
+    inside =False
+
+    p1x,p1y = poly[0]
+    for i in range(n+1):
+        p2x,p2y = poly[i % n]
+        if y > min(p1y,p2y):
+            if y <= max(p1y,p2y):
+                if x <= max(p1x,p2x):
+                    if p1y != p2y:
+                        xinters = (y-p1y)*(p2x-p1x)/(p2y-p1y)+p1x
+                    if p1x == p2x or x <= xinters:
+                        inside = not inside
+        p1x,p1y = p2x,p2y
+
+    return inside
+
+
+def point_in_poly(poly):
+    """Return a function that determines for a geodin Point object if
+    it's in the given polygon.
+    """
+    def fun(point):
+        return point_inside_polygon(point.x, point.y, poly)
+    return fun
+
+
+def rotate_point(direction):
+    cos_theta = math.cos(direction)
+    sin_theta = math.sin(direction)
+    def fun(p):
+        x_new = p[0] * cos_theta - p[1] * sin_theta
+        y_new = p[0] * sin_theta + p[1] * cos_theta
+        return (x_new, y_new, p[2], p[3])
+    return fun
+
+
 class ImageMapAdmin(admin.ModelAdmin):
     list_display = ('__unicode__', 'group')
     prepopulated_fields = {"slug": ("title", )}
     inlines = [ImageMapLinkInline, ]
+
+    actions = ['generate_image_map']
+
+    def generate_image_map(self, request, queryset):
+        min_x, max_x, min_y, max_y = None, None, None, None
+        skipped = 0
+        for image_map in queryset:
+            # Get all the points
+            points = Point.objects.all()
+
+            # Filter points that are inside the polygon.
+            points_in_poly = filter(point_in_poly(image_map.auto_poly), points)
+
+            # Rotate and map on image
+            center_x, center_y = image_map.auto_center
+            moved_points = [(p.x-center_x, p.y-center_y, p.z, p) for p in points_in_poly ]
+            rotated_points = map(
+                rotate_point(image_map.auto_direction_radian), moved_points)
+
+            scaled_points = [(p[0]*image_map.auto_scale_x,
+                              p[1]*image_map.auto_scale_y,
+                              p[2]*image_map.auto_scale_z,
+                              p[3]) for p in rotated_points]
+
+            if image_map.auto_from_above:
+                # Top view
+                # screen_x = y, screen_y = x
+                offset_points = [(p[0]+image_map.auto_offset_x,
+                                  p[1]+image_map.auto_offset_y,
+                                  0,
+                                  p[3]) for p in scaled_points]
+
+            else:
+                # Front view:
+                # screen_x = y, x and screen_y=z
+                offset_points = [(p[1]+image_map.auto_offset_x,
+                                  p[2]+image_map.auto_offset_y,
+                                  0,
+                                  p[3]) for p in scaled_points]
+
+            # Now update the image map
+            image_map.imagemaplink_set.all().delete()
+
+            for x, y, z, p in offset_points:
+                if x > -10 and y > -10 and x < image_map.image_width + 10 and y < image_map.image_height + 10:
+                    image_map.imagemaplink_set.create(
+                        title=str(p),
+                        measurement=p.measurement,  # to be replaced
+                        shape='circle',
+                        coords='%d,%d,5' % (int(x), int(y))
+                        )
+                else:
+                    skipped += 1
+                if min_x is None or x < min_x:
+                    min_x = x
+                if min_y is None or y < min_y:
+                    min_y = y
+                if max_x is None or x > max_x:
+                    max_x = x
+                if max_y is None or y > max_y:
+                    max_y = y
+
+        return self.message_user(
+            request,
+            'Finished, screen(min,max) x(%r %r), y(%r %r). Skipped: %d' % (
+                min_x, max_x, min_y, max_y, skipped))
 
 
 class MessageTagAdmin(admin.ModelAdmin):

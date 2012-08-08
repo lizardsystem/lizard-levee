@@ -22,4 +22,5 @@ class Command(BaseCommand):
             message = Message(message=message_txt)
             message.save()
             message.tags.add(tag)
+            logger.info(message_txt)
         logger.info('Done')
