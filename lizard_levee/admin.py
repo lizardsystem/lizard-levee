@@ -136,14 +136,21 @@ class ImageMapAdmin(admin.ModelAdmin):
             # Now update the image map
             image_map.imagemaplink_set.all().delete()
 
+            saved_image_map_links = {}  # (keys are x,y coords rounded by 10)
+            # Check if points are to be grouped together
             for x, y, z, p in offset_points:
                 if x > -10 and y > -10 and x < image_map.image_width + 10 and y < image_map.image_height + 10:
-                    image_map.imagemaplink_set.create(
-                        title=str(p),
-                        measurement=p.measurement,  # to be replaced
-                        shape='circle',
-                        coords='%d,%d,5' % (int(x), int(y))
-                        )
+                    key = (int(x)/image_map.auto_grouping_size, int(y)/image_map.auto_grouping_size)
+                    if key not in saved_image_map_links:
+                        saved_image_map_links[key] = []
+                    saved_image_map_links[key].append((x,y,z,p))
+                    # title = '%s (%r, %r, %r)' % (str(p), p.x, p.y, p.z)
+                    # image_map_link = image_map.imagemaplink_set.create(
+                    #     title=title,
+                    #     shape='circle',
+                    #     coords='%d,%d,5' % (int(x), int(y))
+                    #     )
+                    # image_map_link.points.add(p)
                 else:
                     skipped += 1
                 if min_x is None or x < min_x:
@@ -154,6 +161,30 @@ class ImageMapAdmin(admin.ModelAdmin):
                     max_x = x
                 if max_y is None or y > max_y:
                     max_y = y
+
+            # Now add grouped items to image map links
+            for k, v in saved_image_map_links.items():
+                if len(v) == 1:
+                    # Single point
+                    x, y, z, p = v[0]
+                    title = '%s (%r, %r, %r)' % (str(p), p.x, p.y, p.z)
+                    image_map_link = image_map.imagemaplink_set.create(
+                        title=title,
+                        shape='circle',
+                        coords='%d,%d,5' % (int(x), int(y))
+                        )
+                    image_map_link.points.add(p)
+                else:
+                    # Multipoint
+                    x, y, z, p = v[0]
+                    title = '%s' % (', '.join([str(pp[3]) for pp in v]))
+                    image_map_link = image_map.imagemaplink_set.create(
+                        title=title,
+                        shape='circle',
+                        coords='%d,%d,10' % (int(x), int(y))
+                        )
+                    for _x, _y, _z, _p in v:
+                        image_map_link.points.add(_p)
 
         return self.message_user(
             request,

@@ -135,6 +135,10 @@ class ImageMap(models.Model):
     auto_offset_x = models.FloatField(default=0.0, help_text="screen_x offset after scale")
     auto_offset_y = models.FloatField(default=0.0, help_text="screen_y offset after scale")
 
+    auto_grouping_size = models.IntegerField(
+        default=20,
+        help_text="when should items be grouped together")
+
     class Meta:
         ordering = ('group', 'title', )
 
@@ -226,7 +230,8 @@ class ImageMapLink(models.Model):
     # The linked object: take one of the two
     measurement = models.ForeignKey(Measurement, null=True, blank=True)
     segment = models.ForeignKey("Segment", null=True, blank=True)
-    point = models.ForeignKey(Point, null=True, blank=True)
+    #point = models.ForeignKey(Point, null=True, blank=True)
+    points = models.ManyToManyField(Point, null=True, blank=True)
     #destination_url = models.TextField()  # take get_absolute_url from measurement
 
     #"polygon", "rect" or "circle"
@@ -241,12 +246,23 @@ class ImageMapLink(models.Model):
         ordering = ('image_map_index', )
 
     def linked_object(self):
-        if self.measurement:
+        if self.points.all():
+            return self.points.all()
+        elif self.measurement:
             return self.measurement
-        elif self.point:
-            return self.point
         else:
             return self.segment
+
+    def get_popup_url(self):
+        if not self.points.all():
+            return self.linked_object().get_popup_url()
+        else:
+            if self.points.count() == 1:
+                return self.points.all()[0].get_popup_url()
+            else:
+                return (
+                    reverse('lizard_geodin_point_list')+
+                    '?slug='+'&slug='.join([p.slug for p in self.points.all()]))
 
     @property
     def display_title(self):
