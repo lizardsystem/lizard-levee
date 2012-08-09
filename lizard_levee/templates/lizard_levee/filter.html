@@ -6,7 +6,7 @@
     <ul>
       {% for filter_item, filter_item_checked in filter_group.data %}
       <li>
-        <input type="checkbox" name="{{ filter_group.name }}::{{ filter_item.id }}"{% if filter_item_checked %}checked{% endif %}/>{{ filter_item }}
+        <input type="checkbox" name="{{ filter_group.data_name }}::{{ filter_item.id }}"{% if filter_item_checked %}checked{% endif %}/>{{ filter_item }}
       </li>
       {% endfor %}
       <li>

@@ -257,10 +257,24 @@ class ImageMapMapView(View):
         for image_map_link in image_map.imagemaplink_set.all():
             # See if the image_map_link passes the filter criteria in the session
             filters = request.session['filter-measurements']
-            if image_map_link.measurement:
-                filter_key = 'Project::%d' % image_map_link.measurement.project.id
-                if filter_key in filters and filters[filter_key] == 'false':
-                    # This object is unwanted.
+            # if image_map_link.measurement:
+            #     filter_key = 'Project::%d' % image_map_link.measurement.project.id
+            #     if filter_key in filters and filters[filter_key] == 'false':
+            #         # This object is unwanted.
+            #         continue
+
+            # Filter points
+            if image_map_link.points:
+                some_are_wanted = False
+                for point in image_map_link.points.all():
+                    filter_key = 'Supplier::%d' % point.measurement.supplier.id
+                    filter_key_param = 'Parameter::%d' % point.measurement.parameter.id
+                    if ((filter_key not in filters or filters[filter_key] == 'true') and
+                        (filter_key_param not in filters or filters[filter_key_param] == 'true')):
+                        # This object is wanted.
+                        some_are_wanted = True
+                if not some_are_wanted:
+                    # If none of the points are wanted.. don't draw
                     continue
 
             # If it passes, the code below will run
@@ -378,32 +392,35 @@ class FilterView(ViewContextMixin, TemplateView):
             filters = self.request.session['filter-measurements']
         except:
             pass
-        def project_checked(o):
-            key = 'Project::%d' % o.id
+        def supplier_checked(o):
+            key = 'Supplier::%d' % o.id
             if key not in filters or filters[key] == 'true':
                 return True
             else:
                 return False
-        def datatype_checked(o):
-            key = 'DataType::%d' % o.id
+        def parameter_checked(o):
+            key = 'Parameter::%d' % o.id
             if key not in filters or filters[key] == 'true':
                 return True
             else:
                 return False
-        result = [{'name': 'Project',
-                   'data': [(o, project_checked(o)) for o in lizard_geodin.models.Project.objects.all()]},
-                  {'name': 'DataType',
-                   'data': [(o, datatype_checked(o)) for o in lizard_geodin.models.DataType.objects.all()]}
+        result = [{'name': 'Leverancier',
+                   'data_name': 'Supplier',
+                   'data': [(o, supplier_checked(o)) for o in lizard_geodin.models.Supplier.objects.all()]},
+                  {'name': 'Parameter',
+                   'data_name': 'Parameter',
+                   'data': [(o, parameter_checked(o)) for o in lizard_geodin.models.Parameter.objects.all()]}
             ]
         return result
 
     def post(self, request, *args, **kwargs):
         print 'post filters ------------------------------------------>'
         # You get <name>::<data-id> as key, u'true' or u'false' as value
-        print request.POST
+        # print request.POST
 
         filters = dict([(v, k) for v, k in request.POST.items()])
         request.session['filter-measurements'] = filters
+        print filters
 
         return super(FilterView, self).get(request, *args, **kwargs)
 
