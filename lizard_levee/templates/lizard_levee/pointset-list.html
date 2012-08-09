@@ -1,0 +1,9 @@
+{% extends 'lizard_ui/lizardbase.html' %}
+
+{% block main-area %}
+<ul>
+{% for ps in view.pointsets %}
+<li><a href="{{ ps.get_absolute_url }}">{{ ps }}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}
