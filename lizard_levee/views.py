@@ -256,7 +256,11 @@ class ImageMapMapView(View):
                                     # used to draw on the new image
         for image_map_link in image_map.imagemaplink_set.all():
             # See if the image_map_link passes the filter criteria in the session
-            filters = request.session['filter-measurements']
+            filters = {}
+            try:
+                filters = request.session['filter-measurements']
+            except:
+                pass
             # if image_map_link.measurement:
             #     filter_key = 'Project::%d' % image_map_link.measurement.project.id
             #     if filter_key in filters and filters[filter_key] == 'false':
