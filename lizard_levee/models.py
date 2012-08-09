@@ -469,3 +469,25 @@ class Segment(models.Model):
     def __unicode__(self):
         return unicode(self.segment_id)
 
+
+class PointSet(models.Model):
+    """
+    A set of points, for easy configuring and displaying
+    """
+    name = models.CharField(
+        _('name'),
+        max_length=255)
+    slug = models.SlugField(
+        _('slug'),
+        help_text=_("Used in the URL."),
+        null=True,
+        blank=True)
+    width = models.IntegerField(default=500)
+    height = models.IntegerField(default=100)
+    points = models.ManyToManyField(Point, null=True, blank=True)
+
+    def __unicode__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("lizard_levee_pointset", kwargs={'slug': self.slug})

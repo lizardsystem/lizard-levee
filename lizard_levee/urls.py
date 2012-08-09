@@ -47,6 +47,12 @@ urlpatterns = patterns(
     url(r'^filters/$',
         views.FilterView.as_view(),
         name='lizard_levee_filters'),
+    url(r'^pointset/$',
+        views.PointSetListView.as_view(),
+        name='lizard_levee_pointset_list'),
+    url(r'^pointset/(?P<slug>[^/]+)/$',
+        views.PointSetView.as_view(),
+        name='lizard_levee_pointset'),
 
     url(r'^tools/convert/$',
         views.ConvertView.as_view(),

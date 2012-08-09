@@ -222,6 +222,10 @@ class MessageBoxAdmin(admin.ModelAdmin):
             'Added %d twitter messages' % message_count)
 
 
+class PointSetAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("name",)}
+
+
 admin.site.register(models.MessageTag, MessageTagAdmin)
 admin.site.register(models.Message)
 admin.site.register(models.MessageBox, MessageBoxAdmin)
@@ -232,6 +236,8 @@ admin.site.register(models.ImageMapGeoPolygon)
 
 admin.site.register(models.Link, LinkAdmin)
 admin.site.register(models.LinkSet, LinkSetAdmin)
+
+admin.site.register(models.PointSet, PointSetAdmin)
 
 admin.site.register(models.Area, AreaAdmin)
 admin.site.register(models.InformationPointer, InformationPointerAdmin)

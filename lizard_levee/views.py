@@ -24,6 +24,7 @@ from django.http import HttpResponse
 import lizard_geodin.models
 
 from lizard_map import coordinates
+from lizard_geodin.views import MultiplePointsView
 
 logger = logging.getLogger(__name__)
 
@@ -347,7 +348,7 @@ class MessageBoxView(UiView):
                 return True
             else:
                 return False
-        return [(o, tag_checked(o)) for o in models.MessageTag.objects.all()]
+        return [(o, tag_checked(o)) for o in self.message_box.tags.all()]
 
     def messages(self):
         filters = self.filters()
@@ -482,3 +483,44 @@ class ConvertView(UiView):
 
         self.message = '<br/>'.join(message_list)
         return super(ConvertView, self).get(request, *args, **kwargs)
+
+
+class HarvestView(UiView):
+    """
+    A tool to trigger some admin commands:
+
+    - harvest twitter
+    - harvest email
+    """
+
+    template_name = "lizard_levee/harvest"
+
+    def post(self, request, *args, **kwargs):
+        post = request.POST
+
+
+class PointSetListView(UiView):
+    template_name = "lizard_levee/pointset-list.html"
+
+    @property
+    def pointsets(self):
+        return models.PointSet.objects.all()
+
+
+class PointSetView(MultiplePointsView):
+    @property
+    def pointset(self):
+        return get_object_or_404(models.PointSet,
+                                 slug=self.kwargs['slug'])
+
+    @property
+    def width(self):
+        return self.pointset.width
+
+    @property
+    def height(self):
+        return self.pointset.height
+
+    @property
+    def points(self):
+        return self.pointset.points.all()
