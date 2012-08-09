@@ -26,10 +26,12 @@ ul.horizontal-list li {
 </style>
 <div>
   <ul class="horizontal-list">
-  {% for image_map in view.image_maps %}
+  {% for image_map_group in view.image_map_groups %}
+  {% for image_map in image_map_group.imagemap_set.all %}
   <li>
     <a class="target-link" data-group="profile" href="{{ image_map.get_absolute_url }}">{{ image_map }}</a>
   </li>
+  {% endfor %}
   {% endfor %}
   </ul>
 </div>

@@ -227,7 +227,13 @@ class ImageMapListView(UiView):
 
     @property
     def image_map_groups(self):
-        return models.ImageMapGroup.objects.all()
+        result = models.ImageMapGroup.objects.all()
+
+        print self.request.GET
+        group = self.request.GET.get('group', None)
+        if group:
+            result = result.filter(title=group)
+        return result
 
     @property
     def image_map(self):
