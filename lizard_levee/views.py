@@ -10,7 +10,6 @@ import logging
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 from lizard_map.views import MapView
-from lizard_map.views import HomepageView
 from lizard_map.models import WorkspaceEditItem
 from lizard_ui.layout import Action
 from lizard_ui.views import UiView
@@ -57,8 +56,6 @@ class SiteActionView(MapView):
         return actions + super(SiteActionView, self).site_actions
 
 
-# class HomepageView(SiteActionView, HomepageView):
-#     pass
 class HomepageView(SiteActionView, UiView):
     """
     Selector for burgermeester, expert, kaart.
@@ -293,8 +290,8 @@ class ImageMapMapView(View):
 
             if image_map_link.shape == 'circle':
                 draw.ellipse((
-                        coords[0]-coords[2], coords[1]-coords[2],
-                        coords[0]+coords[2], coords[1]+coords[2]),
+                        coords[0] - coords[2], coords[1] - coords[2],
+                        coords[0] + coords[2], coords[1] + coords[2]),
                              outline=(0, 0, 0, 255),
                              fill=(0, 255, 0, 255))
             elif image_map_link.shape == 'rect':
@@ -351,7 +348,7 @@ class MessageBoxView(UiView):
         return [(o, tag_checked(o)) for o in self.message_box.tags.all()]
 
     def messages(self):
-        filters = self.filters()
+        # filters = self.filters()
         tags = []
         for tag, checked in self.tags_checked():
             if checked:
