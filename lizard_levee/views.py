@@ -585,8 +585,9 @@ class RiskTableView(ViewContextMixin, TemplateView):
             {'name': 'East',
              'headers': ['Locatie', 'Overal', 'Macro', 'Micro', 'Piping'],
              'rows': [self.values_from_point_slugs(
-                        # Grab the slugs from /admin/lizard_geodin/point/!
+                        # First item is the location name.
                         'Segment 1',
+                        # Grab the slugs from /admin/lizard_geodin/point/!
                         '0004850022MOS000',
                         '0004850013MOS000',
                         '0004850019MOS000',
