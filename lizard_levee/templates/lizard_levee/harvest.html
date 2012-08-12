@@ -1,0 +1,23 @@
+{% extends 'lizard_ui/lizardbase.html' %}
+
+{% block main-area %}
+
+<div>
+{% autoescape off %}
+{{ view.message }}
+{% endautoescape %}
+</div>
+
+<br/>
+
+<ul>
+<li>Harvest emails</li>
+<li>Harvest twitter</li>
+</ul>
+
+<form action="./" method="POST">
+{% csrf_token %}
+<input type="submit">verstuur</input>
+</form>
+
+{% endblock %}

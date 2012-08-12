@@ -226,8 +226,12 @@ class PointSetAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
 
 
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ['timestamp', 'message', 'tags_str']
+
+
 admin.site.register(models.MessageTag, MessageTagAdmin)
-admin.site.register(models.Message)
+admin.site.register(models.Message, MessageAdmin)
 admin.site.register(models.MessageBox, MessageBoxAdmin)
 
 admin.site.register(models.ImageMapGroup)
@@ -242,3 +246,5 @@ admin.site.register(models.PointSet, PointSetAdmin)
 admin.site.register(models.Area, AreaAdmin)
 admin.site.register(models.InformationPointer, InformationPointerAdmin)
 admin.site.register(models.Segment, SegmentAdmin)
+
+admin.site.register(models.UploadedFile)

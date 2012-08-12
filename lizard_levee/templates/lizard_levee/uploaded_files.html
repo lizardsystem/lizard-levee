@@ -1,0 +1,5 @@
+<ul>
+{% for uploaded_file in view.uploaded_files %}
+<li><a href="{{ MEDIA_URL }}{{ uploaded_file.uploaded_file.name }}">{{ uploaded_file }}</a></li>
+{% endfor %}
+</ul>

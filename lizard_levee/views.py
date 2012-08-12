@@ -26,6 +26,9 @@ import lizard_geodin.models
 from lizard_map import coordinates
 from lizard_geodin.views import MultiplePointsView
 
+# for HarvestView
+from django.core.management import call_command
+
 logger = logging.getLogger(__name__)
 
 
@@ -493,10 +496,17 @@ class HarvestView(UiView):
     - harvest email
     """
 
-    template_name = "lizard_levee/harvest"
+    template_name = "lizard_levee/harvest.html"
 
     def post(self, request, *args, **kwargs):
-        post = request.POST
+        #post = request.POST
+
+        message_list = ['wat ik heb gedaan:', ]
+
+        result = call_command('levee_update_twitter', interactive=False)
+
+        self.message = '<br/>'.join(message_list)
+        return super(HarvestView, self).get(request, *args, **kwargs)
 
 
 class PointSetListView(UiView):
@@ -524,3 +534,11 @@ class PointSetView(MultiplePointsView):
     @property
     def points(self):
         return self.pointset.points.all()
+
+
+class UploadedFileView(ViewContextMixin, TemplateView):
+    template_name = 'lizard_levee/uploaded_files.html'
+
+    @property
+    def uploaded_files(self):
+        return models.UploadedFile.objects.all()

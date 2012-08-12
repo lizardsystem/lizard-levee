@@ -29,6 +29,7 @@ class MessageTag(models.Model):
 
 class Message(models.Model):
     message = models.TextField()
+    # TODO: change to 'last_modified' and add 'real' timestamp
     timestamp = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField(MessageTag, null=True, blank=True)
 
@@ -46,6 +47,8 @@ class Message(models.Model):
         return '<font color="%s">%s: %s</font>' % (
             color, self.timestamp.strftime('%Y-%m-%d %H:%M:%S'), self.message)
 
+    def tags_str(self):
+        return ', '.join([str(t) for t in self.tags.all()])
 
 class MessageBox(models.Model):
     """ A message box can be displayed in the gui, the linked tags are
@@ -491,3 +494,14 @@ class PointSet(models.Model):
 
     def get_absolute_url(self):
         return reverse("lizard_levee_pointset", kwargs={'slug': self.slug})
+
+
+class UploadedFile(models.Model):
+    name = models.CharField(
+        _('name'),
+        max_length=255)
+    timestamp = models.DateTimeField(blank=True, null=True)
+    uploaded_file = models.FileField(upload_to='docs', blank=True, null=True)
+
+    def __unicode__(self):
+        return self.name
