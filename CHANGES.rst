@@ -5,6 +5,8 @@ Changelog of lizard-levee
 0.1 (unreleased)
 ----------------
 
+- Added risk table.
+
 - Added separate 'link' and 'information pointer' models that can be linked
   (m2m) to an area.
 

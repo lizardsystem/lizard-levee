@@ -56,6 +56,9 @@ urlpatterns = patterns(
     url(r'^pointset/(?P<slug>[^/]+)/$',
         views.PointSetView.as_view(),
         name='lizard_levee_pointset'),
+    url(r'^risktable/$',
+        views.RiskTableView.as_view(),
+        name='lizard_levee_risk_table'),
 
     url(r'^tools/convert/$',
         views.ConvertView.as_view(),

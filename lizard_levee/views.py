@@ -6,25 +6,22 @@ import logging
 # from django.http import HttpResponse
 # from lizard_ui.layout import Action
 # from lizard_ui.views import UiView
-# import lizard_geodin.models
+from PIL import Image, ImageDraw
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
-from lizard_map.views import MapView
-from lizard_map.views import HomepageView
+from django.views.generic.base import TemplateView
+from django.views.generic.base import View
+from lizard_geodin.views import MultiplePointsView
+from lizard_map import coordinates
 from lizard_map.models import WorkspaceEditItem
+from lizard_map.views import MapView
 from lizard_ui.layout import Action
 from lizard_ui.views import UiView
 from lizard_ui.views import ViewContextMixin
-from django.views.generic.base import TemplateView
-from django.views.generic.base import View
-
-from lizard_levee import models
-from PIL import Image, ImageDraw
-from django.http import HttpResponse
 import lizard_geodin.models
 
-from lizard_map import coordinates
-from lizard_geodin.views import MultiplePointsView
+from lizard_levee import models
 
 # for HarvestView
 from django.core.management import call_command
@@ -60,8 +57,6 @@ class SiteActionView(MapView):
         return actions + super(SiteActionView, self).site_actions
 
 
-# class HomepageView(SiteActionView, HomepageView):
-#     pass
 class HomepageView(SiteActionView, UiView):
     """
     Selector for burgermeester, expert, kaart.
@@ -296,8 +291,8 @@ class ImageMapMapView(View):
 
             if image_map_link.shape == 'circle':
                 draw.ellipse((
-                        coords[0]-coords[2], coords[1]-coords[2],
-                        coords[0]+coords[2], coords[1]+coords[2]),
+                        coords[0] - coords[2], coords[1] - coords[2],
+                        coords[0] + coords[2], coords[1] + coords[2]),
                              outline=(0, 0, 0, 255),
                              fill=(0, 255, 0, 255))
             elif image_map_link.shape == 'rect':
@@ -354,7 +349,7 @@ class MessageBoxView(UiView):
         return [(o, tag_checked(o)) for o in self.message_box.tags.all()]
 
     def messages(self):
-        filters = self.filters()
+        # filters = self.filters()
         tags = []
         for tag, checked in self.tags_checked():
             if checked:
@@ -542,3 +537,94 @@ class UploadedFileView(ViewContextMixin, TemplateView):
     @property
     def uploaded_files(self):
         return models.UploadedFile.objects.all()
+
+
+class RiskTableView(ViewContextMixin, TemplateView):
+    """Table with the Fugro-calculated risk data.
+
+    Warning: there's a lot hardcoded in here.
+    """
+    template_name = "lizard_levee/risk_table.html"
+
+    # The method below is aborted. Too much effort.
+    # @property
+    # def projects(self):
+    #     """Return list of projects with rows that should end up in the table.
+    #     """
+    #     # Assumption: it's all from supplier Fugro.
+    #     # import pdb;pdb.set_trace()
+    #     supplier_slug = 'fugro'
+    #     supplier = lizard_geodin.models.Supplier.objects.get(slug=supplier_slug)
+    #     relevant_projects = lizard_geodin.models.Project.objects.filter(
+    #         measurements__supplier=supplier).distinct()
+    #     result = []
+    #     print relevant_projects
+    #     for project in relevant_projects:
+    #         item = {'object': project}
+    #         parameters = lizard_geodin.models.Parameter.objects.filter(
+    #             measurements__project=project,
+    #             measurements__supplier=supplier).distinct()
+    #         overal_score_parameter = None
+    #         for parameter in parameters:
+    #             if 'overal' in parameter.name.lower():
+    #                 overal_score_parameter = parameter
+    #                 continue
+    #         parameters = [p for p in parameters if p != overal_score_parameter]
+    #         parameters = [overal_score_parameter] + parameters
+    #         # Those parameters are the table headers.
+    #         item['headers'] = [p.name for p in parameters]
+    #         # import pdb;pdb.set_trace()
+
+    #         # The rows are the points for which we have the measurements.
+    #         points = lizard_geodin.models.Point.objects.filter(
+    #             measurement__project=project,
+    #             measurement__supplier=supplier).distinct()
+    #         print points
+    #         rows = []
+    #         for point in points:
+    #             print point.measurement.parameter
+
+
+    #         item['rows'] = rows
+    #         result.append(item)
+    #     return result
+
+
+    def values_from_point_slugs(self, location, *slugs):
+        points = [lizard_geodin.models.Point.objects.get(slug=slug)
+                  for slug in slugs]  # Not as query to preserve order.
+        return [location] + [point.last_value() for point in points]
+
+    @property
+    def projects(self):
+        # Ouch, grabbing the last value is expensive! Perhaps a mgmt command
+        # to grab and cache them more often so that the cache stays primed?
+        return [
+            {'name': 'East',
+             'headers': ['Locatie', 'Overal', 'Macro', 'Micro', 'Piping'],
+             'rows': [self.values_from_point_slugs(
+                        # First item is the location name.
+                        'Segment 1',
+                        # Grab the slugs from /admin/lizard_geodin/point/!
+                        '0004850022MOS000',
+                        '0004850013MOS000',
+                        '0004850019MOS000',
+                        '0004850016MOS000',
+                        ),
+                      self.values_from_point_slugs(
+                        'Segment 2',
+                        '0004850022MOS000',
+                        '0004850013MOS000',
+                        '0004850019MOS000',
+                        '0004850016MOS000',
+                        ),
+                      # self.values_from_point_slugs(
+                      #   'Segment 1',
+                      #   '0004850022MOS000',
+                      #   '0004850013MOS000',
+                      #   '0004850019MOS000',
+                      #   '0004850016MOS000',
+                      #   ),
+                      ]},
+            ]
+

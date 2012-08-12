@@ -1,0 +1,22 @@
+{% for project in view.projects %}
+  <h2>{{ project.name }}</h2>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        {% for header in project.headers %}
+          <th>{{ header }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in project.rows %}
+        <tr>
+          {% for cell in row %}
+            <td>{{ cell }}</td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endfor %}
