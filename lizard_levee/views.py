@@ -4,7 +4,6 @@ import logging
 
 # from django.core.urlresolvers import reverse
 # from django.http import HttpResponse
-# from lizard_ui.layout import Action
 # from lizard_ui.views import UiView
 from PIL import Image, ImageDraw
 from django.http import HttpResponse
@@ -29,42 +28,14 @@ from django.core.management import call_command
 logger = logging.getLogger(__name__)
 
 
-class SiteActionView(MapView):
-    """Inherit from this view to enable 'tabs'"""
-    @property
-    def site_actions(self):
-        actions = []
-        actions.append(
-            Action(
-                name='burgemeester',
-                description='burgemeester',
-                url='/levee/piping-proef/',
-                icon='icon-folder-close'))
-
-        actions.append(
-            Action(
-                name='expert',
-                description='expert',
-                url='/levee/piping-proef/expert/',
-                icon='icon-folder-open'))
-
-        actions.append(
-            Action(
-                name='kaart',
-                description='kaart',
-                url='/map/',
-                icon='icon-map-marker'))
-        return actions + super(SiteActionView, self).site_actions
-
-
-class HomepageView(SiteActionView, UiView):
+class HomepageView(UiView):
     """
     Selector for burgermeester, expert, kaart.
     """
     template_name = 'lizard_levee/homepage.html'
 
 
-class Overview(SiteActionView, MapView):
+class Overview(MapView):
     """Overview of our areas for which we have further views."""
     template_name = 'lizard_levee/overview.html'
     page_title = _('Overview of areas')
@@ -75,7 +46,7 @@ class Overview(SiteActionView, MapView):
         return models.Area.objects.all()
 
 
-class BurgomasterView(SiteActionView, MapView):
+class BurgomasterView(MapView):
     """The main non-technical view on a Geodin levee project."""
     template_name = 'lizard_levee/burgomaster.html'
     map_div_class = 'map-at-top i-have-height'
