@@ -617,7 +617,8 @@ class RiskTableView(ViewContextMixin, TemplateView):
     def values_from_point_slugs(self, location, *slugs):
         points = [lizard_geodin.models.Point.objects.get(slug=slug)
                   for slug in slugs]  # Not as query to preserve order.
-        return [location] + [point.last_value() for point in points]
+        values = ['%.1f' % point.last_value() for point in points]
+        return [location] + values
 
     @property
     def projects(self):
@@ -625,7 +626,12 @@ class RiskTableView(ViewContextMixin, TemplateView):
         # to grab and cache them more often so that the cache stays primed?
         return [
             {'name': 'East',
-             'headers': ['Locatie', 'Overal', 'Macro', 'Micro', 'Piping'],
+             'headers': ['Locatie',
+                         'Overal',
+                         'Macro',
+                         'Micro',
+                         'Piping',
+                         ],
              'rows': [self.values_from_point_slugs(
                         # First item is the location name.
                         'Segment 1',
