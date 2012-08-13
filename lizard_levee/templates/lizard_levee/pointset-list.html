@@ -1,9 +1,26 @@
-{% extends 'lizard_ui/lizardbase.html' %}
+{# include as jsload #}
 
-{% block main-area %}
-<ul>
-{% for ps in view.pointsets %}
-<li><a href="{{ ps.get_absolute_url }}">{{ ps }}</a></li>
-{% endfor %}
+<ul class="nav nav-pills">
+  {% for ps in view.pointsets %}
+  <li id="point_set_{{ ps.id }}">
+    <a href="#point_set_{{ ps.id }}">
+      {{ ps }}
+    </a>
+  </li>
+  {% endfor %}
 </ul>
-{% endblock %}
+<div id="point-set-graph-selection" data-point-set-id="{{ view.selected_pointset.id }}">
+  <ul class="nav nav-pills">
+    {% for point, point_checked in view.checked_points %}
+    <li><a href="#"><input type="checkbox" name="" checked/>{{ point }}</a></li>
+    {% endfor %}
+  </ul>
+</div>
+<div id="point-set-graphs">
+  {% for point, point_checked in view.checked_points %}
+    {% if point_checked %}
+    <p>{{ point }}</p>
+    <iframe src="{% url lizard_geodin_point slug=point.slug %}?width=900&height=250" frameborder="0">IFrame contents</iframe>
+    {% endif %}
+  {% endfor %}
+</div>

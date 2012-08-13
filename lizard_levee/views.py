@@ -519,6 +519,22 @@ class PointSetListView(UiView):
     def pointsets(self):
         return models.PointSet.objects.all()
 
+    @property
+    def selected_pointset(self):
+        return models.PointSet.objects.all()[0]
+
+    @property
+    def width(self):
+        return self.selected_pointset.width
+
+    @property
+    def height(self):
+        return self.selected_pointset.height
+
+    @property
+    def checked_points(self):
+        return [(p, True) for p in self.selected_pointset.points.all()]
+
 
 class PointSetView(MultiplePointsView):
     @property
