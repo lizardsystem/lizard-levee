@@ -601,7 +601,8 @@ class RiskTableView(ViewContextMixin, TemplateView):
     def values_from_point_slugs(self, location, *slugs):
         points = [lizard_geodin.models.Point.objects.get(slug=slug)
                   for slug in slugs]  # Not as query to preserve order.
-        return [location] + [point.last_value() for point in points]
+        values = ['%.1f' % point.last_value() for point in points]
+        return [location] + values
 
     @property
     def projects(self):
