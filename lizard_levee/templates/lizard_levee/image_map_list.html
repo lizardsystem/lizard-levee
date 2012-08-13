@@ -23,9 +23,12 @@ ul.horizontal-list li {
     padding: 3px;
     margin: 0 10px 0 0;
 }
+.select-image-map {
+    background-color: #eeeeee;
+}
 </style>
 <div>
-  <ul class="nav nav-pills">
+  <ul class="nav nav-pills select-image-map">
   {% for image_map_group in view.image_map_groups %}
   <li class="dropdown" id="image_map_{{ image_map_group.id }}">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#image_map_{{ image_map_group.id }}">
