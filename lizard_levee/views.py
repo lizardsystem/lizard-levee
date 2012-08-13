@@ -228,7 +228,6 @@ class ImageMapListView(UiView):
     def image_map_groups(self):
         result = models.ImageMapGroup.objects.all()
 
-        print self.request.GET
         group = self.request.GET.get('group', None)
         if group:
             result = result.filter(title=group)
@@ -273,8 +272,12 @@ class ImageMapMapView(View):
             #         continue
 
             # Filter points
+            fill_color = (196, 128, 255, 255)  # default color
+            fill_max_value = -10000
             if image_map_link.points:
                 some_are_wanted = False
+                # Coloring: this is the only info we got
+                # Groen 0-50%; geel 50-74%; oranje 75-99%; rood 100% en daarboven
                 for point in image_map_link.points.all():
                     filter_key = 'Supplier::%d' % point.measurement.supplier.id
                     filter_key_param = 'Parameter::%d' % point.measurement.parameter.id
@@ -282,6 +285,20 @@ class ImageMapMapView(View):
                         (filter_key_param not in filters or filters[filter_key_param] == 'true')):
                         # This object is wanted.
                         some_are_wanted = True
+                        # Coloring
+                        if image_map_link.color_me:
+                            point_last_value = point.last_value()
+                            if point_last_value > fill_max_value:
+                                fill_max_value = point_last_value
+                                if point_last_value >= 0 and point_last_value < 50:
+                                    fill_color = (64, 255, 64, 255)  # green
+                                elif point_last_value >= 50 and point_last_value < 75:
+                                    fill_color = (255, 255, 64, 255)  # yellow
+                                elif point_last_value >= 75 and point_last_value < 100:
+                                    fill_color = (255, 128, 32, 255)  # orange
+                                elif point_last_value >= 100:
+                                    fill_color = (255, 32, 32, 255)  # red
+
                 if not some_are_wanted:
                     # If none of the points are wanted.. don't draw
                     continue
@@ -294,15 +311,15 @@ class ImageMapMapView(View):
                         coords[0] - coords[2], coords[1] - coords[2],
                         coords[0] + coords[2], coords[1] + coords[2]),
                              outline=(0, 0, 0, 255),
-                             fill=(0, 255, 0, 255))
+                             fill=fill_color)
             elif image_map_link.shape == 'rect':
                 draw.rectangle(coords,
                              outline=(0, 0, 0, 255),
-                             fill=(0, 255, 0, 255))
+                             fill=fill_color)
             elif image_map_link.shape == 'polygon':
                 draw.polygon(coords,
                              outline=(0, 0, 0, 255),
-                             fill=(0, 255, 0, 255))
+                             fill=fill_color)
 
         del draw # I'm done drawing so I don't need this anymore
 

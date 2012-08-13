@@ -50,6 +50,7 @@ class Message(models.Model):
     def tags_str(self):
         return ', '.join([str(t) for t in self.tags.all()])
 
+
 class MessageBox(models.Model):
     """ A message box can be displayed in the gui, the linked tags are
     displayed as checkboxes. The client requests the messages through
@@ -236,6 +237,7 @@ class ImageMapLink(models.Model):
     #point = models.ForeignKey(Point, null=True, blank=True)
     points = models.ManyToManyField(Point, null=True, blank=True)
     #destination_url = models.TextField()  # take get_absolute_url from measurement
+    color_me = models.BooleanField(default=False)
 
     #"polygon", "rect" or "circle"
     shape = models.CharField(choices=SHAPE_CHOICES, max_length=40)
@@ -269,10 +271,14 @@ class ImageMapLink(models.Model):
 
     @property
     def display_title(self):
+        add_to_title = ''
+        if self.points:
+            if self.points.count() == 1:
+                add_to_title = ' (%f)' % self.points.all()[0].last_value()
         if self.title:
-            return self.title
+            return self.title + add_to_title
         else:
-            return str(self.linked_object())
+            return str(self.linked_object()) + add_to_title
 
 
 class InformationPointer(models.Model):

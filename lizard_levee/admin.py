@@ -170,11 +170,12 @@ class ImageMapAdmin(admin.ModelAdmin):
                 if len(v) == 1:
                     # Single point
                     x, y, z, p = v[0]
-                    title = '%s (%r, %r, %r)' % (str(p), p.x, p.y, p.z)
+                    title = '%s' % (str(p))
                     image_map_link = image_map.imagemaplink_set.create(
                         title=title,
                         shape='circle',
-                        coords='%d,%d,5' % (int(x), int(y))
+                        coords='%d,%d,5' % (int(x), int(y)),
+                        color_me=True
                         )
                     image_map_link.points.add(p)
                 else:
@@ -184,7 +185,8 @@ class ImageMapAdmin(admin.ModelAdmin):
                     image_map_link = image_map.imagemaplink_set.create(
                         title=title,
                         shape='circle',
-                        coords='%d,%d,10' % (int(x), int(y))
+                        coords='%d,%d,10' % (int(x), int(y)),
+                        color_me=True
                         )
                     for _x, _y, _z, _p in v:
                         image_map_link.points.add(_p)
