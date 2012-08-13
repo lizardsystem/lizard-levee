@@ -1,13 +1,15 @@
-import logging
-from django.core.management.base import BaseCommand
-from lizard_levee.models import Message, MessageTag
-
-import poplib
-from email import parser
-import rfc822
-import string
 import StringIO
 import datetime
+import logging
+import string
+
+# from email import parser
+from django.core.management.base import BaseCommand
+import poplib
+import rfc822
+
+from lizard_levee.models import Message, MessageTag
+
 logger = logging.getLogger(__name__)
 
 
