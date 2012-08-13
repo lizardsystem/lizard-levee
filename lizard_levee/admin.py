@@ -97,6 +97,7 @@ class ImageMapAdmin(admin.ModelAdmin):
     def generate_image_map(self, request, queryset):
         min_x, max_x, min_y, max_y = None, None, None, None
         skipped = 0
+        added = 0
         for image_map in queryset:
             # Get all the points
             points = Point.objects.all()
@@ -152,6 +153,7 @@ class ImageMapAdmin(admin.ModelAdmin):
                     #     coords='%d,%d,5' % (int(x), int(y))
                     #     )
                     # image_map_link.points.add(p)
+                    added += 1
                 else:
                     skipped += 1
                 if min_x is None or x < min_x:
@@ -189,8 +191,8 @@ class ImageMapAdmin(admin.ModelAdmin):
 
         return self.message_user(
             request,
-            'Finished, screen(min,max) x(%r %r), y(%r %r). Skipped: %d' % (
-                min_x, max_x, min_y, max_y, skipped))
+            'Finished, screen(min,max) x(%r %r), y(%r %r). Added: %d, Skipped: %d' % (
+                min_x, max_x, min_y, max_y, added, skipped))
 
 
 class MessageTagAdmin(admin.ModelAdmin):
