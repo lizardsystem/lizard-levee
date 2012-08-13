@@ -1,0 +1,76 @@
+{% load utility i18n compress %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      {% block title %}
+        {% if view.title %}
+          {# Managed properly by the view #}
+          {{ view.title }}
+        {% else %}
+          {# By hand in the template #}
+          {% block subtitle %}{% endblock subtitle%}
+          {% block sitetitle %}{% endblock sitetitle%}
+        {% endif %}
+      {% endblock title %}
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta charset="utf-8">
+    <link rel="icon" href="{{ STATIC_URL }}lizard_ui/favicon.ico" type="images/x-icon" />
+    <link rel="SHORTCUT ICON" href="{{ STATIC_URL }}lizard_ui/favicon.ico" />
+    <!-- HTML5 shim, for IE6-8 support of HTML elements. After the styles. -->
+    <!--[if lt IE 9]>
+      <script src="{{ STATIC_URL }}html5shiv/html5shiv.js"></script>
+    <![endif]-->
+
+    {% compress css %}
+      {% block css %}
+        {# CSS for jqueryui: "smoothness" theme #}
+        <link type="text/css"
+              href="{{ STATIC_URL }}jqueryui/smoothness/jquery-ui-1.8.11.custom.css"
+              rel="stylesheet"
+              media="screen, projection" />
+        {# Twitter bootstrap, but with an included #}
+        {# lizard_ui/lizard-bootstrap.less to overrides bootstrap defaults. #}
+        {# Bootstrap must be below jqueryui to avoid overriding. #}
+        <link rel="stylesheet"
+              href="{{ STATIC_URL }}bootstrap/less/bootstrap.css"
+              type="text/css"
+              media="screen, projection" />
+        {# Sprites: all icons (print, info, etc) in one cacheable image. #}
+        <link rel="stylesheet"
+              href="{{ STATIC_URL }}sprites/sprite.css"
+              type="text/css"
+              media="screen, projection" />
+        {# CSS for jquery-treeview #}
+        <!--
+        <link type="text/css"
+              href="{{ STATIC_URL }}jquery-treeview/jquery.treeview.css"
+              rel="stylesheet"
+              media="screen, projection" />
+        -->
+        {# Our own css comes last #}
+      {% endblock css %}
+    {% endcompress %}
+    <!--[if lt IE 9]>
+      {% compress css %}
+        {% block ie-css %}
+        {% endblock ie-css %}
+      {% endcompress %}
+    <![endif]-->
+
+    {% compress js %}
+      {% block javascript-in-head %}
+        {# Should probably remain unused. #}
+      {% endblock javascript-in-head %}
+    {% endcompress %}
+    {% block head-extras %}
+      {# Your own totally-unmanaged per-template extra css/javascript/links #}
+    {% endblock head-extras %}
+
+  </head>
+  <body>
+    {% block main-area %}
+    {% endblock main-area %}
+  </body>
+</html>
