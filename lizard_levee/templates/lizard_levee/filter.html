@@ -1,7 +1,12 @@
+<style type="text/css">
+.filter-list li {
+    list-style-type: none;
+}
+</style>
 <form action="/levee/filters/" type="POST" id="filter-measurements">
-<div class="accordion">
+<div class="filter-list">
   {% for filter_group in view.filter_groups %}
-  <h3><a href="#">{{ filter_group.name }}</a></h3>
+  <h4><a href="#">{{ filter_group.name }}</a></h4>
   <div>
     <ul>
       {% for filter_item, filter_item_checked in filter_group.data %}
