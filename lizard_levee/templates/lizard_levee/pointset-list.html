@@ -1,6 +1,16 @@
 {# include as jsload #}
-
-<ul class="nav nav-pills">
+<style type="text/css">
+.nav-straight {
+    background-color: #eeeeee;
+    margin-top: 0;
+    margin-bottom: 2px;
+}
+iframe.point {
+    width: 99%;
+    height: 300px;
+}
+</style>
+<ul class="nav nav-pills nav-straight">
   {% for ps in view.pointsets %}
   <li id="point_set_{{ ps.id }}">
     <a href="#point_set_{{ ps.id }}">
@@ -10,7 +20,7 @@
   {% endfor %}
 </ul>
 <div id="point-set-graph-selection" data-point-set-id="{{ view.selected_pointset.id }}">
-  <ul class="nav nav-pills">
+  <ul class="nav nav-pills nav-straight">
     {% for point, point_checked in view.checked_points %}
     <li><a href="#"><input type="checkbox" name="" checked/>{{ point }}</a></li>
     {% endfor %}
@@ -19,8 +29,8 @@
 <div id="point-set-graphs">
   {% for point, point_checked in view.checked_points %}
     {% if point_checked %}
-    <p>{{ point }}</p>
-    <iframe src="{% url lizard_geodin_point slug=point.slug %}?width=900&height=250" frameborder="0">IFrame contents</iframe>
+    <h4>{{ point }}</h4>
+    <iframe class="point" src="{% url lizard_geodin_point slug=point.slug %}?width=900&height=250" frameborder="0">IFrame contents</iframe>
     {% endif %}
   {% endfor %}
 </div>
