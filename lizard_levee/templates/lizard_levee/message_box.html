@@ -8,7 +8,7 @@ ul.horizontal-list-tags li {
     margin: 0 10px 0 0;
 }
 .select-message-tag {
-    background-color: #eeeeee;
+    background-color: #ffffff;
 }
 #message-box-messages li {
     list-style-type: none;
@@ -17,7 +17,7 @@ ul.horizontal-list-tags li {
 <div class="message-box">
   <div id="message-box-tags">
     <form id="filter-tags" action="{% url lizard_levee_message_box slug=view.message_box.slug %}" type="POST">
-      <ul class="nav nav-pills select-message-tag">
+      <ul class="nav nav-pills select-message-tag nav-rounded">
         {% for tag, tag_checked in view.tags_checked %}
         <li>
           <a href="#"><input type="checkbox" name="{{ tag.tag }}"{% if tag_checked %} checked{% endif %}/><font color="{{ tag.html_color }}">{{ tag }}</font></a>
