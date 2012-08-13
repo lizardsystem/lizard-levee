@@ -274,6 +274,8 @@ class ImageMapMapView(View):
             # Filter points
             fill_color = (196, 128, 255, 255)  # default color
             fill_max_value = -10000
+            outline_color = (0, 0, 0, 255)  # default color
+
             if image_map_link.points:
                 some_are_wanted = False
                 # Coloring: this is the only info we got
@@ -285,7 +287,7 @@ class ImageMapMapView(View):
                         (filter_key_param not in filters or filters[filter_key_param] == 'true')):
                         # This object is wanted.
                         some_are_wanted = True
-                        # Coloring
+                        # Color fill
                         if image_map_link.color_me:
                             point_last_value = point.last_value()
                             if point_last_value > fill_max_value:
@@ -298,6 +300,8 @@ class ImageMapMapView(View):
                                     fill_color = (255, 128, 32, 255)  # orange
                                 elif point_last_value >= 100:
                                     fill_color = (255, 32, 32, 255)  # red
+                        # Color outline: supplier
+                        outline_color = point.measurement.supplier.html_color
 
                 if not some_are_wanted:
                     # If none of the points are wanted.. don't draw
@@ -307,18 +311,34 @@ class ImageMapMapView(View):
             coords = [int(c) for c in image_map_link.coords.split(',')]
 
             if image_map_link.shape == 'circle':
+                # Fake thicker outline with white
+                outline_add_thickness = 1
+                draw.ellipse((
+                        coords[0] - coords[2] - outline_add_thickness - 2,
+                        coords[1] - coords[2] - outline_add_thickness - 2,
+                        coords[0] + coords[2] + outline_add_thickness + 2,
+                        coords[1] + coords[2] + outline_add_thickness + 2),
+                             outline=(255, 255, 255, 255),
+                             fill=(255, 255, 255, 255))
+                draw.ellipse((
+                        coords[0] - coords[2] - outline_add_thickness,
+                        coords[1] - coords[2] - outline_add_thickness,
+                        coords[0] + coords[2] + outline_add_thickness,
+                        coords[1] + coords[2] + outline_add_thickness),
+                             outline=outline_color,
+                             fill=outline_color)
                 draw.ellipse((
                         coords[0] - coords[2], coords[1] - coords[2],
                         coords[0] + coords[2], coords[1] + coords[2]),
-                             outline=(0, 0, 0, 255),
+                             outline=outline_color,
                              fill=fill_color)
             elif image_map_link.shape == 'rect':
                 draw.rectangle(coords,
-                             outline=(0, 0, 0, 255),
+                             outline=outline_color,
                              fill=fill_color)
             elif image_map_link.shape == 'polygon':
                 draw.polygon(coords,
-                             outline=(0, 0, 0, 255),
+                             outline=outline_color,
                              fill=fill_color)
 
         del draw # I'm done drawing so I don't need this anymore
