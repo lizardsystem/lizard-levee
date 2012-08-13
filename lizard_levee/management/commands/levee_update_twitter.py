@@ -1,7 +1,9 @@
 import logging
+
 from django.core.management.base import BaseCommand
-from lizard_levee.models import Message, MessageTag
 import twitter
+
+from lizard_levee.models import Message, MessageTag
 
 
 logger = logging.getLogger(__name__)
