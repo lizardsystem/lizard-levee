@@ -1,0 +1,13 @@
+{% for point in view.points %}
+<p>{{ point }}<!--The popup thingy, works with jsload only. -->
+<a class="box-action" href="#" data-temp-id="point-popup-{{ point.id }}">groot</a></p>
+
+    <iframe class="point" src="{% url lizard_geodin_point slug=point.slug %}?width={{ view.width }}&height={{ view.height }}" frameborder="0">IFrame contents</iframe>
+
+{% endfor %}
+
+{% for point in view.points %}
+<div class="box-dialog" data-temp-id="point-popup-{{ point.id }}" data-title="{{ point }}">
+  <iframe class="box point" src="{% url lizard_geodin_point slug=point.slug %}?width=900&height=250" frameborder="0">IFrame contents</iframe>
+</div>
+{% endfor %}

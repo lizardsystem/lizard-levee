@@ -572,7 +572,9 @@ class PointSetListView(UiView):
         return self.get(request, *args, **kwargs)
 
 
-class PointSetView(MultiplePointsView):
+class PointSetView(ViewContextMixin, TemplateView):
+    template_name = 'lizard_levee/pointset.html'
+
     @property
     def pointset(self):
         return get_object_or_404(models.PointSet,
