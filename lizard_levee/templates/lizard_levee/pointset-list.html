@@ -1,6 +1,6 @@
 {# include as jsload #}
 <style type="text/css">
-.nav-straight {
+.nav-grey {
     background-color: #eeeeee;
     margin-top: 0;
     margin-bottom: 2px;
@@ -21,7 +21,7 @@ When clicking a point, post and reload "point-set-graphs"
 <form action="{% url lizard_levee_point_set_list %}" type="POST">
   {% csrf_token %}
 <div id="point-set-selection">
-  <ul class="nav nav-pills nav-straight">
+  <ul class="nav nav-pills nav-grey">
     {% for ps, selected_ps in view.pointsets %}
     <li>
       <a href="#" class="select-point-set{% if selected_ps %} point-set-selected{% endif %}" data-point-set-id="{{ ps.id }}">
@@ -32,7 +32,7 @@ When clicking a point, post and reload "point-set-graphs"
   </ul>
 </div>
 <div id="point-set-graph-selection">
-  <ul class="nav nav-pills nav-straight">
+  <ul class="nav nav-pills nav-grey nav-rounded">
     {% for point, point_checked in view.checked_points %}
     <li><a href="#"><input type="checkbox" class="select-point" name="point-{{ view.selected_pointset.id }}-{{ point.id }}"{% if point_checked %} checked{% endif %} data-point-set-id="{{ view.selected_pointset.id }}" data-point-id="{{ point.id }}"/>{{ point }}</a></li>
     {% endfor %}

@@ -13,12 +13,12 @@
   }
   </style>
   <div id="container">
-      <img src="{{ view.image_map.image_url }}" id="img1" />
-      <img src="{% url lizard_levee_image_map_map slug=view.image_map.slug %}" id="img2" usemap="#image-map"/>
+      <img src="{{ view.image_map.image_url }}" id="img1" width="{{ view.image_map.image_scaled_width }}px"/>
+      <img src="{% url lizard_levee_image_map_map slug=view.image_map.slug %}" id="img2" usemap="#image-map" width="{{ view.image_map.image_scaled_width }}px"/>
   </div>
   <map name="image-map">
     {% for image_map_link in view.image_map.imagemaplink_set.all %}
-    <area class="box-action" data-temp-id="image-map-{{ image_map_link.pk }}" shape="{{ image_map_link.shape }}" coords="{{ image_map_link.coords }}" href="{{ image_map_link.get_popup_url }}" title="{{ image_map_link.display_title }}" />
+    <area class="box-action" data-temp-id="image-map-{{ image_map_link.pk }}" shape="{{ image_map_link.shape }}" coords="{{ image_map_link.coords_scaled }}" href="{{ image_map_link.get_popup_url }}" title="{{ image_map_link.display_title }}" />
     {% endfor %}
   </map>
 </div>

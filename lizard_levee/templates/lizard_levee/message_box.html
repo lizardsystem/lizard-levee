@@ -16,6 +16,7 @@ ul.horizontal-list-tags li {
 }
 </style>
 <div class="message-box">
+  {% if not view.popup %}
   <div id="message-box-tags">
     <form id="filter-tags" action="{% url lizard_levee_message_box slug=view.message_box.slug %}" type="POST">
       <ul class="nav nav-pills select-message-tag nav-rounded">
@@ -27,6 +28,7 @@ ul.horizontal-list-tags li {
       </ul>
     </form>
   </div>
+  {% endif %}
 
   <div id="message-box-messages">
     <ul>

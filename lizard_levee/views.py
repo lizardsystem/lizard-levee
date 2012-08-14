@@ -364,6 +364,12 @@ class MessageBoxView(UiView):
                 tags.append(tag)
         return models.Message.objects.filter(tags__in=tags)
 
+    @property
+    def popup(self):
+        """Show tags on top?
+        """
+        return self.request.GET.get('popup', 'false') == 'true'
+
     def post(self, request, *args, **kwargs):
 
         filters = dict([(v, k) for v, k in request.POST.items()])
@@ -587,8 +593,11 @@ class PointSetView(ViewContextMixin, TemplateView):
 
     @property
     def iframe_width(self):
-        # image width
-        return self.pointset.width + 10
+        return self.pointset.width + 15
+
+    @property
+    def iframe_height(self):
+        return self.pointset.height + 20
 
     @property
     def height(self):
@@ -598,6 +607,12 @@ class PointSetView(ViewContextMixin, TemplateView):
     @property
     def points(self):
         return self.pointset.points.all()
+
+    @property
+    def popup(self):
+        """Show graphs big?
+        """
+        return self.request.GET.get('popup', 'false') == 'true'
 
 
 class UploadedFileView(ViewContextMixin, TemplateView):
