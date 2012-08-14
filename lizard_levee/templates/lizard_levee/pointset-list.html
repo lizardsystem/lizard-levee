@@ -9,20 +9,32 @@ iframe.point {
     width: 99%;
     height: 300px;
 }
+a.select-point-set.point-set-selected,
+a.select-point-set.point-set-selected:hover {
+    background-color: #cccccc;
+}
 </style>
-<ul class="nav nav-pills nav-straight">
-  {% for ps in view.pointsets %}
-  <li id="point_set_{{ ps.id }}">
-    <a href="#point_set_{{ ps.id }}">
-      {{ ps }}
-    </a>
-  </li>
-  {% endfor %}
-</ul>
-<div id="point-set-graph-selection" data-point-set-id="{{ view.selected_pointset.id }}">
+{% comment %}
+When clicking a point set, post and reload "" "point-set-graph-selection" and "point-set-graphs"
+When clicking a point, post and reload "point-set-graphs"
+{% endcomment %}
+<form action="{% url lizard_levee_point_set_list %}" type="POST">
+  {% csrf_token %}
+<div id="point-set-selection">
+  <ul class="nav nav-pills nav-straight">
+    {% for ps, selected_ps in view.pointsets %}
+    <li>
+      <a href="#" class="select-point-set{% if selected_ps %} point-set-selected{% endif %}" data-point-set-id="{{ ps.id }}">
+        {{ ps }}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+<div id="point-set-graph-selection">
   <ul class="nav nav-pills nav-straight">
     {% for point, point_checked in view.checked_points %}
-    <li><a href="#"><input type="checkbox" name="" checked/>{{ point }}</a></li>
+    <li><a href="#"><input type="checkbox" class="select-point" name="point-{{ view.selected_pointset.id }}-{{ point.id }}"{% if point_checked %} checked{% endif %} data-point-set-id="{{ view.selected_pointset.id }}" data-point-id="{{ point.id }}"/>{{ point }}</a></li>
     {% endfor %}
   </ul>
 </div>
@@ -34,3 +46,4 @@ iframe.point {
     {% endif %}
   {% endfor %}
 </div>
+</form>

@@ -517,11 +517,18 @@ class PointSetListView(UiView):
 
     @property
     def pointsets(self):
-        return models.PointSet.objects.all()
+        selected_pointset = self.selected_pointset
+        return [(ps, ps==selected_pointset)
+                for ps in models.PointSet.objects.all()]
 
     @property
     def selected_pointset(self):
-        return models.PointSet.objects.all()[0]
+        try:
+            point_set_id = self.request.session['selected_point_set']
+            point_set = models.PointSet.objects.get(pk=point_set_id)
+        except:
+            point_set = models.PointSet.objects.all()[0]
+        return point_set
 
     @property
     def width(self):
@@ -533,7 +540,36 @@ class PointSetListView(UiView):
 
     @property
     def checked_points(self):
-        return [(p, True) for p in self.selected_pointset.points.all()]
+        def point_is_checked(pointset, point):
+            try:
+                return self.request.session['selected_point_set_point'][(pointset.id, point.id)]
+            except:
+                return True
+        selected_pointset = self.selected_pointset
+        return [(p, point_is_checked(selected_pointset, p)) for p in selected_pointset.points.all()]
+
+    def post(self, request, *args, **kwargs):
+        """
+        Select a point set, or a single point in a point set.
+        """
+        # Check if we set the point_set
+        point_set_id = request.POST.get("point_set", None)
+        if point_set_id:
+            request.session['selected_point_set'] = point_set_id
+
+        # Click on single point
+        point_from_point_set = request.POST.get("point_from_point_set", None)
+        point_id = request.POST.get("point", None)
+        point_checked = request.POST.get("point_checked", None)
+        if point_from_point_set is not None and point_id is not None and point_checked is not None:
+            if 'selected_point_set_point' in request.session:
+                point_set_points = request.session['selected_point_set_point']
+            else:
+                point_set_points = {}
+            point_set_points[(int(point_from_point_set), int(point_id))] = point_checked == 'true'
+            request.session['selected_point_set_point'] = point_set_points
+
+        return self.get(request, *args, **kwargs)
 
 
 class PointSetView(MultiplePointsView):

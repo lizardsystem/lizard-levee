@@ -503,6 +503,11 @@ class PointSet(models.Model):
     height = models.IntegerField(default=100)
     points = models.ManyToManyField(Point, null=True, blank=True)
 
+    index = models.IntegerField(default=100)
+
+    class Meta:
+        ordering = ('index', )
+
     def __unicode__(self):
         return self.name
 
