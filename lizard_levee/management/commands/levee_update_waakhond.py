@@ -26,8 +26,9 @@ class Command(BaseCommand):
         #Get messages from server:
         num_mails = len(pop_conn.list()[1]) + 1
         print 'num mails %d' % num_mails
-        num_mails = min(num_mails, 5)
-        messages = [pop_conn.retr(i) for i in range(1, num_mails)]
+        #num_mails = min(num_mails, 5)
+        # Retrieve last 5 emails
+        messages = [pop_conn.retr(i) for i in range(max(num_mails-5, 0), num_mails)]
         # Concat message pieces:
         #messages = ["\n".join(mssg[1]) for mssg in messages]
         #Parse message intom an email object:

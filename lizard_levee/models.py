@@ -29,12 +29,12 @@ class MessageTag(models.Model):
 
 class Message(models.Model):
     message = models.TextField()
-    # TODO: change to 'last_modified' and add 'real' timestamp
-    timestamp = models.DateTimeField(auto_now=True)
+    timestamp = models.DateTimeField(null=True, blank=True)
+    last_modified = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField(MessageTag, null=True, blank=True)
 
     class Meta:
-        ordering = ('timestamp', )
+        ordering = ('-timestamp', )
 
     def __unicode__(self):
         return self.message
@@ -44,8 +44,12 @@ class Message(models.Model):
             color = self.tags.all()[0].html_color
         except:
             color = 'red'  # alert color
+        if self.timestamp:
+            timestamp = self.timestamp.strftime('%Y-%m-%d %H:%M:%S')
+        else:
+            timestamp = ''
         return '<font color="%s">%s: %s</font>' % (
-            color, self.timestamp.strftime('%Y-%m-%d %H:%M:%S'), self.message)
+            color, timestamp, self.message)
 
     def tags_str(self):
         return ', '.join([str(t) for t in self.tags.all()])
