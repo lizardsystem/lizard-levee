@@ -582,10 +582,17 @@ class PointSetView(ViewContextMixin, TemplateView):
 
     @property
     def width(self):
+        # image width
         return self.pointset.width
 
     @property
+    def iframe_width(self):
+        # image width
+        return self.pointset.width + 10
+
+    @property
     def height(self):
+        # image width
         return self.pointset.height
 
     @property
