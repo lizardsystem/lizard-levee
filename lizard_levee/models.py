@@ -119,6 +119,7 @@ class ImageMap(models.Model):
     image_url = models.CharField(max_length=200)
     image_width = models.IntegerField(default=300)
     image_height = models.IntegerField(default=300)
+    image_scale = models.IntegerField(default=100, help_text="in percent") # used by ImageMapLink as well
 
     group = models.ForeignKey(
         ImageMapGroup, null=True, blank=True)
@@ -186,6 +187,10 @@ class ImageMap(models.Model):
     @property
     def auto_direction_radian(self):
         return self.auto_geo_direction / 360 * 2 * math.pi
+
+    @property
+    def image_scaled_width(self):
+        return self.image_width * self.image_scale / 100
 
 
 class ImageMapGeoPolygon(models.Model):
@@ -276,7 +281,6 @@ class ImageMapLink(models.Model):
                     '&'.join(extra_params)
                     )
 
-
     @property
     def display_title(self):
         add_to_title = ''
@@ -287,6 +291,15 @@ class ImageMapLink(models.Model):
             return self.title + add_to_title
         else:
             return str(self.linked_object()) + add_to_title
+
+    @property
+    def coords_scaled(self):
+        """
+        Scaled by ImageMap.image_scale
+        """
+        scale = self.image_map.image_scale
+        result = [int(c) * scale / 100 for c in self.coords.split(',')]
+        return ','.join([str(r) for r in result])
 
 
 class InformationPointer(models.Model):
