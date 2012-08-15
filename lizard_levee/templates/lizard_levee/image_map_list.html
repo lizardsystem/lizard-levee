@@ -47,19 +47,23 @@ ul.horizontal-list li {
   </ul>
 </div>
 
-{# below is initial only, check image_map.html #}
+{# below is initial only, copied from image_map.html #}
 <div class="target-destination" data-group="profile" data-src="{{ view.image_map.get_absolute_url }}">
   <div class="box">
     <style type="text/css">
 
     #container {
-        position:relative;
+        position: relative;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: {{ view.image_map.image_scaled_width }}px;
     }
 
     #img2 {
         position: absolute;
-        left: 0px;
         top: 0px;
+        left: 0px;
     }
     </style>
     <div id="container">
@@ -78,3 +82,4 @@ ul.horizontal-list li {
   </div>
   {% endfor %}
 </div>
+

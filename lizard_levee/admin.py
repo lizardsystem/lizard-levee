@@ -92,9 +92,19 @@ class ImageMapAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title", )}
     inlines = [ImageMapLinkInline, ]
 
-    actions = ['generate_image_map']
+    actions = ['generate_image_map_add_to_existing', 'generate_image_map_delete_existing']
 
-    def generate_image_map(self, request, queryset):
+    def generate_image_map_add_to_existing(self, request, queryset):
+        return self.generate_image_map(request, queryset, delete_old=False)
+
+    def generate_image_map_delete_existing(self, request, queryset):
+        return self.generate_image_map(request, queryset, delete_old=True)
+
+    def generate_image_map(self, request, queryset, delete_old=False):
+        """
+        Generate image map link objects, using all parameters
+        ImageMap.auto*
+        """
         min_x, max_x, min_y, max_y = None, None, None, None
         skipped = 0
         added = 0
