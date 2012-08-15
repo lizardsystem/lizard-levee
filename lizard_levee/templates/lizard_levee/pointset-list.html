@@ -38,11 +38,11 @@ When clicking a point, post and reload "point-set-graphs"
     {% endfor %}
   </ul>
 </div>
-<div id="point-set-graphs">
+<div id="point-set-graphs" style="width: 720px; display: block; margin-left: auto; margin-right: auto;">
   {% for point, point_checked in view.checked_points %}
     {% if point_checked %}
     <h4>{{ point }}</h4>
-    <iframe class="point" src="{% url lizard_geodin_point slug=point.slug %}?width=900&height=250" frameborder="0">IFrame contents</iframe>
+    <iframe class="point" src="{% url lizard_geodin_point slug=point.slug %}?width=700&height=250" frameborder="0">IFrame contents</iframe>
     {% endif %}
   {% endfor %}
 </div>

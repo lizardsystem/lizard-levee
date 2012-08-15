@@ -31,7 +31,10 @@ ul.horizontal-list li {
   <ul class="nav nav-pills select-image-map nav-rounded">
   {% for image_map_group in view.image_map_groups %}
   {% ifequal image_map_group.imagemap_set.count 1 %}
-  <li class="active"><a href="#">{{ image_map_group }}</a></li>
+  <li class="">
+    <a class="target-link" data-group="profile" href="{{ image_map_group.imagemap_set.all.0.get_absolute_url }}">{{ image_map_group }}</a>
+  </li>
+</li>
   {% else %}
   <li class="dropdown" id="image_map_{{ image_map_group.id }}">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#image_map_{{ image_map_group.id }}">
