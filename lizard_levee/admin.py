@@ -113,14 +113,17 @@ class ImageMapAdmin(admin.ModelAdmin):
             points = Point.objects.all()
 
             # Filter points that are inside the polygon.
-            points_in_poly = filter(point_in_poly(image_map.auto_poly), points)
+            if image_map.auto_poly is not None:
+                points_in_poly = filter(point_in_poly(image_map.auto_poly), points)
+            else:
+                points_in_poly = points  # All of 'em for testing purposes.
 
             for point in points_in_poly:
                 logger.info('Point in poly: %r %r %s' % (point.x, point.y, point))
 
             # Rotate and map on image
             center_x, center_y = image_map.auto_center
-            moved_points = [(p.x-center_x, p.y-center_y, p.z, p) for p in points_in_poly ]
+            moved_points = [(p.x - center_x, p.y - center_y, p.z, p) for p in points_in_poly]
             rotated_points = map(
                 rotate_point(image_map.auto_direction_radian), moved_points)
 

@@ -160,16 +160,9 @@ class ImageMap(models.Model):
 
     @property
     def auto_poly(self):
-        """Read out auto_geo_polygon as a list of 2-tuples"""
-        coords = [float(i) for i in self.auto_geo_polygon.split(',')]  # alternated x, y, x, y..
-        poly = [(coords[i*2], coords[i*2+1]) for i in range(len(coords)/2)]
-        return poly
-
-    @property
-    def auto_poly(self):
         if self.auto_geo:
             return self.auto_geo.auto_poly
-        else:
+        elif self.auto_geo_polygon:
             coords = [float(i) for i in self.auto_geo_polygon.split(',')]  # alternated x, y, x, y..
             poly = [(coords[i*2], coords[i*2+1]) for i in range(len(coords)/2)]
             return poly
@@ -182,7 +175,7 @@ class ImageMap(models.Model):
         # big_sum = reduce(lambda (x0, y0), (x1, y1): (x0+x1, y0+y1), poly)
         # return big_sum[0]/len(poly), big_sum[1]/len(poly)
 
-        return 275000,575000
+        return 275000, 575000
 
     @property
     def auto_direction_radian(self):
