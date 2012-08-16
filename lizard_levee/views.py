@@ -31,6 +31,9 @@ logger = logging.getLogger(__name__)
 class HomepageView(UiView):
     """
     Selector for burgermeester, expert, kaart.
+
+    TODO: seems unused now. [reinout]
+
     """
     template_name = 'lizard_levee/homepage.html'
 
