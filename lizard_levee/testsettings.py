@@ -41,6 +41,7 @@ SITE_ID = 1
 SECRET_KEY = 'This is not secret but that is ok.'
 INSTALLED_APPS = [
     'lizard_levee',
+    'lizard_geodin',
     'lizard_wms',
     'lizard_maptree',
     'lizard_map',
