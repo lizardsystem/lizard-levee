@@ -699,17 +699,17 @@ class RiskTableView(ViewContextMixin, TemplateView):
                         # First item is the location name.
                         'Segment 1',
                         # Grab the slugs from /admin/lizard_geodin/point/!
-                        '0004850022MOS000',
-                        '0004850013MOS000',
-                        '0004850019MOS000',
-                        '0004850016MOS000',
+                        '0005090006MOS000',
+                        '0005090006MOS000',
+                        '0005090006MOS000',
+                        '0005090006MOS000',
                         ),
                       self.values_from_point_slugs(
                         'Segment 2',
-                        '0004850022MOS000',
-                        '0004850013MOS000',
-                        '0004850019MOS000',
-                        '0004850016MOS000',
+                        '0005090006MOS000',
+                        '0005090006MOS000',
+                        '0005090006MOS000',
+                        '0005090006MOS000',
                         ),
                       # self.values_from_point_slugs(
                       #   'Segment 1',
