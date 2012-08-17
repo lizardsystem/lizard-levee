@@ -209,7 +209,10 @@ class ImageMapListView(UiView):
 
     @property
     def image_map(self):
-        return self.image_map_groups[0].imagemap_set.all()[0]
+        """Return first available image map."""
+        for image_map_group in self.image_map_groups:
+            if image_map_group.imagemap_set.exists():
+                return image_map_group.imagemap_set.all()[0]
 
 
 class ImageMapView(ViewContextMixin, TemplateView):
