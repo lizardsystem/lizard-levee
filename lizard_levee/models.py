@@ -116,7 +116,10 @@ class ImageMap(models.Model):
         help_text=_("Used in the URL."),
         null=True,
         blank=True)
-    image_url = models.CharField(max_length=200)
+    image_url = models.CharField(
+        max_length=200,
+        help_text=("Full /static_media path to background image. "
+                   "See /levee/tools/imagemaps/ for a handy list."))
     image_width = models.IntegerField(default=300)
     image_height = models.IntegerField(default=300)
     image_scale = models.IntegerField(default=100, help_text="in percent") # used by ImageMapLink as well
