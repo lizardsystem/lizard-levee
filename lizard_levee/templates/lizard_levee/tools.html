@@ -1,0 +1,18 @@
+{% extends 'lizard_ui/lizardbase.html' %}
+
+{% block content %}
+  <div class="textual-content">
+    <h1>Links to tools to help with admin tasks</h1>
+    <ul>
+      <li>
+        <a href="{% url lizard_levee_tools_convert %}">Coordinate transforms</a>
+      </li>
+      <li>
+        <a href="{% url lizard_levee_tools_harvest %}">Twitter reload</a>
+      </li>
+      <li>
+        <a href="{% url lizard_levee_tools_imagemaps %}">List of image map images</a>
+      </li>
+    </ul>
+  </div>
+{% endblock %}

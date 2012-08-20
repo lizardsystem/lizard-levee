@@ -1,6 +1,8 @@
 # (c) Nelen & Schuurmans.  GPL licensed, see LICENSE.rst.
 from __future__ import unicode_literals
 import logging
+import os
+import pkg_resources
 
 # from django.core.urlresolvers import reverse
 # from django.http import HttpResponse
@@ -450,6 +452,23 @@ class FilterView(ViewContextMixin, TemplateView):
         print filters
 
         return super(FilterView, self).get(request, *args, **kwargs)
+
+
+class ToolOverview(UiView):
+    """Helper page pointing at admin-level tools."""
+    template_name = 'lizard_levee/tools.html'
+
+
+class ImagemapToolView(UiView):
+    """Helper page showing available image map images."""
+    template_name = 'lizard_levee/tool-imagemaps.html'
+
+    def imagemaps(self):
+        image_dir = pkg_resources.resource_filename(
+            'lizard_levee', 'static/lizard_levee/doorsnedes')
+        filenames = [f for f in os.listdir(image_dir) if f.endswith('.png')]
+        db_string = '/static_media/lizard_levee/doorsnedes/{filename}'
+        return [db_string.format(filename=filename) for filename in filenames]
 
 
 class ConvertView(UiView):

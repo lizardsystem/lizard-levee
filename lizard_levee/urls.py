@@ -60,12 +60,18 @@ urlpatterns = patterns(
         views.RiskTableView.as_view(),
         name='lizard_levee_risk_table'),
 
+    url(r'^tools/$',
+        views.ToolOverview.as_view(),
+        name='lizard_levee_tools_convert'),
     url(r'^tools/convert/$',
         views.ConvertView.as_view(),
         name='lizard_levee_tools_convert'),
     url(r'^tools/harvest/$',
         views.HarvestView.as_view(),
         name='lizard_levee_tools_harvest'),
+    url(r'^tools/imagemaps/$',
+        views.ImagemapToolView.as_view(),
+        name='lizard_levee_tools_imagemaps'),
 
     url(r'^(?P<slug>[^/]+)/$',
         views.BurgomasterView.as_view(),
