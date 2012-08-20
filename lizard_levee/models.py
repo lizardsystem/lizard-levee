@@ -120,12 +120,15 @@ class ImageMap(models.Model):
         max_length=200,
         help_text=("Full /static_media path to background image. "
                    "See /levee/tools/imagemaps/ for a handy list."))
-    image_width = models.IntegerField(default=300)
-    image_height = models.IntegerField(default=300)
+    image_width = models.IntegerField(default=800)
+    image_height = models.IntegerField(default=250)
     image_scale = models.IntegerField(default=100, help_text="in percent") # used by ImageMapLink as well
 
     group = models.ForeignKey(
-        ImageMapGroup, null=True, blank=True)
+        ImageMapGroup,
+        null=True,
+        blank=True,
+        help_text="Used for grouping the imagemap into a menu.")
 
     # Settings for automatially mapping points on an image
     auto_geo = models.ForeignKey(
