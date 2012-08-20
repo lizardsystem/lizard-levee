@@ -236,6 +236,8 @@ class ImageMapLink(models.Model):
     # The linked object: take one of the two
     measurement = models.ForeignKey(Measurement, null=True, blank=True)
     segment = models.ForeignKey("Segment", null=True, blank=True)
+    # ^^^ This isn't even used. Can it be zapped? [reinout]
+
     #point = models.ForeignKey(Point, null=True, blank=True)
     points = models.ManyToManyField(Point, null=True, blank=True)
     #destination_url = models.TextField()  # take get_absolute_url from measurement
