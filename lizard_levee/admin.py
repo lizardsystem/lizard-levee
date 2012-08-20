@@ -248,11 +248,16 @@ class MessageAdmin(admin.ModelAdmin):
     list_display = ['timestamp', 'message', 'tags_str']
 
 
+class ImageMapGroupAdmin(admin.ModelAdmin):
+    list_display = ['id', 'index', 'title']
+    list_editable = ('index', 'title')
+
+
 admin.site.register(models.MessageTag, MessageTagAdmin)
 admin.site.register(models.Message, MessageAdmin)
 admin.site.register(models.MessageBox, MessageBoxAdmin)
 
-admin.site.register(models.ImageMapGroup)
+admin.site.register(models.ImageMapGroup, ImageMapGroupAdmin)
 admin.site.register(models.ImageMap, ImageMapAdmin)
 admin.site.register(models.ImageMapGeoPolygon)
 
