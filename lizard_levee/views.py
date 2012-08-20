@@ -11,11 +11,9 @@ from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 from django.views.generic.base import TemplateView
 from django.views.generic.base import View
-from lizard_geodin.views import MultiplePointsView
 from lizard_map import coordinates
 from lizard_map.models import WorkspaceEditItem
 from lizard_map.views import MapView
-from lizard_ui.layout import Action
 from lizard_ui.views import UiView
 from lizard_ui.views import ViewContextMixin
 import lizard_geodin.models
@@ -514,8 +512,8 @@ class HarvestView(UiView):
     template_name = "lizard_levee/harvest.html"
 
     def post(self, request, *args, **kwargs):
-        #post = request.POST
-
+        # Note: in production, twitter is refreshed every 5 minutes via a
+        # cronjob. [reinout]
         message_list = ['wat ik heb gedaan:', ]
 
         result = call_command('levee_update_twitter', interactive=False)
@@ -723,4 +721,3 @@ class RiskTableView(ViewContextMixin, TemplateView):
                       #   ),
                       ]},
             ]
-
