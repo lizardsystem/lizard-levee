@@ -92,7 +92,8 @@ class ImageMapAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title", )}
     inlines = [ImageMapLinkInline, ]
 
-    actions = ['generate_image_map_add_to_existing', 'generate_image_map_delete_existing']
+    actions = ['generate_image_map_add_to_existing', 'generate_image_map_delete_existing',
+               'generate_image_map_test']
 
     def generate_image_map_add_to_existing(self, request, queryset):
         return self.generate_image_map(request, queryset, delete_old=False)
@@ -100,7 +101,10 @@ class ImageMapAdmin(admin.ModelAdmin):
     def generate_image_map_delete_existing(self, request, queryset):
         return self.generate_image_map(request, queryset, delete_old=True)
 
-    def generate_image_map(self, request, queryset, delete_old=False):
+    def generate_image_map_test(self, request, queryset):
+        return self.generate_image_map(request, queryset, test=True)
+
+    def generate_image_map(self, request, queryset, delete_old=False, test=False):
         """
         Generate image map link objects, using all parameters
         ImageMap.auto*
@@ -110,7 +114,12 @@ class ImageMapAdmin(admin.ModelAdmin):
         added = 0
         for image_map in queryset:
             # Get all the points
-            points = Point.objects.all()
+            if test:
+                # make points on the corner of the poly
+                coords = image_map.auto_poly
+                points = [Point(x=cx, y=cy, z=0) for cx, cy in coords]
+            else:
+                points = Point.objects.all()
 
             # Filter points that are inside the polygon.
             if image_map.auto_poly is not None:
@@ -178,6 +187,9 @@ class ImageMapAdmin(admin.ModelAdmin):
                     max_x = x
                 if max_y is None or y > max_y:
                     max_y = y
+
+            if test:
+                continue
 
             # Now add grouped items to image map links
             for k, v in saved_image_map_links.items():
