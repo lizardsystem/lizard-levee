@@ -122,8 +122,8 @@ class ImageMapAdmin(admin.ModelAdmin):
                 logger.info('Point in poly: %r %r %s' % (point.x, point.y, point))
 
             # Rotate and map on image
-            center_x, center_y = image_map.auto_center
-            moved_points = [(p.x - center_x, p.y - center_y, p.z, p) for p in points_in_poly]
+            #center_x, center_y = image_map.auto_center
+            moved_points = [(p.x, p.y, p.z, p) for p in points_in_poly]
             rotated_points = map(
                 rotate_point(image_map.auto_direction_radian), moved_points)
 
@@ -149,7 +149,8 @@ class ImageMapAdmin(admin.ModelAdmin):
                                   p[3]) for p in scaled_points]
 
             # Now update the image map
-            image_map.imagemaplink_set.all().delete()
+            if delete_old:
+                image_map.imagemaplink_set.all().delete()
 
             saved_image_map_links = {}  # (keys are x,y coords rounded by 10)
             # Check if points are to be grouped together
