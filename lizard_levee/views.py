@@ -249,7 +249,7 @@ class ImageMapMapView(View):
             #         continue
 
             # Filter points
-            fill_color = (196, 128, 255, 255)  # default color
+            fill_color = (200, 200, 200, 255)  # default color
             fill_max_value = -10000
             outline_color = (0, 0, 0, 255)  # default color
 
