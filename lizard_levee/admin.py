@@ -191,35 +191,33 @@ class ImageMapAdmin(admin.ModelAdmin):
                 if max_y is None or y > max_y:
                     max_y = y
 
-            if test:
-                continue
-
-            # Now add grouped items to image map links
-            for k, v in saved_image_map_links.items():
-                if len(v) == 1:
-                    # Single point
-                    x, y, z, p = v[0]
-                    title = '%s' % (str(p))
-                    image_map_link = image_map.imagemaplink_set.create(
-                        title=title,
-                        shape='circle',
-                        coords='%d,%d,5' % (int(x), int(y)),
-                        color_me=False
-                        )
-                    image_map_link.points.add(p)
-                else:
-                    # Multipoint
-                    x, y, z, p = v[0]
-                    #title = '%s' % (', '.join([str(pp[3]) for pp in v]))
-                    title = "Meervoudig punt"
-                    image_map_link = image_map.imagemaplink_set.create(
-                        title=title,
-                        shape='circle',
-                        coords='%d,%d,10' % (int(x), int(y)),
-                        color_me=False
-                        )
-                    for _x, _y, _z, _p in v:
-                        image_map_link.points.add(_p)
+            if not test:
+                # Now add grouped items to image map links
+                for k, v in saved_image_map_links.items():
+                    if len(v) == 1:
+                        # Single point
+                        x, y, z, p = v[0]
+                        title = '%s' % (str(p))
+                        image_map_link = image_map.imagemaplink_set.create(
+                            title=title,
+                            shape='circle',
+                            coords='%d,%d,5' % (int(x), int(y)),
+                            color_me=False
+                            )
+                        image_map_link.points.add(p)
+                    else:
+                        # Multipoint
+                        x, y, z, p = v[0]
+                        #title = '%s' % (', '.join([str(pp[3]) for pp in v]))
+                        title = "Meervoudig punt"
+                        image_map_link = image_map.imagemaplink_set.create(
+                            title=title,
+                            shape='circle',
+                            coords='%d,%d,10' % (int(x), int(y)),
+                            color_me=False
+                            )
+                        for _x, _y, _z, _p in v:
+                            image_map_link.points.add(_p)
 
         # try:
         #     suggestion = 'Suggestion for sideview: auto_scale_y=%r' % (image_map.image_width/(max_x - min_x))
