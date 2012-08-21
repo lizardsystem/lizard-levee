@@ -109,6 +109,7 @@ class ImageMapAdmin(admin.ModelAdmin):
         Generate image map link objects, using all parameters
         ImageMap.auto*
         """
+        logger.info('Generate image map')
         min_x, max_x, min_y, max_y = None, None, None, None
         skipped = 0
         added = 0
@@ -118,6 +119,7 @@ class ImageMapAdmin(admin.ModelAdmin):
                 # make points on the corner of the poly
                 coords = image_map.auto_poly
                 points = [Point(x=cx, y=cy, z=0) for cx, cy in coords]
+                logger.info('Testing coords: %r' % coords)
             else:
                 points = Point.objects.all()
 
