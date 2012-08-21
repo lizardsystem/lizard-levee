@@ -34,14 +34,14 @@ When clicking a point, post and reload "point-set-graphs"
 <div id="point-set-graph-selection">
   <ul class="nav nav-pills nav-grey nav-rounded">
     {% for point, point_checked in view.checked_points %}
-    <li><a href="#"><input type="checkbox" class="select-point" name="point-{{ view.selected_pointset.id }}-{{ point.id }}"{% if point_checked %} checked{% endif %} data-point-set-id="{{ view.selected_pointset.id }}" data-point-id="{{ point.id }}"/>{{ point }}</a></li>
+    <li><a href="#"><input type="checkbox" class="select-point" name="point-{{ view.selected_pointset.id }}-{{ point.id }}"{% if point_checked %} checked{% endif %} data-point-set-id="{{ view.selected_pointset.id }}" data-point-id="{{ point.id }}"/>{{ point.name }}</a></li>
     {% endfor %}
   </ul>
 </div>
 <div id="point-set-graphs" style="width: 720px; display: block; margin-left: auto; margin-right: auto;">
   {% for point, point_checked in view.checked_points %}
     {% if point_checked %}
-    <h4>{{ point }}</h4>
+    <h4>{{ point.name }} ({{ point.measurement.supplier }})</h4>
     <iframe class="point" src="{% url lizard_geodin_point slug=point.slug %}?width=700&height=250" frameborder="0">IFrame contents</iframe>
     {% endif %}
   {% endfor %}
