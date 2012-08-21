@@ -206,10 +206,24 @@ class ImageMapAdmin(admin.ModelAdmin):
                     for _x, _y, _z, _p in v:
                         image_map_link.points.add(_p)
 
+        # try:
+        #     suggestion = 'Suggestion for sideview: auto_scale_y=%r' % (image_map.image_width/(max_x - min_x))
+        # except:
+        #     suggestion = 'No suggestion'
+
+        try:
+            diff_x = max_x - min_x
+        except:
+            diff_x = '?'
+        try:
+            diff_y = max_y - min_y
+        except:
+            diff_y = '?'
+
         return self.message_user(
             request,
-            'Finished, screen(min,max) x(%r %r), y(%r %r). Added: %d, Skipped: %d' % (
-                min_x, max_x, min_y, max_y, added, skipped))
+            'Finished, screen(min,max,diff) x(%r %r %r), y(%r %r %r). Added: %d, Skipped: %d' % (
+                min_x, max_x, diff_x, min_y, max_y, diff_y, added, skipped))
 
 
 class MessageTagAdmin(admin.ModelAdmin):
