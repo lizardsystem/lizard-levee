@@ -128,7 +128,7 @@ class ImageMapAdmin(admin.ModelAdmin):
                 points = Point.objects.all()
 
             # Filter points that are inside the polygon.
-            if image_map.auto_poly is not None:
+            if image_map.auto_poly is not None and not test:
                 points_in_poly = filter(point_in_poly(image_map.auto_poly), points)
             else:
                 points_in_poly = points  # All of 'em for testing purposes.
