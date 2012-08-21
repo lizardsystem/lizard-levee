@@ -266,17 +266,21 @@ class ImageMapMapView(View):
                         some_are_wanted = True
                         # Color fill
                         if image_map_link.color_me:
-                            point_last_value = point.last_value()
-                            if point_last_value > fill_max_value:
-                                fill_max_value = point_last_value
-                                if point_last_value >= 0 and point_last_value < 50:
-                                    fill_color = (64, 255, 64, 255)  # green
-                                elif point_last_value >= 50 and point_last_value < 75:
-                                    fill_color = (255, 255, 64, 255)  # yellow
-                                elif point_last_value >= 75 and point_last_value < 100:
-                                    fill_color = (255, 128, 32, 255)  # orange
-                                elif point_last_value >= 100:
-                                    fill_color = (255, 32, 32, 255)  # red
+                            try:
+                                point_last_value = point.last_value()
+                                if point_last_value > fill_max_value:
+                                    fill_max_value = point_last_value
+                                    if point_last_value >= 0 and point_last_value < 50:
+                                        fill_color = (64, 255, 64, 255)  # green
+                                    elif point_last_value >= 50 and point_last_value < 75:
+                                        fill_color = (255, 255, 64, 255)  # yellow
+                                    elif point_last_value >= 75 and point_last_value < 100:
+                                        fill_color = (255, 128, 32, 255)  # orange
+                                    elif point_last_value >= 100:
+                                        fill_color = (255, 32, 32, 255)  # red
+                            except:
+                                # call failed: do not crash the whole image
+                                pass
                         # Color outline: supplier
                         outline_color = point.measurement.supplier.html_color
 
