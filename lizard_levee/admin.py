@@ -108,6 +108,9 @@ class ImageMapAdmin(admin.ModelAdmin):
         """
         Generate image map link objects, using all parameters
         ImageMap.auto*
+
+        Test messages appear as warnings, because they are then showed
+        on the production server.
         """
         logger.info('Generate image map')
         min_x, max_x, min_y, max_y = None, None, None, None
@@ -118,7 +121,7 @@ class ImageMapAdmin(admin.ModelAdmin):
             if test:
                 # make points on the corner of the poly
                 coords = image_map.auto_poly
-                points = [Point(x=cx, y=cy, z=0) for cx, cy in coords]
+                points = [Point(x=cx, y=cy, z=i%2) for i, (cx, cy) in enumerate(coords)]
                 # make them appear in the log
                 logger.warning('Testing coords: %r' % coords)
             else:
