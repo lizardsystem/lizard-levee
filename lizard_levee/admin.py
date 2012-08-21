@@ -119,7 +119,8 @@ class ImageMapAdmin(admin.ModelAdmin):
                 # make points on the corner of the poly
                 coords = image_map.auto_poly
                 points = [Point(x=cx, y=cy, z=0) for cx, cy in coords]
-                logger.info('Testing coords: %r' % coords)
+                # make them appear in the log
+                logger.warning('Testing coords: %r' % coords)
             else:
                 points = Point.objects.all()
 
