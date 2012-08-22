@@ -657,54 +657,10 @@ class RiskTableView(ViewContextMixin, TemplateView):
     """
     template_name = "lizard_levee/risk_table.html"
 
-    # The method below is aborted. Too much effort.
-    # @property
-    # def projects(self):
-    #     """Return list of projects with rows that should end up in the table.
-    #     """
-    #     # Assumption: it's all from supplier Fugro.
-    #     # import pdb;pdb.set_trace()
-    #     supplier_slug = 'fugro'
-    #     supplier = lizard_geodin.models.Supplier.objects.get(slug=supplier_slug)
-    #     relevant_projects = lizard_geodin.models.Project.objects.filter(
-    #         measurements__supplier=supplier).distinct()
-    #     result = []
-    #     print relevant_projects
-    #     for project in relevant_projects:
-    #         item = {'object': project}
-    #         parameters = lizard_geodin.models.Parameter.objects.filter(
-    #             measurements__project=project,
-    #             measurements__supplier=supplier).distinct()
-    #         overal_score_parameter = None
-    #         for parameter in parameters:
-    #             if 'overal' in parameter.name.lower():
-    #                 overal_score_parameter = parameter
-    #                 continue
-    #         parameters = [p for p in parameters if p != overal_score_parameter]
-    #         parameters = [overal_score_parameter] + parameters
-    #         # Those parameters are the table headers.
-    #         item['headers'] = [p.name for p in parameters]
-    #         # import pdb;pdb.set_trace()
-
-    #         # The rows are the points for which we have the measurements.
-    #         points = lizard_geodin.models.Point.objects.filter(
-    #             measurement__project=project,
-    #             measurement__supplier=supplier).distinct()
-    #         print points
-    #         rows = []
-    #         for point in points:
-    #             print point.measurement.parameter
-
-
-    #         item['rows'] = rows
-    #         result.append(item)
-    #     return result
-
-
     def values_from_point_slugs(self, location, *slugs):
         points = [lizard_geodin.models.Point.objects.get(slug=slug)
                   for slug in slugs]  # Not as query to preserve order.
-        values = ['%.1f' % point.last_value() for point in points]
+        values = ['%.1f' % float(point.last_value()) for point in points]
         return [location] + values
 
     @property
