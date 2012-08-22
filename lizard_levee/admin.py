@@ -139,13 +139,14 @@ class ImageMapAdmin(admin.ModelAdmin):
             # Rotate and map on image
             #center_x, center_y = image_map.auto_center
             moved_points = [(p.x, p.y, p.z, p) for p in points_in_poly]
-            rotated_points = map(
-                rotate_point(image_map.auto_direction_radian), moved_points)
 
             scaled_points = [(p[0]*image_map.auto_scale_x,
                               p[1]*image_map.auto_scale_y,
                               p[2]*image_map.auto_scale_z,
-                              p[3]) for p in rotated_points]
+                              p[3]) for p in moved_points]
+
+            rotated_points = map(
+                rotate_point(image_map.auto_direction_radian), scaled_points)
 
             if image_map.auto_from_above:
                 # Top view
