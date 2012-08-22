@@ -92,8 +92,10 @@ class ImageMapAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title", )}
     inlines = [ImageMapLinkInline, ]
 
-    actions = ['generate_image_map_add_to_existing', 'generate_image_map_delete_existing',
-               'generate_image_map_test', 'duplicate']
+    actions = ['generate_image_map_delete_existing',
+               'generate_image_map_add_outer_points',
+               'generate_image_map_test',
+               'duplicate']
 
     def duplicate(self, request, queryset):
         num_created = 0
@@ -122,6 +124,8 @@ class ImageMapAdmin(admin.ModelAdmin):
             request,
             'Finished, Created: %d' % (num_created))
 
+    def generate_image_map_add_outer_points(self, request, queryset):
+        return self.generate_image_map(request, queryset, delete_old=True, add_outer_points=True)
 
     def generate_image_map_add_to_existing(self, request, queryset):
         return self.generate_image_map(request, queryset, delete_old=False)
@@ -132,7 +136,7 @@ class ImageMapAdmin(admin.ModelAdmin):
     def generate_image_map_test(self, request, queryset):
         return self.generate_image_map(request, queryset, test=True)
 
-    def generate_image_map(self, request, queryset, delete_old=False, test=False):
+    def generate_image_map(self, request, queryset, delete_old=False, test=False, add_outer_points=False):
         """
         Generate image map link objects, using all parameters
         ImageMap.auto*
@@ -144,6 +148,7 @@ class ImageMapAdmin(admin.ModelAdmin):
         min_x, max_x, min_y, max_y = None, None, None, None
         skipped = 0
         added = 0
+        moved = 0
         for image_map in queryset:
             # Get all the points
             if test:
@@ -213,7 +218,23 @@ class ImageMapAdmin(admin.ModelAdmin):
                     # image_map_link.points.add(p)
                     added += 1
                 else:
-                    skipped += 1
+                    if add_outer_points:
+                        moved += 1
+                        if x < 0:
+                            x = 0
+                        if x > image_map.image_width:
+                            x = image_map.image_width
+                        if y < 0:
+                            y = 0
+                        if y > image_map.image_height:
+                            y = image_map.image_height
+
+                        key = (int(x)/image_map.auto_grouping_size, int(y)/image_map.auto_grouping_size)
+                        if key not in saved_image_map_links:
+                            saved_image_map_links[key] = []
+                        saved_image_map_links[key].append((x,y,z,p))
+                    else:
+                        skipped += 1
                 if min_x is None or x < min_x:
                     min_x = x
                 if min_y is None or y < min_y:
@@ -267,8 +288,8 @@ class ImageMapAdmin(admin.ModelAdmin):
 
         return self.message_user(
             request,
-            'Finished, screen(min,max,diff) x(%r %r %r), y(%r %r %r). Added: %d, Skipped: %d' % (
-                min_x, max_x, diff_x, min_y, max_y, diff_y, added, skipped))
+            'Finished, screen(min,max,diff) x(%r %r %r), y(%r %r %r). Added: %d, Moved: %d, Skipped: %d' % (
+                min_x, max_x, diff_x, min_y, max_y, diff_y, added, moved, skipped))
 
 
 class MessageTagAdmin(admin.ModelAdmin):

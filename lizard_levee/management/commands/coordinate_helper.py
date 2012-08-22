@@ -13,8 +13,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         print('coordinate helper')
-        y_coords = [7011324, 7011298]
+        y_coords = [7011298, 7011324+20]
+        # West
+        #print 'west'
         #x_coords = [800101,800107,800112,800117,800122,800126,800132,800138]
+        # East
+        print 'east'
         x_coords = [800145,800151,800156,800161,800166,800170,800176,800183]
         names = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 
