@@ -93,7 +93,35 @@ class ImageMapAdmin(admin.ModelAdmin):
     inlines = [ImageMapLinkInline, ]
 
     actions = ['generate_image_map_add_to_existing', 'generate_image_map_delete_existing',
-               'generate_image_map_test']
+               'generate_image_map_test', 'duplicate']
+
+    def duplicate(self, request, queryset):
+        num_created = 0
+        for image_map in queryset:
+            new_object = models.ImageMap(
+                title=image_map.title + ' copy',
+                slug=image_map.slug + '-',
+                image_url=image_map.image_url,
+                image_width=image_map.image_width,
+                image_height=image_map.image_height,
+                image_scale=image_map.image_scale,
+                group=image_map.group,
+                auto_geo=image_map.auto_geo,
+                auto_geo_polygon=image_map.auto_geo_polygon,
+                auto_from_above=image_map.auto_from_above,
+                auto_geo_direction=image_map.auto_geo_direction,
+                auto_scale_x=image_map.auto_scale_x,
+                auto_scale_y=image_map.auto_scale_y,
+                auto_scale_z=image_map.auto_scale_z,
+                auto_offset_x=image_map.auto_offset_x,
+                auto_offset_y=image_map.auto_offset_y,
+                auto_grouping_size=image_map.auto_grouping_size)
+            new_object.save()
+            num_created += 1
+        return self.message_user(
+            request,
+            'Finished, Created: %d' % (num_created))
+
 
     def generate_image_map_add_to_existing(self, request, queryset):
         return self.generate_image_map(request, queryset, delete_old=False)
@@ -154,7 +182,7 @@ class ImageMapAdmin(admin.ModelAdmin):
                 offset_points = [(p[0]+image_map.auto_offset_x,
                                   p[1]+image_map.auto_offset_y,
                                   0,
-                                  p[3]) for p in scaled_points]
+                                  p[3]) for p in rotated_points]
 
             else:
                 # Front view:
@@ -162,7 +190,7 @@ class ImageMapAdmin(admin.ModelAdmin):
                 offset_points = [(p[1]+image_map.auto_offset_x,
                                   p[2]+image_map.auto_offset_y,
                                   0,
-                                  p[3]) for p in scaled_points]
+                                  p[3]) for p in rotated_points]
 
             # Now update the image map
             if delete_old:
