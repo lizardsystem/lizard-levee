@@ -32,6 +32,8 @@ class Message(models.Model):
     timestamp = models.DateTimeField(null=True, blank=True)
     last_modified = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField(MessageTag, null=True, blank=True)
+    image_url = models.TextField(null=True, blank=True)
+    image_link = models.TextField(null=True, blank=True)
 
     class Meta:
         ordering = ('-timestamp', )
@@ -48,7 +50,7 @@ class Message(models.Model):
             timestamp = self.timestamp.strftime('%Y-%m-%d %H:%M:%S')
         else:
             timestamp = ''
-        return '<font color="%s">%s: %s</font>' % (
+        return '<font color="%s">%s %s</font>' % (
             color, timestamp, self.message)
 
     def tags_str(self):

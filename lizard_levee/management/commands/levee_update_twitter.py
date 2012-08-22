@@ -29,8 +29,13 @@ class Command(BaseCommand):
             # [:-6] is for stripping off +0000, %z does not work strangely enough...
             timestamp = datetime.datetime.strptime(
                 result['created_at'][:-6], '%a, %d %b %Y %H:%M:%S')
-            message_txt = '%s: %s' % (result['from_user_name'], result['text'])
-            message = Message(message=message_txt, timestamp=timestamp)
+            message_txt = '<a href="%s" target="_blank">%s</a> %s' % (
+                'https://twitter.com/intent/user?screen_name=%s' % result['from_user'],
+                result['from_user_name'],
+                result['text'])
+            message = Message(message=message_txt, timestamp=timestamp,
+                              image_url=result['profile_image_url'],
+                              image_link='https://twitter.com/intent/user?screen_name=%s' % result['from_user'])
             message.save()
             message.tags.add(tag)
             logger.info(message_txt)
