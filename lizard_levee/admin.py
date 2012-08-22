@@ -266,7 +266,7 @@ class ImageMapAdmin(admin.ModelAdmin):
                         image_map_link = image_map.imagemaplink_set.create(
                             title=title,
                             shape='circle',
-                            coords='%d,%d,10' % (int(x), int(y)),
+                            coords='%d,%d,7' % (int(x), int(y)),
                             color_me=False
                             )
                         for _x, _y, _z, _p in v:
