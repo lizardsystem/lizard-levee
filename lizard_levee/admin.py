@@ -213,7 +213,7 @@ class ImageMapAdmin(admin.ModelAdmin):
                         # Multipoint
                         x, y, z, p = v[0]
                         #title = '%s' % (', '.join([str(pp[3]) for pp in v]))
-                        title = "Meervoudig punt"
+                        title = "Meervoudig punt (%f %f %f)" % (p.x, p.y, p.z)
                         image_map_link = image_map.imagemaplink_set.create(
                             title=title,
                             shape='circle',
