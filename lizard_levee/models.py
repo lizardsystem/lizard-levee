@@ -276,7 +276,7 @@ class ImageMapLink(models.Model):
             return self.segment
 
     def get_popup_url(self):
-        extra_params = ['extra=True']
+        extra_params = ['&extra=True']
         if self.target_url:
             return self.target_url
         if not self.points.all():
