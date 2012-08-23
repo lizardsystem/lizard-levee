@@ -288,6 +288,9 @@ class ImageMapMapView(View):
                     # If none of the points are wanted.. don't draw
                     continue
 
+            if image_map_link.target_url and image_map_link.target_outline_color:
+                outline_color = image_map_link.target_outline_color
+
             # If it passes, the code below will run
             coords = [int(c) for c in image_map_link.coords.split(',')]
 

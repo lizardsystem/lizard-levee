@@ -251,6 +251,9 @@ class ImageMapLink(models.Model):
     target_url = models.TextField(
         null=True, blank=True,
         help_text="a link to be shown in popup")
+    target_outline_color = models.CharField(
+        max_length=20, null=True, blank=True,
+        help_text="optional outline color for target_url")
     color_me = models.BooleanField(default=False)
 
     #"polygon", "rect" or "circle"
