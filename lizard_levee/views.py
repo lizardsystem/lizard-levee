@@ -662,6 +662,7 @@ class RiskTableView(ViewContextMixin, TemplateView):
     Warning: there's a lot hardcoded in here.
     """
     template_name = "lizard_levee/risk_table.html"
+    small = False
 
     def values_from_point_slugs(self, location, *slugs):
         points = [lizard_geodin.models.Point.objects.get(slug=slug)
@@ -671,31 +672,29 @@ class RiskTableView(ViewContextMixin, TemplateView):
 
     @property
     def projects(self):
-        # Ouch, grabbing the last value is expensive! Perhaps a mgmt command
-        # to grab and cache them more often so that the cache stays primed?
-        return [
-            {'name': 'East',
+        results = [
+            {'name': 'Faalscores',  # Moet 'oost' of 'west' worden.
              'headers': ['Locatie',
                          'Overal',
-                         'Macro',
-                         'Micro',
-                         'Piping',
+                         # 'Macro',
+                         # 'Micro',
+                         # 'Piping',
                          ],
              'rows': [self.values_from_point_slugs(
                         # First item is the location name.
-                        'Segment 1',
+                        'Oost',  # Moet 'Segment 1' worden.
                         # Grab the slugs from /admin/lizard_geodin/point/!
-                        '0005090006MOS000',
-                        '0005090006MOS000',
-                        '0005090006MOS000',
-                        '0005090006MOS000',
+                        '0005090079MOS000',
+                        # '0005090006MOS000',
+                        # '0005090006MOS000',
+                        # '0005090006MOS000',
                         ),
                       self.values_from_point_slugs(
-                        'Segment 2',
-                        '0005090006MOS000',
-                        '0005090006MOS000',
-                        '0005090006MOS000',
-                        '0005090006MOS000',
+                        'West',
+                        '0005100068MOS000',
+                        # '0005090006MOS000',
+                        # '0005090006MOS000',
+                        # '0005090006MOS000',
                         ),
                       # self.values_from_point_slugs(
                       #   'Segment 1',
@@ -706,3 +705,17 @@ class RiskTableView(ViewContextMixin, TemplateView):
                       #   ),
                       ]},
             ]
+        return results
+        # if not self.small:
+        #     return results
+        # for result in results:
+        #     result['headers'] = result['headers'][:2]
+        #     new_rows = []
+        #     for row in result['rows']:
+        #         new_row = row[:2]
+        #     result['rows'] = new_rows
+        # return results
+
+
+# class SmallRiskTableView(RiskTableView):
+#     small = True
