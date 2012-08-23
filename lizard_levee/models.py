@@ -276,19 +276,20 @@ class ImageMapLink(models.Model):
             return self.segment
 
     def get_popup_url(self):
-        extra_params = ['extra=True']
+        extra_params = 'extra=True'
         if self.target_url:
             return self.target_url
         if not self.points.all():
-            return self.linked_object().get_popup_url() + '?' + '&'.join(extra_params)
+            # not used?
+            return self.linked_object().get_popup_url() + '?' + extra_params
         else:
             if self.points.count() == 1:
-                return self.points.all()[0].get_popup_url() + '?' + '&'.join(extra_params)
+                return self.points.all()[0].get_popup_url() + '?' + extra_params
             else:
                 return (
                     reverse('lizard_geodin_point_list') +
                     '?slug=' + '&slug='.join([p.slug for p in self.points.all()]) +
-                    '&'.join(extra_params)
+                    '&' + extra_params
                     )
 
     @property
