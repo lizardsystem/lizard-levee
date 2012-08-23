@@ -244,11 +244,16 @@ class ImageMapLink(models.Model):
     # The linked object: take one of the two
     measurement = models.ForeignKey(Measurement, null=True, blank=True)
     segment = models.ForeignKey("Segment", null=True, blank=True)
-    # ^^^ This isn't even used. Can it be zapped? [reinout]
+    # ^^^ This isn't even used. Can it be zapped? [reinout], yes, measurement too [jack]
 
     #point = models.ForeignKey(Point, null=True, blank=True)
     points = models.ManyToManyField(Point, null=True, blank=True)
-    #destination_url = models.TextField()  # take get_absolute_url from measurement
+    target_url = models.TextField(
+        null=True, blank=True,
+        help_text="a link to be shown in popup")
+    target_outline_color = models.CharField(
+        max_length=20, null=True, blank=True,
+        help_text="optional outline color for target_url")
     color_me = models.BooleanField(default=False)
 
     #"polygon", "rect" or "circle"
@@ -272,6 +277,8 @@ class ImageMapLink(models.Model):
 
     def get_popup_url(self):
         extra_params = ['extra=True']
+        if self.target_url:
+            return self.target_url
         if not self.points.all():
             return self.linked_object().get_popup_url() + '?' + '&'.join(extra_params)
         else:
@@ -290,9 +297,17 @@ class ImageMapLink(models.Model):
         if self.points:
             if self.points.count() == 1:
                 try:
-                    add_to_title = ' (%f)' % self.points.all()[0].last_value()
+                    add_to_title = ' (%s)' % self.points.all()[0].last_value()
                 except:
-                    add_to_title = '()'
+                    add_to_title = ''
+                    # import traceback, sys
+                    # traceback.print_exc(file=sys.stdout)
+                    # exc_type, exc_value, exc_traceback = sys.exc_info()
+                    # print "*** print_tb:"
+                    # traceback.print_tb(exc_traceback, limit=1, file=sys.stdout)
+                    # print "*** print_exception:"
+                    # traceback.print_exception(exc_type, exc_value, exc_traceback,
+                    #                           limit=2, file=sys.stdout)
         if self.title:
             return self.title + add_to_title
         else:

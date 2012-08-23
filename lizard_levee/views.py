@@ -253,7 +253,7 @@ class ImageMapMapView(View):
             fill_max_value = -10000
             outline_color = (0, 0, 0, 255)  # default color
 
-            if image_map_link.points:
+            if image_map_link.points and not image_map_link.target_url:
                 some_are_wanted = False
                 # Coloring: this is the only info we got
                 # Groen 0-50%; geel 50-74%; oranje 75-99%; rood 100% en daarboven
@@ -287,6 +287,9 @@ class ImageMapMapView(View):
                 if not some_are_wanted:
                     # If none of the points are wanted.. don't draw
                     continue
+
+            if image_map_link.target_url and image_map_link.target_outline_color:
+                outline_color = image_map_link.target_outline_color
 
             # If it passes, the code below will run
             coords = [int(c) for c in image_map_link.coords.split(',')]
@@ -439,10 +442,10 @@ class FilterView(ViewContextMixin, TemplateView):
                 return False
         result = [{'name': 'Leverancier',
                    'data_name': 'Supplier',
-                   'data': [(o, supplier_checked(o)) for o in lizard_geodin.models.Supplier.objects.all()]},
+                   'data': [(o, supplier_checked(o)) for o in lizard_geodin.models.Supplier.objects.all().order_by('name')]},
                   {'name': 'Parameter',
                    'data_name': 'Parameter',
-                   'data': [(o, parameter_checked(o)) for o in lizard_geodin.models.Parameter.objects.all()]}
+                   'data': [(o, parameter_checked(o)) for o in lizard_geodin.models.Parameter.objects.all().order_by('name')]}
             ]
         return result
 

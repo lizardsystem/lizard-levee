@@ -250,7 +250,7 @@ class ImageMapAdmin(admin.ModelAdmin):
                     if len(v) == 1:
                         # Single point
                         x, y, z, p = v[0]
-                        title = '%s (%f %f %f)' % (str(p), p.x, p.y, p.z)
+                        title = '%s' % (str(p))
                         image_map_link = image_map.imagemaplink_set.create(
                             title=title,
                             shape='circle',
@@ -262,7 +262,7 @@ class ImageMapAdmin(admin.ModelAdmin):
                         # Multipoint
                         x, y, z, p = v[0]
                         #title = '%s' % (', '.join([str(pp[3]) for pp in v]))
-                        title = "Meervoudig punt (%f %f %f)" % (p.x, p.y, p.z)
+                        title = "Meervoudig punt"
                         image_map_link = image_map.imagemaplink_set.create(
                             title=title,
                             shape='circle',
