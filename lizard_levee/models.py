@@ -299,7 +299,7 @@ class ImageMapLink(models.Model):
                 try:
                     add_to_title = ' (%f)' % self.points.all()[0].last_value()
                 except:
-                    add_to_title = '()'
+                    add_to_title = ''
         if self.title:
             return self.title + add_to_title
         else:
