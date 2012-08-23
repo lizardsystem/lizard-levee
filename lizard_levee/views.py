@@ -270,13 +270,13 @@ class ImageMapMapView(View):
                                 point_last_value = point.last_value()
                                 if point_last_value > fill_max_value:
                                     fill_max_value = point_last_value
-                                    if point_last_value >= 0 and point_last_value < 50:
+                                    if point_last_value >= 2:
                                         fill_color = (64, 255, 64, 255)  # green
-                                    elif point_last_value >= 50 and point_last_value < 75:
+                                    elif point_last_value >= 1.5 and point_last_value < 2:
                                         fill_color = (255, 255, 64, 255)  # yellow
-                                    elif point_last_value >= 75 and point_last_value < 100:
+                                    elif point_last_value >= 1 and point_last_value < 1.5:
                                         fill_color = (255, 128, 32, 255)  # orange
-                                    elif point_last_value >= 100:
+                                    elif point_last_value < 1:
                                         fill_color = (255, 32, 32, 255)  # red
                             except:
                                 # call failed: do not crash the whole image
