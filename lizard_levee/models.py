@@ -244,11 +244,13 @@ class ImageMapLink(models.Model):
     # The linked object: take one of the two
     measurement = models.ForeignKey(Measurement, null=True, blank=True)
     segment = models.ForeignKey("Segment", null=True, blank=True)
-    # ^^^ This isn't even used. Can it be zapped? [reinout]
+    # ^^^ This isn't even used. Can it be zapped? [reinout], yes, measurement too [jack]
 
     #point = models.ForeignKey(Point, null=True, blank=True)
     points = models.ManyToManyField(Point, null=True, blank=True)
-    #destination_url = models.TextField()  # take get_absolute_url from measurement
+    target_url = models.TextField(
+        null=True, blank=True,
+        help_text="a link to be shown in popup")
     color_me = models.BooleanField(default=False)
 
     #"polygon", "rect" or "circle"
@@ -272,6 +274,8 @@ class ImageMapLink(models.Model):
 
     def get_popup_url(self):
         extra_params = ['extra=True']
+        if self.target_url:
+            return self.target_url
         if not self.points.all():
             return self.linked_object().get_popup_url() + '?' + '&'.join(extra_params)
         else:

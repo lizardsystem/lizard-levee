@@ -253,7 +253,7 @@ class ImageMapMapView(View):
             fill_max_value = -10000
             outline_color = (0, 0, 0, 255)  # default color
 
-            if image_map_link.points:
+            if image_map_link.points and not image_map_link.target_url:
                 some_are_wanted = False
                 # Coloring: this is the only info we got
                 # Groen 0-50%; geel 50-74%; oranje 75-99%; rood 100% en daarboven
