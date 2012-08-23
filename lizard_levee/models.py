@@ -280,6 +280,7 @@ class ImageMapLink(models.Model):
         if self.target_url:
             return self.target_url
         if not self.points.all():
+            # not used?
             return self.linked_object().get_popup_url() + '?' + extra_params
         else:
             if self.points.count() == 1:
