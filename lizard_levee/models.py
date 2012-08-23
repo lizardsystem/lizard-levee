@@ -297,9 +297,17 @@ class ImageMapLink(models.Model):
         if self.points:
             if self.points.count() == 1:
                 try:
-                    add_to_title = ' (%f)' % self.points.all()[0].last_value()
+                    add_to_title = ' (%s)' % self.points.all()[0].last_value()
                 except:
                     add_to_title = ''
+                    # import traceback, sys
+                    # traceback.print_exc(file=sys.stdout)
+                    # exc_type, exc_value, exc_traceback = sys.exc_info()
+                    # print "*** print_tb:"
+                    # traceback.print_tb(exc_traceback, limit=1, file=sys.stdout)
+                    # print "*** print_exception:"
+                    # traceback.print_exception(exc_type, exc_value, exc_traceback,
+                    #                           limit=2, file=sys.stdout)
         if self.title:
             return self.title + add_to_title
         else:
