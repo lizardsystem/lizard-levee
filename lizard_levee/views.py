@@ -442,10 +442,10 @@ class FilterView(ViewContextMixin, TemplateView):
                 return False
         result = [{'name': 'Leverancier',
                    'data_name': 'Supplier',
-                   'data': [(o, supplier_checked(o)) for o in lizard_geodin.models.Supplier.objects.all()]},
+                   'data': [(o, supplier_checked(o)) for o in lizard_geodin.models.Supplier.objects.all().order_by('name')]},
                   {'name': 'Parameter',
                    'data_name': 'Parameter',
-                   'data': [(o, parameter_checked(o)) for o in lizard_geodin.models.Parameter.objects.all()]}
+                   'data': [(o, parameter_checked(o)) for o in lizard_geodin.models.Parameter.objects.all().order_by('name')]}
             ]
         return result
 
