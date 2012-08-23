@@ -604,6 +604,12 @@ class PointSetListView(UiView):
 
         return self.get(request, *args, **kwargs)
 
+    @property
+    def popup(self):
+        """Show graphs big?
+        """
+        return self.request.GET.get('popup', 'false') == 'true'
+
 
 class PointSetView(ViewContextMixin, TemplateView):
     template_name = 'lizard_levee/pointset.html'

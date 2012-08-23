@@ -18,6 +18,7 @@ a.select-point-set.point-set-selected:hover {
 When clicking a point set, post and reload "" "point-set-graph-selection" and "point-set-graphs"
 When clicking a point, post and reload "point-set-graphs"
 {% endcomment %}
+{% if not view.popup %}
 <form action="{% url lizard_levee_point_set_list %}" type="POST">
   {% csrf_token %}
 <div id="point-set-selection">
@@ -38,6 +39,7 @@ When clicking a point, post and reload "point-set-graphs"
     {% endfor %}
   </ul>
 </div>
+{% endif %}
 <div id="point-set-graphs" style="width: 720px; display: block; margin-left: auto; margin-right: auto;">
   {% for point, point_checked in view.checked_points %}
     {% if point_checked %}
