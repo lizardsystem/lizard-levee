@@ -158,7 +158,7 @@ class ImageMapAdmin(admin.ModelAdmin):
                 # make them appear in the log
                 logger.warning('Testing coords: %r' % coords)
             else:
-                points = Point.objects.filter(measurement__project__active=True).count()
+                points = Point.objects.filter(measurement__project__active=True)
 
             # Filter points that are inside the polygon.
             if image_map.auto_poly is not None and not test:
