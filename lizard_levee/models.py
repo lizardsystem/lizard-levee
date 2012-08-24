@@ -53,7 +53,19 @@ class Message(models.Model):
         return '<font color="%s">%s %s</font>' % (
             color, timestamp, self.message)
 
+    @property
+    def image(self):
+        """Return image_url except for some hardcoded exceptions..."""
+        tags = ''.join([tag.tag for tag in self.tags.all()]).lower()
+        if 'adviseur' in tags:
+            return '/static_media/lizard_levee/nens_fugro.png'
+        if 'proefleiding' in tags:
+            return '/static_media/lizard_levee/tno.png'
+        return self.image_url
+
     def tags_str(self):
+        # Note: this string is really a unicode... Dangerous. [reinout]
+        # Also: it is unused.
         return ', '.join([str(t) for t in self.tags.all()])
 
 

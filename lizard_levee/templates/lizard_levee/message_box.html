@@ -35,14 +35,12 @@ ul.horizontal-list-tags li {
       {% autoescape off %}
         {% for message in view.messages %}
           <li>
-            {% if message.image_url %}
-              {% if message.image_url != "/static_media/lizard_levee/fugro.jpg" %}
-                <div style="width: 20px; display: block; margin: 5px;">
-                  <a href="{{ message.image_link }}" target="_blank">
-                    <img src="{{ message.image_url }}" style="height: 48px;" />
-                  </a>
-                </div>
-              {% endif %}
+            {% if message.image %}
+              <div style="width: 20px; display: block; margin: 5px;">
+                <a href="{{ message.image_link }}" target="_blank">
+                  <img src="{{ message.image }}" style="height: 48px;" />
+                </a>
+              </div>
             {% endif %}
             {{ message.as_html }}
           </li>
