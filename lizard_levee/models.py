@@ -344,7 +344,7 @@ class ImageMapLink(models.Model):
     @property
     def display_title(self):
         add_to_title = ''
-        if self.points:
+        if self.points and not self.ordered_points:
             if self.points.count() == 1:
                 try:
                     add_to_title = ' (%s)' % self.points.all()[0].last_value()
@@ -362,7 +362,7 @@ class ImageMapLink(models.Model):
             try:
                 # show data of first point
                 if self.color_me:
-                    add_to_title = ' (%s)' % self.ordered_points.all()[0].last_value()
+                    add_to_title = ' (%s)' % self.imagemaplinkpoint_set.all()[0].point.last_value()
             except:
                 pass
         if self.title:
