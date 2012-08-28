@@ -265,7 +265,10 @@ class ImageMapMapView(View):
                 some_are_wanted = False
                 # Coloring: this is the only info we got
                 # Groen 0-50%; geel 50-74%; oranje 75-99%; rood 100% en daarboven
-                for i, point in enumerate(list(image_map_link.ordered_points.all()) +
+                image_map_link_points = image_map_link.imagemaplinkpoint_set.all().order_by('index')
+                ordered_points = [imlp.point for imlp in image_map_link_points]
+
+                for i, point in enumerate(ordered_points +
                                           list(image_map_link.points.all())):
                     filter_key = 'Supplier::%d' % point.measurement.supplier.id
                     filter_key_param = 'Parameter::%d' % point.measurement.parameter.id
