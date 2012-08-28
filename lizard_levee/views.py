@@ -209,7 +209,11 @@ class ImageMapListView(UiView):
 
     @property
     def image_map(self):
-        """Return first available image map."""
+        """Return user-selected or first available image map."""
+        slug = self.request.GET.get('slug', None)
+        if slug:
+            return get_object_or_404(models.ImageMap, slug=slug)
+
         for image_map_group in self.image_map_groups:
             if image_map_group.imagemap_set.exists():
                 return image_map_group.imagemap_set.all()[0]
@@ -220,6 +224,9 @@ class ImageMapView(ViewContextMixin, TemplateView):
 
     @property
     def image_map(self):
+        """
+        The default image map to be shown
+        """
         return get_object_or_404(models.ImageMap, slug=self.kwargs['slug'])
 
 
