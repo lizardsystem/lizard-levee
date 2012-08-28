@@ -224,14 +224,14 @@ class ImageMapAdmin(admin.ModelAdmin):
                 else:
                     if add_outer_points:
                         moved += 1
-                        if x < 0:
-                            x = 0
-                        if x > image_map.image_width:
-                            x = image_map.image_width
-                        if y < 0:
-                            y = 0
-                        if y > image_map.image_height:
-                            y = image_map.image_height
+                        if x < 10:
+                            x = 10
+                        if x > image_map.image_width-10:
+                            x = image_map.image_width-10
+                        if y < 10:
+                            y = 10
+                        if y > image_map.image_height-10:
+                            y = image_map.image_height-10
 
                         key = (int(x)/image_map.auto_grouping_size, int(y)/image_map.auto_grouping_size)
                         if key not in saved_image_map_links:
