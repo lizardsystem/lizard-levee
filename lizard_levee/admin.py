@@ -18,6 +18,10 @@ class ImageMapLinkInline(admin.TabularInline):
     model = models.ImageMapLink
 
 
+class ImageMapLinkPointInline(admin.TabularInline):
+    model = models.ImageMapLinkPoint
+
+
 class AreaAdmin(AdminImageMixin, admin.ModelAdmin):
     list_display = ('slug', 'name')
     prepopulated_fields = {"slug": ("name",)}
@@ -334,6 +338,12 @@ class ImageMapGroupAdmin(admin.ModelAdmin):
     list_editable = ('index', 'title')
 
 
+class ImageMapLinkAdmin(admin.ModelAdmin):
+    inlines = [ImageMapLinkPointInline, ]
+    list_display = ('__unicode__', 'image_map', 'shape', 'coords', )
+    list_filter = ('image_map', )
+
+
 admin.site.register(models.MessageTag, MessageTagAdmin)
 admin.site.register(models.Message, MessageAdmin)
 admin.site.register(models.MessageBox, MessageBoxAdmin)
@@ -341,6 +351,8 @@ admin.site.register(models.MessageBox, MessageBoxAdmin)
 admin.site.register(models.ImageMapGroup, ImageMapGroupAdmin)
 admin.site.register(models.ImageMap, ImageMapAdmin)
 admin.site.register(models.ImageMapGeoPolygon)
+admin.site.register(models.ImageMapLink, ImageMapLinkAdmin)
+admin.site.register(models.ImageMapLinkPoint)
 
 admin.site.register(models.Link, LinkAdmin)
 admin.site.register(models.LinkSet, LinkSetAdmin)

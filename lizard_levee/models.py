@@ -231,6 +231,15 @@ class ImageMapGeoPolygon(models.Model):
         return self.name
 
 
+class ImageMapLinkPoint(models.Model):
+    """
+    An ordered Point in ImageMapLink
+    """
+    image_map_link = models.ForeignKey("ImageMapLink")
+    point = models.ForeignKey(Point)
+    index = models.IntegerField(default=100)
+
+
 class ImageMapLink(models.Model):
     """
     Each link, used in an image map
@@ -258,15 +267,25 @@ class ImageMapLink(models.Model):
     segment = models.ForeignKey("Segment", null=True, blank=True)
     # ^^^ This isn't even used. Can it be zapped? [reinout], yes, measurement too [jack]
 
+    # "Old" points: order is alphabetical. Popup of multipoints shows a list first.
     #point = models.ForeignKey(Point, null=True, blank=True)
     points = models.ManyToManyField(Point, null=True, blank=True)
+
+    # Order of points must be user-defined. Popup shows all the graphs in order.
+    ordered_points = models.ManyToManyField(
+        Point, null=True, blank=True,
+        through="ImageMapLinkPoint",
+        related_name="ordered_points")
+
     target_url = models.TextField(
         null=True, blank=True,
         help_text="a link to be shown in popup")
     target_outline_color = models.CharField(
         max_length=20, null=True, blank=True,
         help_text="optional outline color for target_url")
-    color_me = models.BooleanField(default=False)
+    color_me = models.BooleanField(
+        default=False,
+        help_text="will be colored using first element of points or ordered_points")
 
     #"polygon", "rect" or "circle"
     shape = models.CharField(choices=SHAPE_CHOICES, max_length=40)
@@ -277,7 +296,7 @@ class ImageMapLink(models.Model):
     coords = models.CharField(max_length=200)
 
     class Meta:
-        ordering = ('image_map_index', )
+        ordering = ('image_map', 'image_map_index', 'shape', 'coords', )
 
     def linked_object(self):
         if self.points.all():
@@ -334,6 +353,9 @@ class ImageMapLink(models.Model):
         scale = self.image_map.image_scale
         result = [int(c) * scale / 100 for c in self.coords.split(',')]
         return ','.join([str(r) for r in result])
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.image_map, self.shape, self.coords)
 
 
 class InformationPointer(models.Model):
