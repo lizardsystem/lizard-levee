@@ -278,7 +278,10 @@ class ImageMapAdmin(admin.ModelAdmin):
                             color_me=False
                             )
                         for _x, _y, _z, _p in v:
-                            image_map_link.points.add(_p)
+                            image_map_link_point = models.ImageMapLinkPoint(
+                                point=_p, image_map_link=image_map_link)
+                            image_map_link_point.save()
+                            image_map_link.imagemaplinkpoint_set.add(image_map_link_point)
 
         # try:
         #     suggestion = 'Suggestion for sideview: auto_scale_y=%r' % (image_map.image_width/(max_x - min_x))

@@ -308,7 +308,8 @@ class ImageMapMapView(View):
                                 fill_color = (150, 150, 150, 255)  # dark grey to show that we tried to use a legend
                                 pass
                         # Color outline: supplier
-                        outline_color = point.measurement.supplier.html_color
+                        if i == 0:
+                            outline_color = point.measurement.supplier.html_color
 
                 if not some_are_wanted:
                     # If none of the points are wanted.. don't draw
