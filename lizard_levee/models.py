@@ -358,6 +358,13 @@ class ImageMapLink(models.Model):
                     # print "*** print_exception:"
                     # traceback.print_exception(exc_type, exc_value, exc_traceback,
                     #                           limit=2, file=sys.stdout)
+        if self.ordered_points:
+            try:
+                # show data of first point
+                if self.color_me:
+                    add_to_title = ' (%s)' % self.ordered_points.all()[0].last_value()
+            except:
+                pass
         if self.title:
             return self.title + add_to_title
         else:
