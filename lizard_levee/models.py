@@ -321,9 +321,12 @@ class ImageMapLink(models.Model):
             if self.ordered_points.count() == 1:
                 return self.ordered_points.all()[0].get_popup_url() + '?' + extra_params
             else:
+                # The slugs must be in the correct order.
                 return (
                     reverse('lizard_geodin_point_list') +
-                    '?slug=' + '&slug='.join([p.slug for p in self.ordered_points.all()]) +
+                    '?slug=' + '&slug='.join([
+                            p.point.slug for p in
+                            self.imagemaplinkpoint_set.all().order_by('index')]) +
                     '&' + extra_params
                     )
         if self.points.all():
