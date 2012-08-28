@@ -289,6 +289,10 @@ class ImageMapLink(models.Model):
     color_me = models.BooleanField(
         default=False,
         help_text="will be colored using first element of points or ordered_points")
+    color_legend = models.ForeignKey(
+        "ImageMapLegend", null=True, blank=True,
+        help_text="provide legend, or use standard 0-1 legend"
+        )
 
     #"polygon", "rect" or "circle"
     shape = models.CharField(choices=SHAPE_CHOICES, max_length=40)
@@ -367,6 +371,33 @@ class ImageMapLink(models.Model):
 
     def __unicode__(self):
         return '%s %s %s' % (self.image_map, self.shape, self.coords)
+
+
+class ImageMapLegend(models.Model):
+    """
+    For use in ImageMapMapView
+    """
+    name = models.CharField(max_length=40)
+
+    def __unicode__(self):
+        return '%s' % self.name
+
+
+class ImageMapLegendSection(models.Model):
+    """
+    """
+    image_map_legend = models.ForeignKey("ImageMapLegend")
+    value_lower = models.FloatField(
+        null=True, blank=True, help_text="leave empty is open boundary")
+    value_upper = models.FloatField(
+        null=True, blank=True, help_text="leave empty is open boundary")
+    html_color = models.CharField(max_length=20, default="#ff0000")
+
+    class Meta:
+        ordering = ('value_lower', )
+
+    def __unicode__(self):
+        return "%s, %r %r %s" % (self.image_map_legend, self.value_lower, self.value_upper, self.html_color)
 
 
 class InformationPointer(models.Model):

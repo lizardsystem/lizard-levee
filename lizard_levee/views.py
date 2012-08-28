@@ -269,9 +269,22 @@ class ImageMapMapView(View):
                         # Color fill: color on first point!
                         if image_map_link.color_me and i==0:
                             try:
-                                point_last_value = point.last_value()
-                                if point_last_value > fill_max_value:
-                                    fill_max_value = point_last_value
+                                #point_last_value = point.last_value()
+                                point_last_value = -0.1
+                                if image_map_link.color_legend:
+                                    for legend_section in image_map_link.color_legend.imagemaplegendsection_set.all():
+                                        legend_section_matches = True  # true until proven otherwise
+                                        if legend_section.value_lower is not None:
+                                            if point_last_value < legend_section.value_lower:
+                                                legend_section_matches = False
+                                        if legend_section.value_upper is not None:
+                                            if point_last_value >= legend_section.value_upper:
+                                                legend_section_matches = False
+                                        if legend_section_matches:
+                                            fill_color = legend_section.html_color
+                                            break
+                                else:
+                                    # Default legend
                                     if point_last_value >= 2:
                                         fill_color = (64, 255, 64, 255)  # green
                                     elif point_last_value >= 1.5 and point_last_value < 2:
@@ -286,6 +299,7 @@ class ImageMapMapView(View):
                                         fill_color = (255, 0, 0, 255)  # really red
                             except:
                                 # call failed: do not crash the whole image
+                                fill_color = (100, 100, 100, 255)  # dark grey to show that we tried to use a legend
                                 pass
                         # Color outline: supplier
                         outline_color = point.measurement.supplier.html_color

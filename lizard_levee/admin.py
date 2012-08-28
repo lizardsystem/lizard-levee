@@ -22,6 +22,10 @@ class ImageMapLinkPointInline(admin.TabularInline):
     model = models.ImageMapLinkPoint
 
 
+class ImageMapLegendSectionInline(admin.TabularInline):
+    model = models.ImageMapLegendSection
+
+
 class AreaAdmin(AdminImageMixin, admin.ModelAdmin):
     list_display = ('slug', 'name')
     prepopulated_fields = {"slug": ("name",)}
@@ -343,6 +347,9 @@ class ImageMapLinkAdmin(admin.ModelAdmin):
     list_display = ('__unicode__', 'image_map', 'shape', 'coords', )
     list_filter = ('image_map', )
 
+class ImageMapLegendAdmin(admin.ModelAdmin):
+    inlines = [ImageMapLegendSectionInline, ]
+
 
 admin.site.register(models.MessageTag, MessageTagAdmin)
 admin.site.register(models.Message, MessageAdmin)
@@ -353,6 +360,7 @@ admin.site.register(models.ImageMap, ImageMapAdmin)
 admin.site.register(models.ImageMapGeoPolygon)
 admin.site.register(models.ImageMapLink, ImageMapLinkAdmin)
 #admin.site.register(models.ImageMapLinkPoint)
+admin.site.register(models.ImageMapLegend, ImageMapLegendAdmin)
 
 admin.site.register(models.Link, LinkAdmin)
 admin.site.register(models.LinkSet, LinkSetAdmin)
