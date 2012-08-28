@@ -253,19 +253,21 @@ class ImageMapMapView(View):
             fill_max_value = -10000
             outline_color = (0, 0, 0, 255)  # default color
 
-            if image_map_link.points and not image_map_link.target_url:
+            # check if some points are wanted. Points are old, use ordered points instead.
+            if (image_map_link.points or image_map_link.ordered_points) and not image_map_link.target_url:
                 some_are_wanted = False
                 # Coloring: this is the only info we got
                 # Groen 0-50%; geel 50-74%; oranje 75-99%; rood 100% en daarboven
-                for point in image_map_link.points.all():
+                for i, point in enumerate(list(image_map_link.ordered_points.all()) +
+                                          list(image_map_link.points.all())):
                     filter_key = 'Supplier::%d' % point.measurement.supplier.id
                     filter_key_param = 'Parameter::%d' % point.measurement.parameter.id
                     if ((filter_key not in filters or filters[filter_key] == 'true') and
                         (filter_key_param not in filters or filters[filter_key_param] == 'true')):
                         # This object is wanted.
                         some_are_wanted = True
-                        # Color fill
-                        if image_map_link.color_me:
+                        # Color fill: color on first point!
+                        if image_map_link.color_me and i==0:
                             try:
                                 point_last_value = point.last_value()
                                 if point_last_value > fill_max_value:

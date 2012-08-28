@@ -239,6 +239,9 @@ class ImageMapLinkPoint(models.Model):
     point = models.ForeignKey(Point)
     index = models.IntegerField(default=100)
 
+    class Meta:
+        ordering = ('index', 'image_map_link', 'index')
+
 
 class ImageMapLink(models.Model):
     """
@@ -263,8 +266,8 @@ class ImageMapLink(models.Model):
     #identifier = models.CharField(max_length=80)
 
     # The linked object: take one of the two
-    measurement = models.ForeignKey(Measurement, null=True, blank=True)
-    segment = models.ForeignKey("Segment", null=True, blank=True)
+    # measurement = models.ForeignKey(Measurement, null=True, blank=True)
+    # segment = models.ForeignKey("Segment", null=True, blank=True)
     # ^^^ This isn't even used. Can it be zapped? [reinout], yes, measurement too [jack]
 
     # "Old" points: order is alphabetical. Popup of multipoints shows a list first.
@@ -298,22 +301,28 @@ class ImageMapLink(models.Model):
     class Meta:
         ordering = ('image_map', 'image_map_index', 'shape', 'coords', )
 
-    def linked_object(self):
-        if self.points.all():
-            return self.points.all()
-        elif self.measurement:
-            return self.measurement
-        else:
-            return self.segment
+    # def linked_object(self):
+    #     if self.ordered_points.all():
+    #         return self.ordered_points.all()
+    #     elif self.points.all():
+    #         return self.points.all()
+    #     else:
+    #         return None
 
     def get_popup_url(self):
         extra_params = 'extra=True'
         if self.target_url:
             return self.target_url
-        if not self.points.all():
-            # not used?
-            return self.linked_object().get_popup_url() + '?' + extra_params
-        else:
+        if self.ordered_points.all():
+            if self.ordered_points.count() == 1:
+                return self.ordered_points.all()[0].get_popup_url() + '?' + extra_params
+            else:
+                return (
+                    reverse('lizard_geodin_point_list') +
+                    '?slug=' + '&slug='.join([p.slug for p in self.ordered_points.all()]) +
+                    '&' + extra_params
+                    )
+        if self.points.all():
             if self.points.count() == 1:
                 return self.points.all()[0].get_popup_url() + '?' + extra_params
             else:
@@ -322,6 +331,8 @@ class ImageMapLink(models.Model):
                     '?slug=' + '&slug='.join([p.slug for p in self.points.all()]) +
                     '&' + extra_params
                     )
+
+        return ""
 
     @property
     def display_title(self):

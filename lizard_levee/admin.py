@@ -352,7 +352,7 @@ admin.site.register(models.ImageMapGroup, ImageMapGroupAdmin)
 admin.site.register(models.ImageMap, ImageMapAdmin)
 admin.site.register(models.ImageMapGeoPolygon)
 admin.site.register(models.ImageMapLink, ImageMapLinkAdmin)
-admin.site.register(models.ImageMapLinkPoint)
+#admin.site.register(models.ImageMapLinkPoint)
 
 admin.site.register(models.Link, LinkAdmin)
 admin.site.register(models.LinkSet, LinkSetAdmin)
