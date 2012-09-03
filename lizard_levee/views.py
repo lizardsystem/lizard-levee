@@ -706,47 +706,33 @@ class RiskTableView(ViewContextMixin, TemplateView):
     @property
     def projects(self):
         results = [
-            {'name': 'Stabiliteitsfactoren',
+            {'name': 'Veiligheidsfactoren',
              'headers': ['Locatie',
-                         'West',
-                         'Oost',
+                         'Stabiliteit',
                          ],
              'rows': [self.values_from_point_slugs(
-                        # First item is the location name.
-                        'Overall',
-                        # Grab the slugs from /admin/lizard_geodin/point/!
-                        '0005100068MOS000',
-                        '0005090079MOS000',
-                        ),
-                      self.values_from_point_slugs(
                         'Segment 1',
-                        '0005100069MOS000',
-                        '0005090080MOS000',
+                        '0005110301MOS000',
                         ),
                       self.values_from_point_slugs(
                         'Segment 2',
-                        '0005100070MOS000',
-                        '0005090081MOS000',
+                        '0005110298MOS000',
                         ),
                       self.values_from_point_slugs(
                         'Segment 3',
-                        '0005100071MOS000',
-                        '0005090082MOS000',
+                        '0005110299MOS000',
                         ),
                       self.values_from_point_slugs(
                         'Segment 4',
-                        '0005100072MOS000',
-                        '0005090083MOS000',
+                        '0005110303MOS000',
                         ),
                       self.values_from_point_slugs(
                         'Segment 5',
-                        '0005100073MOS000',
-                        '0005090084MOS000',
+                        '0005110300MOS000',
                         ),
                       self.values_from_point_slugs(
                         'Segment 6',
-                        '0005100074MOS000',
-                        '0005090085MOS000',
+                        '0005110302MOS000',
                         ),
                       ]},
             ]
