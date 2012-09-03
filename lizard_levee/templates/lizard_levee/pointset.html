@@ -1,7 +1,7 @@
 {% for point in view.points %}
   {% if view.popup %}
   <p>{{ point }}</p>
-  <iframe class="point" src="{% url lizard_geodin_point slug=point.slug %}?width=900&height=250&popup=true" frameborder="0" width="920px" height="300px" scrolling="no">IFrame contents</iframe>
+  <iframe class="point" src="{% url lizard_geodin_point slug=point.slug %}?width=700&height=250&popup=true" frameborder="0" width="720px" height="300px" scrolling="no">IFrame contents</iframe>
   {% else %}
   <p>{{ point }}</p>
   <iframe class="point" src="{% url lizard_geodin_point slug=point.slug %}?width={{ view.width }}&height={{ view.height }}&no_zoom=true" frameborder="0" width={{ view.iframe_width }} height={{ view.iframe_height }} scrolling="no">IFrame contents</iframe>
