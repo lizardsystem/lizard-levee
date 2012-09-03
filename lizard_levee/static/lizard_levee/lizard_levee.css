@@ -45,6 +45,3 @@
 #longitudinal-cross-section .graphs {
   height: 50%;
 }
-ul.dropdown-menu {
-  -webkit-transform: translate3d(0, 0, 0);
-}
