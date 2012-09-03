@@ -45,9 +45,6 @@
 #longitudinal-cross-section .graphs {
   height: 50%;
 }
-#img1 {
-  z-index: 1;
-}
-#img2 {
-  z-index: 2;
+ul.dropdown-menu {
+  -webkit-transform: translate3d(0, 0, 0);
 }
