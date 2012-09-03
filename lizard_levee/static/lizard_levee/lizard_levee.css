@@ -45,4 +45,9 @@
 #longitudinal-cross-section .graphs {
   height: 50%;
 }
-
+#img1 {
+  z-index: 1;
+}
+#img2 {
+  z-index: 2;
+}
