@@ -64,14 +64,16 @@ ul.horizontal-list li {
     </div>
     <map name="image-map">
       {% for image_map_link in view.image_map.imagemaplink_set.all %}
-      <area class="box-action" data-temp-id="image-map-{{ image_map_link.pk }}" shape="{{ image_map_link.shape }}" coords="{{ image_map_link.coords_scaled }}" href="{{ image_map_link.get_popup_url }}" title="{{ image_map_link.display_title }}" />
+      <area class="box-action image-map-dialog" data-temp-id="image-map-{{ image_map_link.pk }}" shape="{{ image_map_link.shape }}" coords="{{ image_map_link.coords_scaled }}" href="{{ image_map_link.get_popup_url }}" title="{{ image_map_link.display_title }}" />
       {% endfor %}
     </map>
   </div>
-  <!-- {% for image_map_link in view.image_map.imagemaplink_set.all %} -->
-  <!-- <div class="box-dialog" data-temp-id="image-map-{{ image_map_link.pk }}" data-title="{{ image_map_link.display_title }}"> -->
-  <!--   <iframe class="box" src="{{ image_map_link.get_popup_url }}" frameborder="0">IFrame contents</iframe> -->
-  <!-- </div> -->
-  <!-- {% endfor %} -->
+  {% comment %}
+  {% for image_map_link in view.image_map.imagemaplink_set.all %}
+  <div class="box-dialog" data-temp-id="image-map-{{ image_map_link.pk }}" data-title="{{ image_map_link.display_title }}">
+    <iframe class="box" src="{{ image_map_link.get_popup_url }}" frameborder="0">IFrame contents</iframe>
+  </div>
+  {% endfor %}
+  {% endcomment %}
 </div>
 
