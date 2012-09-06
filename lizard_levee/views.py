@@ -707,37 +707,37 @@ class RiskTableView(ViewContextMixin, TemplateView):
     def projects(self):
         results = [
             {'name': 'Veiligheidsfactoren',
-             'headers': ['Locatie',
+             'headers': ['Segment',
                          'Macro',
                          'Micro',
                          ],
              'rows': [self.values_from_point_slugs(
-                        'Segment 1',
+                        'Een',
                         '0005110295MOS000',
                         '0005110297MOS000',
                         ),
                       self.values_from_point_slugs(
-                        'Segment 2',
+                        'Twee',
                         '0005110295MOS000',
                         '0005110297MOS000',
                         ),
                       self.values_from_point_slugs(
-                        'Segment 3',
+                        'Drie',
                         '0005110295MOS000',
                         '0005110297MOS000',
                         ),
                       self.values_from_point_slugs(
-                        'Segment 4',
+                        'Vier',
                         '0005110294MOS000',
                         '0005110296MOS000',
                         ),
                       self.values_from_point_slugs(
-                        'Segment 5',
+                        'Vijf',
                         '0005110294MOS000',
                         '0005110296MOS000',
                         ),
                       self.values_from_point_slugs(
-                        'Segment 6',
+                        'Zes',
                         '0005110294MOS000',
                         '0005110296MOS000',
                         ),
