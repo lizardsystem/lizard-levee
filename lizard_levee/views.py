@@ -708,31 +708,38 @@ class RiskTableView(ViewContextMixin, TemplateView):
         results = [
             {'name': 'Veiligheidsfactoren',
              'headers': ['Locatie',
-                         'Stabiliteit',
+                         'Macro',
+                         'Micro',
                          ],
              'rows': [self.values_from_point_slugs(
                         'Segment 1',
-                        '0005110301MOS000',
+                        '0005110295MOS000',
+                        '0005110297MOS000',
                         ),
                       self.values_from_point_slugs(
                         'Segment 2',
-                        '0005110298MOS000',
+                        '0005110295MOS000',
+                        '0005110297MOS000',
                         ),
                       self.values_from_point_slugs(
                         'Segment 3',
-                        '0005110299MOS000',
+                        '0005110295MOS000',
+                        '0005110297MOS000',
                         ),
                       self.values_from_point_slugs(
                         'Segment 4',
-                        '0005110303MOS000',
+                        '0005110294MOS000',
+                        '0005110296MOS000',
                         ),
                       self.values_from_point_slugs(
                         'Segment 5',
-                        '0005110300MOS000',
+                        '0005110294MOS000',
+                        '0005110296MOS000',
                         ),
                       self.values_from_point_slugs(
                         'Segment 6',
-                        '0005110302MOS000',
+                        '0005110294MOS000',
+                        '0005110296MOS000',
                         ),
                       ]},
             ]
