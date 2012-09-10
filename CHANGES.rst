@@ -2,7 +2,7 @@ Changelog of lizard-levee
 ===================================================
 
 
-0.1 (unreleased)
+1.0 (2012-09-10)
 ----------------
 
 - Added risk table.
